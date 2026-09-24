@@ -357,6 +357,35 @@ uiq measure "https://your-app.com/dashboard" \
 
 > **流程**：执行后浏览器窗口自动打开并导航到目标 URL → 用户在浏览器中完成登录 → 回到终端按回车 → 自动保存 cookies + localStorage 到 JSON 文件。
 
+### 4.10 install-skill — 安装 Agent Skill
+
+将 UIQ Skill 安装到指定 Agent 的 skills 目录，使 AI Agent 能够调用 UIQ 能力。
+
+```bash
+uiq install-skill [--agent <agent>] [--copy]
+```
+
+| 参数 | 说明 |
+|------|------|
+| `--agent <agent>` | 目标 Agent：`qoder`（默认）、`claude`、`codex`、`kiro` |
+| `--copy` | 使用复制模式（默认为符号链接） |
+
+**示例**：
+
+```bash
+# 安装到 Qoder（默认，使用符号链接）
+uiq install-skill
+
+# 安装到 Claude
+uiq install-skill --agent claude
+
+# 使用复制模式（非链接）
+uiq install-skill --copy
+```
+
+> **符号链接模式**（默认）：修改 `skills/uiq-ui-quality/` 目录后即时生效，无需重新安装。
+> **复制模式**：将 Skill 文件复制到目标目录，适合分发或离线使用。
+
 ---
 
 ## 5. Reference 测试页面
@@ -500,7 +529,21 @@ uiq report analysis.json --format markdown --output report.md
 
 `skills/uiq-ui-quality/` 提供 Agent Skill 入口，将 UIQ 能力暴露给 AI Agent。
 
-### 10.1 工作流列表
+### 10.1 安装 Skill
+
+```bash
+# 安装到 Qoder（默认）
+uiq install-skill
+
+# 安装到其他 Agent
+uiq install-skill --agent claude
+uiq install-skill --agent codex
+uiq install-skill --agent kiro
+```
+
+安装后重启 Agent 即可使用。
+
+### 10.2 工作流列表
 
 | 工作流 | 说明 |
 |--------|------|
@@ -514,8 +557,9 @@ uiq report analysis.json --format markdown --output report.md
 | `regression` | 回归比较 |
 | `report` | 生成质量报告 |
 | `verify` | 修复后重新验证 |
+| `auth` | 处理登录认证（Playwright MCP / CLI） |
 
-### 10.2 调用方式
+### 10.3 调用方式
 
 Skill 通过进程调用 CLI，解析 JSON 输出。不拼 shell、不从终端文案判断质量。
 
@@ -692,6 +736,7 @@ uiq regression --baseline <b.json> --current <c.json>
 uiq snapshot <target> --output <file> [--auth-state <file>]
 uiq report <analysis.json> [--format json|markdown|html]
 uiq auth-save <target> --output <file>   # 保存登录态
+uiq install-skill [--agent <agent>]      # 安装 Skill 到 Agent
 
 # ── 应用 ──
 cd apps/inspector && pnpm dev        # Inspector UI（http://localhost:5173）

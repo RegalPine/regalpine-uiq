@@ -11,6 +11,7 @@ uiq regression --baseline <baseline.json> --current <analysis.json>
 uiq snapshot <target> --output <file> [--subjects <selector>] [--allow-external] [--auth-state <file>]
 uiq report <analysis.json> [--format <json|markdown|html>] [--output <file>]
 uiq auth-save <target> --output <file> [--allow-external]
+uiq install-skill [--agent <qoder|claude|codex|kiro>] [--copy]
 ```
 
 ## Auth State (Login-Protected Pages)
@@ -43,6 +44,25 @@ npx playwright codegen "https://app.example.com/login"
 # Use in subsequent captures
 uiq analyze "https://app.example.com/dashboard" --auth-state auth.json --allow-external
 ```
+
+## Install Skill
+
+Install UIQ Skill to an Agent's skills directory:
+
+```bash
+# Install to Qoder (default, symlink)
+uiq install-skill
+
+# Install to specific Agent
+uiq install-skill --agent claude
+uiq install-skill --agent codex
+uiq install-skill --agent kiro
+
+# Use copy mode instead of symlink
+uiq install-skill --copy
+```
+
+Supported agents: `qoder`, `claude`, `codex`, `kiro`
 
 ## Machine Output
 

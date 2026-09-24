@@ -3,7 +3,7 @@ import type { Page } from '@playwright/test';
 import type { MeasurementSnapshot } from '@uiq/core';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { CliError } from '../errors';
 
@@ -62,14 +62,40 @@ function resolveBrowserGlobalPath(): string {
 
 /**
  * 校验并解析 auth-state 文件路径。
- * Playwright storageState JSON 由 `browserContext.storageState({ path })` 导出，
+ * Playwright/storageState JSON 由 `browserContext.storageState({ path })` 导出，
  * 包含 cookies 与 origins（localStorage）。
+ * 验证文件格式是否合法，防止传入无效文件。
  */
 function resolveAuthState(authStatePath: string): string {
   const resolved = resolve(authStatePath);
   if (!existsSync(resolved)) {
     throw new CliError('INPUT_ERROR', `认证状态文件不存在：${resolved}`);
   }
+
+  // 验证文件格式
+  try {
+    const content = readFileSync(resolved, 'utf-8');
+    const parsed = JSON.parse(content) as unknown;
+    if (typeof parsed !== 'object' || parsed === null) {
+      throw new CliError('INPUT_ERROR', `认证状态文件格式错误：不是有效的 JSON 对象：${resolved}`);
+    }
+    const state = parsed as Record<string, unknown>;
+    // Playwright storageState 必须包含 cookies 或 origins 数组
+    if (!Array.isArray(state.cookies) && !Array.isArray(state.origins)) {
+      throw new CliError(
+        'INPUT_ERROR',
+        `认证状态文件格式错误：缺少 cookies 或 origins 数组：${resolved}\n` +
+          '提示：使用 `uiq auth-save` 或 Playwright `context.storageState()` 生成有效文件',
+      );
+    }
+  } catch (error) {
+    if (error instanceof CliError) throw error;
+    if (error instanceof SyntaxError) {
+      throw new CliError('INPUT_ERROR', `认证状态文件不是有效的 JSON：${resolved}\n${error.message}`);
+    }
+    throw new CliError('INPUT_ERROR', `读取认证状态文件失败：${resolved}\n${String(error)}`);
+  }
+
   return resolved;
 }
 

@@ -1,5 +1,5 @@
 import { chromium } from '@playwright/test';
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, chmodSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createInterface } from 'node:readline';
 import { buildResponse, type CliResponse } from '../artifact';
@@ -70,6 +70,13 @@ export async function runAuthSave(options: AuthSaveOptions): Promise<CliResponse
     await context.close();
 
     writeFileSync(resolvedOutput, `${JSON.stringify(storageState, null, 2)}\n`, 'utf-8');
+
+    // 设置文件权限为 600（仅所有者可读写），保护敏感认证数据
+    try {
+      chmodSync(resolvedOutput, 0o600);
+    } catch {
+      // Windows 上 chmod 可能失败，忽略
+    }
 
     const cookiesCount = storageState.cookies?.length ?? 0;
     const originsCount = storageState.origins?.length ?? 0;

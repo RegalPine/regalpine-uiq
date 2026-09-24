@@ -1,6 +1,6 @@
 import { existsSync, rmSync, symlinkSync, cpSync } from 'node:fs';
 import { resolve, join, dirname } from 'node:path';
-import { homedir } from 'node:os';
+import { homedir, platform } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { buildResponse, type CliResponse } from '../artifact';
 import { CliError } from '../errors';
@@ -9,16 +9,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export type SupportedAgent = 'qoder' | 'claude' | 'codex' | 'kiro';
+export type AgentTarget = SupportedAgent | 'all';
 
 export interface InstallSkillOptions {
-  readonly agent: SupportedAgent;
+  readonly agent: AgentTarget;
   readonly copy: boolean;
 }
 
-export interface InstallSkillData {
+export interface InstallSkillResult {
   readonly agent: string;
   readonly targetPath: string;
-  readonly mode: 'symlink' | 'copy';
+  readonly mode: 'symlink' | 'copy' | 'skipped';
+  readonly error?: string;
+}
+
+export interface InstallSkillData {
+  readonly results: InstallSkillResult[];
 }
 
 /** Agent → skills 目录映射 */
@@ -29,60 +35,90 @@ const AGENT_SKILL_DIRS: Record<SupportedAgent, string> = {
   kiro: join(homedir(), '.kiro', 'skills'),
 };
 
+const ALL_AGENTS: SupportedAgent[] = ['qoder', 'claude', 'codex', 'kiro'];
+
 /**
  * 安装 UIQ Skill 到指定 Agent 的 skills 目录。
  * 默认使用符号链接（开发时修改即时生效），--copy 则复制。
+ * 支持 --agent all 安装到所有已安装的 Agent。
  */
 export async function runInstallSkill(options: InstallSkillOptions): Promise<CliResponse<InstallSkillData>> {
   const { agent, copy } = options;
-  const targetDir = AGENT_SKILL_DIRS[agent];
+  const agents = agent === 'all' ? ALL_AGENTS : [agent];
+  const results: InstallSkillResult[] = [];
 
-  if (targetDir === undefined) {
-    throw new CliError('INVALID_CONFIGURATION', `未知 agent：${agent}。支持：qoder、claude、codex、kiro`);
+  // Skill 源路径：从当前文件向上查找包含 skills/uiq-ui-quality 的目录
+  // 兼容 dist/（apps/cli/dist/）和 src/（apps/cli/src/commands/）两种运行模式
+  let skillSource = '';
+  let dir = __dirname;
+  for (let i = 0; i < 10; i += 1) {
+    const candidate = join(dir, 'skills', 'uiq-ui-quality');
+    if (existsSync(candidate)) {
+      skillSource = candidate;
+      break;
+    }
+    const parent = join(dir, '..');
+    if (parent === dir) break; // 到达根目录
+    dir = parent;
+  }
+  if (skillSource === '') {
+    throw new CliError('EXECUTION_ERROR', `Skill 源目录不存在（从 ${__dirname} 向上查找失败）`);
   }
 
-  if (!existsSync(targetDir)) {
-    throw new CliError(
-      'INPUT_ERROR',
-      `Agent skills 目录不存在：${targetDir}\n请先安装对应 Agent 或手动创建目录`,
-    );
-  }
+  for (const a of agents) {
+    const targetDir = AGENT_SKILL_DIRS[a];
+    const dest = join(targetDir, 'uiq-ui-quality');
 
-  // Skill 源路径（相对于 CLI 包的位置）
-  // dist/ 在 apps/cli/dist/，需要上溯 3 级到项目根目录
-  const skillSource = resolve(__dirname, '../../../skills/uiq-ui-quality');
-  if (!existsSync(skillSource)) {
-    throw new CliError('EXECUTION_ERROR', `Skill 源目录不存在：${skillSource}`);
-  }
+    // 检查 Agent 目录是否存在
+    if (!existsSync(targetDir)) {
+      process.stderr.write(`[skip] ${a} — 目录不存在：${targetDir}\n`);
+      results.push({ agent: a, targetPath: dest, mode: 'skipped', error: 'Agent 目录不存在' });
+      continue;
+    }
 
-  const dest = join(targetDir, 'uiq-ui-quality');
+    // 已存在则先清理
+    if (existsSync(dest)) {
+      try {
+        rmSync(dest, { recursive: true, force: true });
+      } catch {
+        // 忽略清理失败
+      }
+    }
 
-  // 已存在则先清理
-  if (existsSync(dest)) {
     try {
-      rmSync(dest, { recursive: true, force: true });
-    } catch {
-      // 忽略清理失败
+      if (copy) {
+        cpSync(skillSource, dest, { recursive: true });
+        process.stderr.write(`[ok] ${a} — 已复制 skill → ${dest}\n`);
+        results.push({ agent: a, targetPath: dest, mode: 'copy' });
+      } else {
+        // Windows 兼容：如果符号链接失败则回退到复制
+        try {
+          symlinkSync(skillSource, dest, 'dir');
+          process.stderr.write(`[ok] ${a} — 已链接 skill → ${dest}\n`);
+          results.push({ agent: a, targetPath: dest, mode: 'symlink' });
+        } catch (symlinkError) {
+          if (platform() === 'win32') {
+            // Windows 上符号链接可能需要管理员权限，回退到复制
+            cpSync(skillSource, dest, { recursive: true });
+            process.stderr.write(`[ok] ${a} — 已复制 skill（符号链接失败）→ ${dest}\n`);
+            results.push({ agent: a, targetPath: dest, mode: 'copy' });
+          } else {
+            throw symlinkError;
+          }
+        }
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      process.stderr.write(`[error] ${a} — 安装失败：${message}\n`);
+      results.push({ agent: a, targetPath: dest, mode: 'skipped', error: message });
     }
   }
 
-  if (copy) {
-    cpSync(skillSource, dest, { recursive: true });
-    process.stderr.write(`[uiq] 已复制 skill → ${dest}\n`);
-  } else {
-    symlinkSync(skillSource, dest, 'dir');
-    process.stderr.write(`[uiq] 已链接 skill → ${dest}\n`);
-  }
-
-  process.stderr.write(`\n完成。重启 Agent 后 skill 生效。\n`);
-  process.stderr.write(`验证：在 Agent 中输入 /uiq 或让 Agent 分析 UI 质量。\n`);
+  const successCount = results.filter((r) => r.mode !== 'skipped').length;
+  process.stderr.write(`\n完成（${successCount}/${agents.length}）。重启 Agent 后 skill 生效。\n`);
 
   return buildResponse<InstallSkillData>('install-skill', {
     status: 'COMPLETED',
-    data: {
-      agent,
-      targetPath: dest,
-      mode: copy ? 'copy' : 'symlink',
-    },
+    data: { results },
   });
 }

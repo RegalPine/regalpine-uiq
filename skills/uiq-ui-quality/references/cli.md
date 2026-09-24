@@ -11,7 +11,9 @@ uiq regression --baseline <baseline.json> --current <analysis.json>
 uiq snapshot <target> --output <file> [--subjects <selector>] [--allow-external] [--auth-state <file>]
 uiq report <analysis.json> [--format <json|markdown|html>] [--output <file>]
 uiq auth-save <target> --output <file> [--allow-external]
-uiq install-skill [--agent <qoder|claude|codex|kiro>] [--copy]
+uiq auth-clean <file>
+uiq install-skill [--agent <qoder|claude|codex|kiro|all>] [--copy]
+uiq uninstall-skill [--agent <qoder|claude|codex|kiro>]
 ```
 
 ## Auth State (Login-Protected Pages)
@@ -45,6 +47,12 @@ npx playwright codegen "https://app.example.com/login"
 uiq analyze "https://app.example.com/dashboard" --auth-state auth.json --allow-external
 ```
 
+### Security
+
+- Auth-state files are automatically set to `chmod 600` (owner read/write only) when saved via `auth-save`.
+- Auth-state files are validated before use: must be valid JSON with `cookies` or `origins` arrays.
+- Use `auth-clean` to securely delete auth-state files when no longer needed.
+
 ## Install Skill
 
 Install UIQ Skill to an Agent's skills directory:
@@ -52,6 +60,9 @@ Install UIQ Skill to an Agent's skills directory:
 ```bash
 # Install to Qoder (default, symlink)
 uiq install-skill
+
+# Install to all installed Agents
+uiq install-skill --agent all
 
 # Install to specific Agent
 uiq install-skill --agent claude
@@ -62,7 +73,18 @@ uiq install-skill --agent kiro
 uiq install-skill --copy
 ```
 
-Supported agents: `qoder`, `claude`, `codex`, `kiro`
+Supported agents: `qoder`, `claude`, `codex`, `kiro`, `all`
+
+On Windows, if symlink creation fails (requires admin privileges), it automatically falls back to copy mode.
+
+## Uninstall Skill
+
+Remove UIQ Skill from an Agent's skills directory:
+
+```bash
+uiq uninstall-skill --agent qoder
+uiq uninstall-skill --agent claude
+```
 
 ## Machine Output
 

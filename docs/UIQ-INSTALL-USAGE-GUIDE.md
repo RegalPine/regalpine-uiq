@@ -356,8 +356,29 @@ uiq measure "https://your-app.com/dashboard" \
 ```
 
 > **流程**：执行后浏览器窗口自动打开并导航到目标 URL → 用户在浏览器中完成登录 → 回到终端按回车 → 自动保存 cookies + localStorage 到 JSON 文件。
+>
+> **安全**：保存的文件自动设置 `chmod 600`（仅所有者可读写），保护敏感认证数据。
 
-### 4.10 install-skill — 安装 Agent Skill
+### 4.10 auth-clean — 清理登录态
+
+删除 auth-state 文件，清理敏感认证数据。
+
+```bash
+uiq auth-clean <file>
+```
+
+| 参数 | 说明 |
+|------|------|
+| `<file>` | 要删除的 auth-state 文件路径 |
+
+**示例**：
+
+```bash
+# 删除不再需要的登录态文件
+uiq auth-clean auth.json
+```
+
+### 4.11 install-skill — 安装 Agent Skill
 
 将 UIQ Skill 安装到指定 Agent 的 skills 目录，使 AI Agent 能够调用 UIQ 能力。
 
@@ -367,7 +388,7 @@ uiq install-skill [--agent <agent>] [--copy]
 
 | 参数 | 说明 |
 |------|------|
-| `--agent <agent>` | 目标 Agent：`qoder`（默认）、`claude`、`codex`、`kiro` |
+| `--agent <agent>` | 目标 Agent：`qoder`（默认）、`claude`、`codex`、`kiro`、`all` |
 | `--copy` | 使用复制模式（默认为符号链接） |
 
 **示例**：
@@ -375,6 +396,9 @@ uiq install-skill [--agent <agent>] [--copy]
 ```bash
 # 安装到 Qoder（默认，使用符号链接）
 uiq install-skill
+
+# 安装到所有已安装的 Agent
+uiq install-skill --agent all
 
 # 安装到 Claude
 uiq install-skill --agent claude
@@ -385,6 +409,29 @@ uiq install-skill --copy
 
 > **符号链接模式**（默认）：修改 `skills/uiq-ui-quality/` 目录后即时生效，无需重新安装。
 > **复制模式**：将 Skill 文件复制到目标目录，适合分发或离线使用。
+> **Windows 兼容**：如果符号链接失败（需要管理员权限），自动回退到复制模式。
+
+### 4.12 uninstall-skill — 卸载 Agent Skill
+
+从指定 Agent 的 skills 目录卸载 UIQ Skill。
+
+```bash
+uiq uninstall-skill [--agent <agent>]
+```
+
+| 参数 | 说明 |
+|------|------|
+| `--agent <agent>` | 目标 Agent：`qoder`（默认）、`claude`、`codex`、`kiro` |
+
+**示例**：
+
+```bash
+# 从 Qoder 卸载
+uiq uninstall-skill
+
+# 从 Claude 卸载
+uiq uninstall-skill --agent claude
+```
 
 ---
 
@@ -735,8 +782,10 @@ uiq conformance <snapshot.json> --level <level>
 uiq regression --baseline <b.json> --current <c.json>
 uiq snapshot <target> --output <file> [--auth-state <file>]
 uiq report <analysis.json> [--format json|markdown|html]
-uiq auth-save <target> --output <file>   # 保存登录态
-uiq install-skill [--agent <agent>]      # 安装 Skill 到 Agent
+uiq auth-save <target> --output <file>      # 保存登录态（自动 chmod 600）
+uiq auth-clean <file>                       # 清理登录态文件
+uiq install-skill [--agent <agent|all>]     # 安装 Skill 到 Agent
+uiq uninstall-skill [--agent <agent>]       # 卸载 Skill
 
 # ── 应用 ──
 cd apps/inspector && pnpm dev        # Inspector UI（http://localhost:5173）

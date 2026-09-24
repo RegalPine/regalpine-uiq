@@ -1,0 +1,1644 @@
+{
+  "id": "snap-fixture-e2e-001",
+  "capturedAt": 1700000000000,
+  "source": {
+    "type": "BROWSER",
+    "adapter": "@uiq/browser",
+    "version": "1.0.0"
+  },
+  "environment": {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "scrollX": 0,
+    "scrollY": 0,
+    "browser": {
+      "name": "Chrome",
+      "version": "153.0.8010.12"
+    }
+  },
+  "measurements": [
+    {
+      "id": "bm-000001",
+      "subjectId": "btn-primary",
+      "type": "color.srgb",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[1]",
+        "raw": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "id": "bm-000002",
+      "subjectId": "btn-primary",
+      "type": "color.srgb.background",
+      "value": {
+        "r": 0.1450980392156863,
+        "g": 0.38823529411764707,
+        "b": 0.9215686274509803,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[1]",
+        "backgroundChain": [
+          {
+            "elementId": "btn-primary",
+            "color": "rgb(37, 99, 235)",
+            "alpha": 1,
+            "source": "SELF",
+            "kind": "SOLID"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bm-000003",
+      "subjectId": "btn-primary",
+      "type": "typography.font-size",
+      "value": 16,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[1]",
+        "raw": "16px",
+        "fontFamily": "Arial"
+      }
+    },
+    {
+      "id": "bm-000004",
+      "subjectId": "btn-primary",
+      "type": "typography.line-height",
+      "value": {
+        "px": 24,
+        "ratio": 1.5
+      },
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[1]",
+        "raw": "24px"
+      }
+    },
+    {
+      "id": "bm-000005",
+      "subjectId": "btn-primary",
+      "type": "typography.font-weight",
+      "value": 400,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[1]",
+        "raw": "400"
+      }
+    },
+    {
+      "id": "bm-000006",
+      "subjectId": "btn-primary",
+      "type": "typography.letter-spacing",
+      "value": null,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "UNKNOWN",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[1]",
+        "raw": "normal"
+      }
+    },
+    {
+      "id": "bm-000007",
+      "subjectId": "btn-primary",
+      "type": "geometry.x",
+      "value": 24,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[1]",
+        "top": 24,
+        "right": 504,
+        "bottom": 64,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000008",
+      "subjectId": "btn-primary",
+      "type": "geometry.y",
+      "value": 24,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[1]",
+        "top": 24,
+        "right": 504,
+        "bottom": 64,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000009",
+      "subjectId": "btn-primary",
+      "type": "geometry.width",
+      "value": 480,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[1]",
+        "top": 24,
+        "right": 504,
+        "bottom": 64,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000010",
+      "subjectId": "btn-primary",
+      "type": "geometry.height",
+      "value": 40,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[1]",
+        "top": 24,
+        "right": 504,
+        "bottom": 64,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000011",
+      "subjectId": "btn-gray",
+      "type": "color.srgb",
+      "value": {
+        "r": 0.4666666666666667,
+        "g": 0.4666666666666667,
+        "b": 0.4666666666666667,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[2]",
+        "raw": "rgb(119, 119, 119)"
+      }
+    },
+    {
+      "id": "bm-000012",
+      "subjectId": "btn-gray",
+      "type": "color.srgb.background",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[2]",
+        "backgroundChain": [
+          {
+            "elementId": "btn-gray",
+            "color": "rgb(255, 255, 255)",
+            "alpha": 1,
+            "source": "SELF",
+            "kind": "SOLID"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bm-000013",
+      "subjectId": "btn-gray",
+      "type": "typography.font-size",
+      "value": 16,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[2]",
+        "raw": "16px",
+        "fontFamily": "Arial"
+      }
+    },
+    {
+      "id": "bm-000014",
+      "subjectId": "btn-gray",
+      "type": "typography.line-height",
+      "value": {
+        "px": 24,
+        "ratio": 1.5
+      },
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[2]",
+        "raw": "24px"
+      }
+    },
+    {
+      "id": "bm-000015",
+      "subjectId": "btn-gray",
+      "type": "typography.font-weight",
+      "value": 400,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[2]",
+        "raw": "400"
+      }
+    },
+    {
+      "id": "bm-000016",
+      "subjectId": "btn-gray",
+      "type": "typography.letter-spacing",
+      "value": null,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "UNKNOWN",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[2]",
+        "raw": "normal"
+      }
+    },
+    {
+      "id": "bm-000017",
+      "subjectId": "btn-gray",
+      "type": "geometry.x",
+      "value": 24,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[2]",
+        "top": 80,
+        "right": 504,
+        "bottom": 122,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000018",
+      "subjectId": "btn-gray",
+      "type": "geometry.y",
+      "value": 80,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[2]",
+        "top": 80,
+        "right": 504,
+        "bottom": 122,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000019",
+      "subjectId": "btn-gray",
+      "type": "geometry.width",
+      "value": 480,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[2]",
+        "top": 80,
+        "right": 504,
+        "bottom": 122,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000020",
+      "subjectId": "btn-gray",
+      "type": "geometry.height",
+      "value": 42,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[2]",
+        "top": 80,
+        "right": 504,
+        "bottom": 122,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000021",
+      "subjectId": "btn-gradient",
+      "type": "color.srgb",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[3]",
+        "raw": "rgb(0, 0, 0)"
+      }
+    },
+    {
+      "id": "bm-000022",
+      "subjectId": "btn-gradient",
+      "type": "color.srgb.background",
+      "value": null,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "UNKNOWN",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[3]",
+        "backgroundChain": [
+          {
+            "elementId": "btn-gradient",
+            "color": "rgba(0, 0, 0, 0)",
+            "alpha": null,
+            "source": "SELF",
+            "kind": "COMPLEX"
+          }
+        ],
+        "reason": "complex"
+      }
+    },
+    {
+      "id": "bm-000023",
+      "subjectId": "btn-gradient",
+      "type": "typography.font-size",
+      "value": 16,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[3]",
+        "raw": "16px",
+        "fontFamily": "Arial"
+      }
+    },
+    {
+      "id": "bm-000024",
+      "subjectId": "btn-gradient",
+      "type": "typography.line-height",
+      "value": {
+        "px": 24,
+        "ratio": 1.5
+      },
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[3]",
+        "raw": "24px"
+      }
+    },
+    {
+      "id": "bm-000025",
+      "subjectId": "btn-gradient",
+      "type": "typography.font-weight",
+      "value": 400,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[3]",
+        "raw": "400"
+      }
+    },
+    {
+      "id": "bm-000026",
+      "subjectId": "btn-gradient",
+      "type": "typography.letter-spacing",
+      "value": null,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "UNKNOWN",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[3]",
+        "raw": "normal"
+      }
+    },
+    {
+      "id": "bm-000027",
+      "subjectId": "btn-gradient",
+      "type": "geometry.x",
+      "value": 24,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[3]",
+        "top": 138,
+        "right": 504,
+        "bottom": 178,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000028",
+      "subjectId": "btn-gradient",
+      "type": "geometry.y",
+      "value": 138,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[3]",
+        "top": 138,
+        "right": 504,
+        "bottom": 178,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000029",
+      "subjectId": "btn-gradient",
+      "type": "geometry.width",
+      "value": 480,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[3]",
+        "top": 138,
+        "right": 504,
+        "bottom": 178,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000030",
+      "subjectId": "btn-gradient",
+      "type": "geometry.height",
+      "value": 40,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[3]",
+        "top": 138,
+        "right": 504,
+        "bottom": 178,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000031",
+      "subjectId": "transparent-wrapper",
+      "type": "color.srgb",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]",
+        "raw": "rgb(0, 0, 0)"
+      }
+    },
+    {
+      "id": "bm-000032",
+      "subjectId": "transparent-wrapper",
+      "type": "color.srgb.background",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]",
+        "backgroundChain": [
+          {
+            "elementId": "transparent-wrapper",
+            "color": "rgba(0, 0, 0, 0)",
+            "alpha": 0,
+            "source": "SELF",
+            "kind": "TRANSPARENT"
+          },
+          {
+            "elementId": "browser:element:000",
+            "color": "rgba(0, 0, 0, 0)",
+            "alpha": 0,
+            "source": "ANCESTOR",
+            "kind": "TRANSPARENT"
+          },
+          {
+            "elementId": "browser:element:000",
+            "color": "rgba(0, 0, 0, 0)",
+            "alpha": 0,
+            "source": "ANCESTOR",
+            "kind": "TRANSPARENT"
+          },
+          {
+            "elementId": "browser:element:000",
+            "color": "rgb(255, 255, 255)",
+            "alpha": 1,
+            "source": "ANCESTOR",
+            "kind": "SOLID"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bm-000033",
+      "subjectId": "transparent-wrapper",
+      "type": "typography.font-size",
+      "value": 16,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]",
+        "raw": "16px",
+        "fontFamily": "system-ui, sans-serif"
+      }
+    },
+    {
+      "id": "bm-000034",
+      "subjectId": "transparent-wrapper",
+      "type": "typography.line-height",
+      "value": {
+        "px": 24,
+        "ratio": 1.5
+      },
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]",
+        "raw": "24px"
+      }
+    },
+    {
+      "id": "bm-000035",
+      "subjectId": "transparent-wrapper",
+      "type": "typography.font-weight",
+      "value": 400,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]",
+        "raw": "400"
+      }
+    },
+    {
+      "id": "bm-000036",
+      "subjectId": "transparent-wrapper",
+      "type": "typography.letter-spacing",
+      "value": null,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "UNKNOWN",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]",
+        "raw": "normal"
+      }
+    },
+    {
+      "id": "bm-000037",
+      "subjectId": "transparent-wrapper",
+      "type": "geometry.x",
+      "value": 24,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]",
+        "top": 194,
+        "right": 504,
+        "bottom": 234,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000038",
+      "subjectId": "transparent-wrapper",
+      "type": "geometry.y",
+      "value": 194,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]",
+        "top": 194,
+        "right": 504,
+        "bottom": 234,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000039",
+      "subjectId": "transparent-wrapper",
+      "type": "geometry.width",
+      "value": 480,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]",
+        "top": 194,
+        "right": 504,
+        "bottom": 234,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000040",
+      "subjectId": "transparent-wrapper",
+      "type": "geometry.height",
+      "value": 40,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]",
+        "top": 194,
+        "right": 504,
+        "bottom": 234,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000041",
+      "subjectId": "btn-transparent-chain",
+      "type": "color.srgb",
+      "value": {
+        "r": 0.06666666666666667,
+        "g": 0.06666666666666667,
+        "b": 0.06666666666666667,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]/button[1]",
+        "raw": "rgb(17, 17, 17)"
+      }
+    },
+    {
+      "id": "bm-000042",
+      "subjectId": "btn-transparent-chain",
+      "type": "color.srgb.background",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]/button[1]",
+        "backgroundChain": [
+          {
+            "elementId": "btn-transparent-chain",
+            "color": "rgba(0, 0, 0, 0)",
+            "alpha": 0,
+            "source": "SELF",
+            "kind": "TRANSPARENT"
+          },
+          {
+            "elementId": "transparent-wrapper",
+            "color": "rgba(0, 0, 0, 0)",
+            "alpha": 0,
+            "source": "ANCESTOR",
+            "kind": "TRANSPARENT"
+          },
+          {
+            "elementId": "browser:element:000",
+            "color": "rgba(0, 0, 0, 0)",
+            "alpha": 0,
+            "source": "ANCESTOR",
+            "kind": "TRANSPARENT"
+          },
+          {
+            "elementId": "browser:element:000",
+            "color": "rgba(0, 0, 0, 0)",
+            "alpha": 0,
+            "source": "ANCESTOR",
+            "kind": "TRANSPARENT"
+          },
+          {
+            "elementId": "browser:element:000",
+            "color": "rgb(255, 255, 255)",
+            "alpha": 1,
+            "source": "ANCESTOR",
+            "kind": "SOLID"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bm-000043",
+      "subjectId": "btn-transparent-chain",
+      "type": "typography.font-size",
+      "value": 16,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]/button[1]",
+        "raw": "16px",
+        "fontFamily": "Arial"
+      }
+    },
+    {
+      "id": "bm-000044",
+      "subjectId": "btn-transparent-chain",
+      "type": "typography.line-height",
+      "value": {
+        "px": 24,
+        "ratio": 1.5
+      },
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]/button[1]",
+        "raw": "24px"
+      }
+    },
+    {
+      "id": "bm-000045",
+      "subjectId": "btn-transparent-chain",
+      "type": "typography.font-weight",
+      "value": 400,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]/button[1]",
+        "raw": "400"
+      }
+    },
+    {
+      "id": "bm-000046",
+      "subjectId": "btn-transparent-chain",
+      "type": "typography.letter-spacing",
+      "value": null,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "UNKNOWN",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]/button[1]",
+        "raw": "normal"
+      }
+    },
+    {
+      "id": "bm-000047",
+      "subjectId": "btn-transparent-chain",
+      "type": "geometry.x",
+      "value": 24,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]/button[1]",
+        "top": 194,
+        "right": 187.921875,
+        "bottom": 234,
+        "left": 24,
+        "display": "inline-block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000048",
+      "subjectId": "btn-transparent-chain",
+      "type": "geometry.y",
+      "value": 194,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]/button[1]",
+        "top": 194,
+        "right": 187.921875,
+        "bottom": 234,
+        "left": 24,
+        "display": "inline-block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000049",
+      "subjectId": "btn-transparent-chain",
+      "type": "geometry.width",
+      "value": 163.921875,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]/button[1]",
+        "top": 194,
+        "right": 187.921875,
+        "bottom": 234,
+        "left": 24,
+        "display": "inline-block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000050",
+      "subjectId": "btn-transparent-chain",
+      "type": "geometry.height",
+      "value": 40,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/div[4]/button[1]",
+        "top": 194,
+        "right": 187.921875,
+        "bottom": 234,
+        "left": 24,
+        "display": "inline-block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000051",
+      "subjectId": "btn-alpha",
+      "type": "color.srgb",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[5]",
+        "raw": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "id": "bm-000052",
+      "subjectId": "btn-alpha",
+      "type": "color.srgb.background",
+      "value": {
+        "r": 0.6734458941465987,
+        "g": 0.7185516184117262,
+        "b": 0.9539678439690956,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[5]",
+        "backgroundChain": [
+          {
+            "elementId": "btn-alpha",
+            "color": "rgba(37, 99, 235, 0.6)",
+            "alpha": 0.6,
+            "source": "SELF",
+            "kind": "SOLID"
+          },
+          {
+            "elementId": "browser:element:000",
+            "color": "rgba(0, 0, 0, 0)",
+            "alpha": 0,
+            "source": "ANCESTOR",
+            "kind": "TRANSPARENT"
+          },
+          {
+            "elementId": "browser:element:000",
+            "color": "rgba(0, 0, 0, 0)",
+            "alpha": 0,
+            "source": "ANCESTOR",
+            "kind": "TRANSPARENT"
+          },
+          {
+            "elementId": "browser:element:000",
+            "color": "rgb(255, 255, 255)",
+            "alpha": 1,
+            "source": "ANCESTOR",
+            "kind": "SOLID"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bm-000053",
+      "subjectId": "btn-alpha",
+      "type": "typography.font-size",
+      "value": 16,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[5]",
+        "raw": "16px",
+        "fontFamily": "Arial"
+      }
+    },
+    {
+      "id": "bm-000054",
+      "subjectId": "btn-alpha",
+      "type": "typography.line-height",
+      "value": {
+        "px": 24,
+        "ratio": 1.5
+      },
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[5]",
+        "raw": "24px"
+      }
+    },
+    {
+      "id": "bm-000055",
+      "subjectId": "btn-alpha",
+      "type": "typography.font-weight",
+      "value": 400,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[5]",
+        "raw": "400"
+      }
+    },
+    {
+      "id": "bm-000056",
+      "subjectId": "btn-alpha",
+      "type": "typography.letter-spacing",
+      "value": null,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "UNKNOWN",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[5]",
+        "raw": "normal"
+      }
+    },
+    {
+      "id": "bm-000057",
+      "subjectId": "btn-alpha",
+      "type": "geometry.x",
+      "value": 24,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[5]",
+        "top": 250,
+        "right": 504,
+        "bottom": 290,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000058",
+      "subjectId": "btn-alpha",
+      "type": "geometry.y",
+      "value": 250,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[5]",
+        "top": 250,
+        "right": 504,
+        "bottom": 290,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000059",
+      "subjectId": "btn-alpha",
+      "type": "geometry.width",
+      "value": 480,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[5]",
+        "top": 250,
+        "right": 504,
+        "bottom": 290,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000060",
+      "subjectId": "btn-alpha",
+      "type": "geometry.height",
+      "value": 40,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[5]",
+        "top": 250,
+        "right": 504,
+        "bottom": 290,
+        "left": 24,
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000061",
+      "subjectId": "btn-hidden",
+      "type": "color.srgb",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[6]",
+        "raw": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "id": "bm-000062",
+      "subjectId": "btn-hidden",
+      "type": "color.srgb.background",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "alpha": 1
+      },
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[6]",
+        "backgroundChain": [
+          {
+            "elementId": "btn-hidden",
+            "color": "rgb(0, 0, 0)",
+            "alpha": 1,
+            "source": "SELF",
+            "kind": "SOLID"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bm-000063",
+      "subjectId": "btn-hidden",
+      "type": "typography.font-size",
+      "value": 16,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[6]",
+        "raw": "16px",
+        "fontFamily": "Arial"
+      }
+    },
+    {
+      "id": "bm-000064",
+      "subjectId": "btn-hidden",
+      "type": "typography.line-height",
+      "value": {
+        "px": 24,
+        "ratio": 1.5
+      },
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[6]",
+        "raw": "24px"
+      }
+    },
+    {
+      "id": "bm-000065",
+      "subjectId": "btn-hidden",
+      "type": "typography.font-weight",
+      "value": 400,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[6]",
+        "raw": "400"
+      }
+    },
+    {
+      "id": "bm-000066",
+      "subjectId": "btn-hidden",
+      "type": "typography.letter-spacing",
+      "value": null,
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "UNKNOWN",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[6]",
+        "raw": "normal"
+      }
+    },
+    {
+      "id": "bm-000067",
+      "subjectId": "btn-hidden",
+      "type": "geometry.x",
+      "value": 0,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[6]",
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0,
+        "display": "none",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000068",
+      "subjectId": "btn-hidden",
+      "type": "geometry.y",
+      "value": 0,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[6]",
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0,
+        "display": "none",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000069",
+      "subjectId": "btn-hidden",
+      "type": "geometry.width",
+      "value": 0,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[6]",
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0,
+        "display": "none",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    },
+    {
+      "id": "bm-000070",
+      "subjectId": "btn-hidden",
+      "type": "geometry.height",
+      "value": 0,
+      "unit": "px",
+      "source": {
+        "type": "BROWSER",
+        "adapter": "@uiq/browser",
+        "version": "1.0.0"
+      },
+      "status": "AVAILABLE",
+      "timestamp": 1700000000000,
+      "metadata": {
+        "domPath": "/html[1]/body[2]/main[1]/div[1]/button[6]",
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0,
+        "display": "none",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    }
+  ]
+}

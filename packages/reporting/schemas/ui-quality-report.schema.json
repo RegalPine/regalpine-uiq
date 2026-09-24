@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uiq.local/schemas/reporting/1.0.0/ui-quality-report",
+  "title": "UIQ Quality Report",
+  "description": "UI 质量报告交换契约（IMPL-17 §41 / §4）。required 取规范 §41 集合。",
+  "type": "object",
+  "required": [
+    "id",
+    "version",
+    "projectId",
+    "summary",
+    "dimensions",
+    "findings",
+    "recommendations",
+    "reproducibility"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "version": { "type": "string" },
+    "projectId": { "type": "string" },
+    "generatedAt": { "type": "string" },
+    "scope": {
+      "type": "object",
+      "required": ["snapshotIds", "subjects", "themes", "viewports", "generatedFrom"],
+      "properties": {
+        "snapshotIds": { "type": "array", "items": { "type": "string" } },
+        "subjects": { "type": "array", "items": { "type": "string" } },
+        "themes": { "type": "array", "items": { "type": "string" } },
+        "viewports": { "type": "array", "items": { "type": "string" } },
+        "generatedFrom": { "enum": ["ANALYSIS", "INSPECTOR", "IMPORT"] }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "measuredElements",
+        "metricResults",
+        "evaluations",
+        "pass",
+        "fail",
+        "warn",
+        "unknown",
+        "notApplicable",
+        "error",
+        "findings"
+      ],
+      "properties": {
+        "measuredElements": { "type": "integer", "minimum": 0 },
+        "metricResults": { "type": "integer", "minimum": 0 },
+        "evaluations": { "type": "integer", "minimum": 0 },
+        "pass": { "type": "integer", "minimum": 0 },
+        "fail": { "type": "integer", "minimum": 0 },
+        "warn": { "type": "integer", "minimum": 0 },
+        "unknown": { "type": "integer", "minimum": 0 },
+        "notApplicable": { "type": "integer", "minimum": 0 },
+        "error": { "type": "integer", "minimum": 0 },
+        "findings": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "dimension",
+          "evaluations",
+          "pass",
+          "fail",
+          "warn",
+          "unknown",
+          "notApplicable",
+          "error",
+          "findings"
+        ],
+        "properties": {
+          "dimension": {
+            "enum": [
+              "ACCESSIBILITY",
+              "COLOR",
+              "TYPOGRAPHY",
+              "GEOMETRY",
+              "SPACING",
+              "LAYOUT",
+              "HIERARCHY",
+              "DESIGN_SYSTEM",
+              "CONFORMANCE"
+            ]
+          },
+          "evaluations": { "type": "integer", "minimum": 0 },
+          "pass": { "type": "integer", "minimum": 0 },
+          "fail": { "type": "integer", "minimum": 0 },
+          "warn": { "type": "integer", "minimum": 0 },
+          "unknown": { "type": "integer", "minimum": 0 },
+          "notApplicable": { "type": "integer", "minimum": 0 },
+          "error": { "type": "integer", "minimum": 0 },
+          "findings": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "findingType",
+          "severity",
+          "subjectId",
+          "ruleId",
+          "ruleVersion",
+          "state",
+          "fingerprint",
+          "diagnosticIds"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "findingType": { "type": "string" },
+          "severity": { "enum": ["INFO", "LOW", "MEDIUM", "HIGH", "CRITICAL"] },
+          "subjectId": { "type": "string" },
+          "ruleId": { "type": "string" },
+          "ruleVersion": { "type": "string" },
+          "state": { "enum": ["DETECTED", "DIAGNOSED", "RESOLVED", "VERIFIED"] },
+          "fingerprint": { "type": "string" },
+          "diagnosticIds": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "findingId", "type", "cause", "confidence", "explanation"],
+        "properties": {
+          "id": { "type": "string" },
+          "findingId": { "type": "string" },
+          "type": { "type": "string" },
+          "cause": {
+            "enum": [
+              "MEASUREMENT",
+              "METRIC",
+              "TOKEN",
+              "COMPONENT",
+              "THEME",
+              "CONFIGURATION",
+              "UNKNOWN"
+            ]
+          },
+          "confidence": { "enum": ["DIRECT", "SUPPORTED", "INFERRED", "UNKNOWN"] },
+          "explanation": { "type": "string" }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "title",
+          "dimension",
+          "targetType",
+          "targetIds",
+          "rationale",
+          "evidence",
+          "impact",
+          "verification",
+          "affectedFindingIds"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "type": { "type": "string" },
+          "title": { "type": "string" },
+          "dimension": { "type": "string" },
+          "targetType": {
+            "enum": ["ELEMENT", "COMPONENT", "TOKEN", "THEME", "LAYOUT", "TYPOGRAPHY", "COLOR"]
+          },
+          "targetIds": { "type": "array", "items": { "type": "string" } },
+          "rationale": { "type": "string" },
+          "evidence": { "type": "array", "items": { "type": "object" } },
+          "impact": {
+            "type": "object",
+            "required": [
+              "affectedElements",
+              "affectedComponents",
+              "affectedTokens",
+              "affectedThemes",
+              "potentialRegressionAreas"
+            ],
+            "properties": {
+              "affectedElements": { "type": "integer", "minimum": 0 },
+              "affectedComponents": { "type": "integer", "minimum": 0 },
+              "affectedTokens": { "type": "array", "items": { "type": "string" } },
+              "affectedThemes": { "type": "array", "items": { "type": "string" } },
+              "potentialRegressionAreas": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "verification": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["metricId", "metricVersion", "ruleId", "ruleVersion", "expectedState"],
+              "properties": {
+                "metricId": { "type": "string" },
+                "metricVersion": { "type": "string" },
+                "ruleId": { "type": "string" },
+                "ruleVersion": { "type": "string" },
+                "expectedState": { "type": "string" }
+              }
+            }
+          },
+          "affectedFindingIds": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "conformance": { "type": "object" },
+    "regression": { "type": "object" },
+    "reproducibility": {
+      "type": "object",
+      "required": ["deterministic", "engine", "metricVersions", "ruleVersions"],
+      "properties": {
+        "deterministic": { "const": true },
+        "engine": {
+          "type": "object",
+          "required": ["name", "version"],
+          "properties": {
+            "name": { "type": "string" },
+            "version": { "type": "string" }
+          }
+        },
+        "metricVersions": { "type": "array", "items": { "type": "string" } },
+        "ruleVersions": { "type": "array", "items": { "type": "string" } },
+        "configuration": { "type": "object" }
+      }
+    }
+  }
+}

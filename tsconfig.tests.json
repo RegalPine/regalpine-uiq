@@ -1,0 +1,28 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["node"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "resolveJsonModule": true,
+    "paths": {
+      "@uiq/core": ["./packages/core/src/index.ts"],
+      "@uiq/color": ["./packages/color/src/index.ts"],
+      "@uiq/geometry": ["./packages/geometry/src/index.ts"],
+      "@uiq/measurement": ["./packages/measurement/src/index.ts"],
+      "@uiq/metrics": ["./packages/metrics/src/index.ts"],
+      "@uiq/rules": ["./packages/rules/src/index.ts"],
+      "@uiq/diagnostic": ["./packages/diagnostic/src/index.ts"],
+      "@uiq/browser": ["./packages/browser/src/index.ts"],
+      "@uiq/tokens": ["./packages/tokens/src/index.ts"],
+      "@uiq/theme": ["./packages/theme/src/index.ts"],
+      "@uiq/conformance": ["./packages/conformance/src/index.ts"],
+      "@uiq/regression": ["./packages/regression/src/index.ts"],
+      "@uiq/radix": ["./integrations/radix/src/index.ts"],
+      "@uiq/cli": ["./apps/cli/src/index.ts"],
+      "@uiq/inspector": ["./apps/inspector/src/index.ts"]
+    }
+  },
+  "include": ["tests/**/*.ts", "vitest.config.ts", "playwright.config.ts"]
+}

@@ -1,0 +1,89 @@
+{
+  "asset": {
+    "assetId": "uiq-reference-tokens",
+    "version": "1.0.0",
+    "dialect": "IMPL09",
+    "tokens": [
+      {
+        "id": "color.blue.600",
+        "name": "Blue 600",
+        "type": "PRIMITIVE",
+        "valueType": "COLOR",
+        "value": "#2563eb"
+      },
+      {
+        "id": "color.blue.700",
+        "name": "Blue 700",
+        "type": "PRIMITIVE",
+        "valueType": "COLOR",
+        "value": "#1d4ed8"
+      },
+      {
+        "id": "color.surface.base",
+        "name": "Surface Base",
+        "type": "PRIMITIVE",
+        "valueType": "COLOR",
+        "value": "#ffffff"
+      },
+      {
+        "id": "button.primary.background",
+        "name": "Button Primary Background",
+        "type": "SEMANTIC",
+        "valueType": "COLOR",
+        "reference": "color.blue.600"
+      },
+      {
+        "id": "color.action.primary",
+        "name": "Action Primary",
+        "type": "SEMANTIC",
+        "valueType": "COLOR",
+        "reference": "color.blue.600"
+      },
+      {
+        "id": "card.surface.background",
+        "name": "Card Surface Background",
+        "type": "SEMANTIC",
+        "valueType": "COLOR",
+        "reference": "color.surface.base"
+      },
+      {
+        "id": "dialog.surface.background",
+        "name": "Dialog Surface Background",
+        "type": "SEMANTIC",
+        "valueType": "COLOR",
+        "reference": "color.surface.base"
+      },
+      {
+        "id": "input.border.color",
+        "name": "Input Border Color",
+        "type": "SEMANTIC",
+        "valueType": "COLOR",
+        "reference": "color.blue.600"
+      },
+      {
+        "id": "button.primary",
+        "name": "Button Primary",
+        "type": "COMPONENT",
+        "valueType": "COLOR",
+        "reference": "button.primary.background"
+      }
+    ]
+  },
+  "themes": {
+    "light": {
+      "id": "light",
+      "version": "1.0.0",
+      "name": "Light",
+      "tokens": {}
+    },
+    "dark": {
+      "id": "dark",
+      "version": "1.0.0",
+      "name": "Dark",
+      "tokens": {
+        "color.blue.600": "#60a5fa",
+        "color.surface.base": "#171717"
+      }
+    }
+  }
+}

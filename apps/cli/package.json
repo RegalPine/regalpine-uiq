@@ -1,0 +1,38 @@
+{
+  "name": "@uiq/cli",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist",
+    "schemas"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "uiq": "./dist/index.js"
+  },
+  "dependencies": {
+    "@playwright/test": "1.63.0",
+    "@uiq/browser": "workspace:*",
+    "@uiq/color": "workspace:*",
+    "@uiq/conformance": "workspace:*",
+    "@uiq/core": "workspace:*",
+    "@uiq/diagnostic": "workspace:*",
+    "@uiq/measurement": "workspace:*",
+    "@uiq/metrics": "workspace:*",
+    "@uiq/regression": "workspace:*",
+    "@uiq/reporting": "workspace:*",
+    "@uiq/rules": "workspace:*",
+    "@uiq/tokens": "workspace:*",
+    "@uiq/theme": "workspace:*",
+    "ajv": "8.17.1"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit"
+  }
+}

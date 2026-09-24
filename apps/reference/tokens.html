@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Token Scenarios (Light)</title>
+    <style>
+      /* IMPL-07 §47：无动画、无外部字体依赖，布局在首屏内稳定。 */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        overflow: hidden;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        background-color: #ffffff;
+        color: #171717;
+        padding: 24px;
+      }
+      /* P5 Token 双主题（TK-01 §22-24）：主题值经 CSS 变量投影；宿主切换 data-theme。
+       被 cssVariableMap 映射的变量定义在组件作用域：若放 :root，CSS 继承会让
+       所有元素的计算值非空，INFERRED 证据（IMPL-09 §35）失真；未映射变量
+       （fg/radius）无绑定语义，保留在 :root。 */
+      :root {
+        --uiq-color-primary-fg: #ffffff;
+        --uiq-radius-md: 6px;
+      }
+      .row {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 480px;
+      }
+
+      /* 场景 1：精确匹配 — explicit 绑定 + 变量值 = 期望 token 值 */
+      .btn-exact {
+        --uiq-color-primary: #2563eb;
+        color: var(--uiq-color-primary-fg);
+        background-color: var(--uiq-color-primary);
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+        border: none;
+      }
+
+      /* 场景 2：手写偏差 — 实际 #1D4ED8 ≠ 期望 token 值 #2563EB */
+      .btn-deviation {
+        color: var(--uiq-color-primary-fg);
+        background-color: #1d4ed8;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+        border: none;
+      }
+
+      /* 场景 3：INFERRED — 无 data-uiq-token，值来自映射的 CSS 变量 */
+      .btn-inferred {
+        --uiq-color-primary: #2563eb;
+        color: var(--uiq-color-primary-fg);
+        background-color: var(--uiq-color-primary);
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+        border: none;
+      }
+
+      /* 场景 4：missing binding — 无显式绑定且变量不在映射内 → UNRESOLVED */
+      .btn-orphan {
+        color: #ffffff;
+        background-color: #7c3aed;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+        border: none;
+      }
+
+      .input-demo {
+        --uiq-color-primary: #2563eb;
+        --uiq-surface: #ffffff;
+        color: var(--uiq-fg, #171717);
+        background-color: var(--uiq-surface);
+        border: 1px solid var(--uiq-color-primary);
+        border-radius: var(--uiq-radius-md);
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 12px;
+        width: 240px;
+      }
+
+      .card-demo {
+        --uiq-surface: #ffffff;
+        color: #171717;
+        background-color: var(--uiq-surface);
+        border: 1px solid #e5e7eb;
+        border-radius: var(--uiq-radius-md);
+        padding: 16px;
+      }
+
+      /* Radix 渲染约定标注（静态 DOM 模拟 Radix 输出，P5 关键决策 6）。 */
+      .dialog-trigger {
+        --uiq-color-primary: #2563eb;
+        color: var(--uiq-color-primary-fg);
+        background-color: var(--uiq-color-primary);
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+        border: none;
+      }
+      .dialog-content {
+        --uiq-surface: #ffffff;
+        color: #171717;
+        background-color: var(--uiq-surface);
+        border-radius: var(--uiq-radius-md);
+        padding: 24px;
+        width: 320px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="row">
+      <button
+        data-uiq-id="token.button.exact"
+        data-uiq-token="button.primary.background"
+        class="btn-exact"
+      >
+        精确匹配
+      </button>
+
+      <button
+        data-uiq-id="token.button.deviation"
+        data-uiq-token="button.primary.background"
+        class="btn-deviation"
+      >
+        手写偏差
+      </button>
+
+      <button data-uiq-id="token.button.inferred" class="btn-inferred">推断绑定</button>
+
+      <button data-uiq-id="token.button.orphan-bg" class="btn-orphan">missing binding</button>
+
+      <input
+        data-uiq-id="token.input.border"
+        data-uiq-token="input.border.color"
+        class="input-demo"
+        value="输入"
+        readonly
+      />
+
+      <div
+        data-uiq-id="token.card.surface"
+        data-uiq-token="card.surface.background"
+        data-radix-card
+        class="card-demo"
+      >
+        Card 表面
+      </div>
+
+      <button
+        data-uiq-id="token.dialog.trigger"
+        data-radix-dialog-trigger
+        data-state="closed"
+        class="dialog-trigger"
+      >
+        打开对话框
+      </button>
+    </main>
+
+    <!-- Portal：Radix Portal 渲染于 body 下；主题由宿主同步到容器（data-theme）。 -->
+    <div data-radix-portal data-theme="light">
+      <div
+        data-uiq-id="token.dialog.content"
+        data-uiq-token="dialog.surface.background"
+        data-radix-dialog-content
+        data-state="open"
+        class="dialog-content"
+      >
+        Dialog 内容（Portal 内）
+      </div>
+    </div>
+  </body>
+</html>

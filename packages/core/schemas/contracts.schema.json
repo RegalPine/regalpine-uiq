@@ -1,0 +1,776 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uiq.local/schemas/core/1.0.0/contracts",
+  "title": "UIQ Core V1.0 契约（ARCH-01 归一基线）",
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "Version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "Timestamp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "Fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "JsonValue": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/JsonValue"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          }
+        }
+      ]
+    },
+    "Metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      }
+    },
+    "MeasurementStatus": {
+      "enum": ["AVAILABLE", "UNKNOWN", "ERROR"]
+    },
+    "EvaluationState": {
+      "enum": ["PASS", "FAIL", "WARN", "NOT_APPLICABLE", "UNKNOWN", "ERROR"]
+    },
+    "Severity": {
+      "enum": ["INFO", "LOW", "MEDIUM", "HIGH", "CRITICAL"]
+    },
+    "FindingState": {
+      "enum": ["DETECTED", "DIAGNOSED", "RESOLVED", "VERIFIED"]
+    },
+    "FindingType": {
+      "enum": [
+        "VALUE_VIOLATION",
+        "ACCESSIBILITY",
+        "TOKEN_DEVIATION",
+        "COMPONENT_DEVIATION",
+        "THEME_DEVIATION",
+        "LAYOUT_RELATIONSHIP",
+        "TYPOGRAPHY",
+        "COLOR",
+        "UNKNOWN_CAUSE",
+        "EXECUTION_ERROR"
+      ]
+    },
+    "UIQEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "type": {
+          "enum": [
+            "PROJECT",
+            "PAGE",
+            "REGION",
+            "COMPONENT",
+            "ELEMENT",
+            "CONTENT",
+            "INTERACTION",
+            "TOKEN",
+            "THEME"
+          ]
+        }
+      }
+    },
+    "MeasurementSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "enum": ["BROWSER", "STATIC", "TOKEN", "IMPORT", "MANUAL", "OTHER"]
+        },
+        "adapter": {
+          "$ref": "#/$defs/Id"
+        },
+        "version": {
+          "$ref": "#/$defs/Version"
+        }
+      }
+    },
+    "Measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "subjectId", "type", "value", "source", "status", "timestamp"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "subjectId": {
+          "$ref": "#/$defs/Id"
+        },
+        "type": {
+          "$ref": "#/$defs/Id"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue"
+        },
+        "unit": {
+          "$ref": "#/$defs/Id"
+        },
+        "source": {
+          "$ref": "#/$defs/MeasurementSource"
+        },
+        "status": {
+          "$ref": "#/$defs/MeasurementStatus"
+        },
+        "timestamp": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "metadata": {
+          "$ref": "#/$defs/Metadata"
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "AVAILABLE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "not": {
+              "type": "null"
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "value": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    "MeasurementEnvironment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "viewport": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["width", "height"],
+          "properties": {
+            "width": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "height": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        },
+        "devicePixelRatio": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "zoom": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "scrollX": {
+          "type": "number"
+        },
+        "scrollY": {
+          "type": "number"
+        },
+        "browser": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": {
+              "$ref": "#/$defs/Id"
+            },
+            "version": {
+              "$ref": "#/$defs/Id"
+            }
+          }
+        }
+      }
+    },
+    "MeasurementSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "capturedAt", "source", "measurements"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "capturedAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "source": {
+          "$ref": "#/$defs/MeasurementSource"
+        },
+        "environment": {
+          "$ref": "#/$defs/MeasurementEnvironment"
+        },
+        "measurements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Measurement"
+          }
+        },
+        "bindings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TokenBinding"
+          }
+        }
+      }
+    },
+    "TokenLayer": {
+      "enum": ["PRIMITIVE", "SEMANTIC", "COMPONENT"]
+    },
+    "TokenValueType": {
+      "enum": [
+        "COLOR",
+        "TYPOGRAPHY",
+        "SPACING",
+        "SIZE",
+        "RADIUS",
+        "BORDER",
+        "SHADOW",
+        "OPACITY",
+        "MOTION",
+        "Z_INDEX",
+        "OTHER"
+      ]
+    },
+    "DesignToken": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "layer", "valueType"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "layer": {
+          "$ref": "#/$defs/TokenLayer"
+        },
+        "valueType": {
+          "$ref": "#/$defs/TokenValueType"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue"
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metadata": {
+          "$ref": "#/$defs/Metadata"
+        }
+      }
+    },
+    "Theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "name", "tokens"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "version": {
+          "$ref": "#/$defs/Version"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tokens": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          }
+        },
+        "metadata": {
+          "$ref": "#/$defs/Metadata"
+        }
+      }
+    },
+    "TokenBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subjectId", "bindingType", "confidence"],
+      "properties": {
+        "subjectId": {
+          "$ref": "#/$defs/Id"
+        },
+        "tokenId": {
+          "$ref": "#/$defs/Id"
+        },
+        "bindingType": {
+          "enum": ["EXPLICIT", "INFERRED", "UNRESOLVED"]
+        },
+        "source": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": ["DIRECT", "SUPPORTED", "INFERRED", "UNKNOWN"]
+        }
+      },
+      "if": {
+        "properties": {
+          "bindingType": {
+            "const": "UNRESOLVED"
+          }
+        },
+        "required": ["bindingType"]
+      },
+      "then": {
+        "properties": {
+          "tokenId": {
+            "not": {}
+          }
+        }
+      }
+    },
+    "ComponentContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "requiredTokens"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "version": {
+          "$ref": "#/$defs/Version"
+        },
+        "requiredTokens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "optionalTokens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        }
+      }
+    },
+    "MetricDependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metricId", "version", "required"],
+      "properties": {
+        "metricId": {
+          "$ref": "#/$defs/Id"
+        },
+        "version": {
+          "$ref": "#/$defs/Version"
+        },
+        "required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MetricDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "kind", "dependencies"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "version": {
+          "$ref": "#/$defs/Version"
+        },
+        "kind": {
+          "enum": ["BASE", "DERIVED", "COMPOSITE", "EXPERIMENTAL"]
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MetricDependency"
+          }
+        }
+      }
+    },
+    "MetricResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metricId",
+        "metricVersion",
+        "subjectId",
+        "status",
+        "dependencies",
+        "fingerprint"
+      ],
+      "properties": {
+        "metricId": {
+          "$ref": "#/$defs/Id"
+        },
+        "metricVersion": {
+          "$ref": "#/$defs/Version"
+        },
+        "subjectId": {
+          "$ref": "#/$defs/Id"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue"
+        },
+        "unit": {
+          "$ref": "#/$defs/Id"
+        },
+        "status": {
+          "$ref": "#/$defs/MeasurementStatus"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MetricDependency"
+          }
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/Fingerprint"
+        },
+        "metadata": {
+          "$ref": "#/$defs/Metadata"
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "AVAILABLE"
+          }
+        }
+      },
+      "then": {
+        "required": ["value"],
+        "properties": {
+          "value": {
+            "not": {
+              "type": "null"
+            }
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "required": ["value"]
+        }
+      }
+    },
+    "NumericRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "anyOf": [
+        {
+          "required": ["min"]
+        },
+        {
+          "required": ["max"]
+        }
+      ],
+      "properties": {
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "minInclusive": {
+          "type": "boolean"
+        },
+        "maxInclusive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Tolerance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "value"],
+      "properties": {
+        "type": {
+          "enum": ["ABSOLUTE", "RELATIVE"]
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "RuleDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "metricId", "metricVersion", "severity"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "version": {
+          "$ref": "#/$defs/Version"
+        },
+        "metricId": {
+          "$ref": "#/$defs/Id"
+        },
+        "metricVersion": {
+          "$ref": "#/$defs/Version"
+        },
+        "operator": {
+          "enum": ["EQ", "NE", "GT", "GTE", "LT", "LTE", "IN", "NOT_IN"]
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "range": {
+          "$ref": "#/$defs/NumericRange"
+        },
+        "tolerance": {
+          "$ref": "#/$defs/Tolerance"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        }
+      }
+    },
+    "RuleConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ruleId", "ruleVersion", "values"],
+      "properties": {
+        "ruleId": {
+          "$ref": "#/$defs/Id"
+        },
+        "ruleVersion": {
+          "$ref": "#/$defs/Version"
+        },
+        "values": {
+          "$ref": "#/$defs/Metadata"
+        }
+      }
+    },
+    "Evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "referenceId", "relation"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "referenceId": {
+          "$ref": "#/$defs/Id"
+        },
+        "type": {
+          "enum": ["METRIC", "MEASUREMENT", "TOKEN", "DOM", "RULE_CONFIGURATION"]
+        },
+        "relation": {
+          "enum": [
+            "MEASURED_FROM",
+            "DERIVED_FROM",
+            "EVALUATED_BY",
+            "RESOLVED_FROM",
+            "DEFINED_BY",
+            "USED_BY",
+            "OVERRIDES",
+            "DEVIATES_FROM"
+          ]
+        }
+      }
+    },
+    "EvaluationResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ruleId",
+        "ruleVersion",
+        "subjectId",
+        "state",
+        "severity",
+        "metricResult",
+        "evidence",
+        "fingerprint"
+      ],
+      "properties": {
+        "ruleId": {
+          "$ref": "#/$defs/Id"
+        },
+        "ruleVersion": {
+          "$ref": "#/$defs/Version"
+        },
+        "subjectId": {
+          "$ref": "#/$defs/Id"
+        },
+        "state": {
+          "$ref": "#/$defs/EvaluationState"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "metricResult": {
+          "$ref": "#/$defs/MetricResult"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          }
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/Fingerprint"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "fingerprint",
+        "type",
+        "state",
+        "severity",
+        "subjectId",
+        "evaluation",
+        "evidence",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "fingerprint": {
+          "$ref": "#/$defs/Fingerprint"
+        },
+        "type": {
+          "$ref": "#/$defs/FindingType"
+        },
+        "state": {
+          "$ref": "#/$defs/FindingState"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "subjectId": {
+          "$ref": "#/$defs/Id"
+        },
+        "evaluation": {
+          "$ref": "#/$defs/EvaluationResult"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          }
+        },
+        "createdAt": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "updatedAt": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "Diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "findingId", "type", "cause", "confidence", "evidence", "explanation"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "findingId": {
+          "$ref": "#/$defs/Id"
+        },
+        "type": {
+          "$ref": "#/$defs/FindingType"
+        },
+        "cause": {
+          "enum": [
+            "MEASUREMENT",
+            "METRIC",
+            "TOKEN",
+            "COMPONENT",
+            "THEME",
+            "CONFIGURATION",
+            "UNKNOWN"
+          ]
+        },
+        "confidence": {
+          "enum": ["DIRECT", "SUPPORTED", "INFERRED", "UNKNOWN"]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          }
+        },
+        "explanation": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

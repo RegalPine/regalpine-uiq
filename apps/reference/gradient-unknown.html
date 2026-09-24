@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Gradient Unknown</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 24px;
+      }
+      .gradient-box {
+        width: 200px;
+        height: 100px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Gradient Unknown Scenario</h1>
+    <p>
+      Background uses a gradient — color metrics may report UNKNOWN for non-uniform backgrounds.
+    </p>
+    <div class="gradient-box" data-uiq-id="gradient-box">
+      <span data-uiq-id="gradient-text">Text on gradient</span>
+    </div>
+  </body>
+</html>

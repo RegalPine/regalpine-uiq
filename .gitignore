@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+*.tsbuildinfo
+.vite/
+*.local
+*.d.ts.map
+*.js.map
+
+# Test & CI artifacts
+test-results/
+playwright-report/
+coverage/
+.eslintcache
+.prettiercache
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE & editor
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Misc
+.cache/
+.tmp/
+*.tgz
+.stats.json
+*.bak

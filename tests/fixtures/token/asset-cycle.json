@@ -1,0 +1,21 @@
+{
+  "assetId": "uiq-cycle-tokens",
+  "version": "1.0.0",
+  "dialect": "IMPL09",
+  "tokens": [
+    {
+      "id": "token.a",
+      "name": "Token A",
+      "type": "SEMANTIC",
+      "valueType": "COLOR",
+      "reference": "token.b"
+    },
+    {
+      "id": "token.b",
+      "name": "Token B",
+      "type": "SEMANTIC",
+      "valueType": "COLOR",
+      "reference": "token.a"
+    }
+  ]
+}

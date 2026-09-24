@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uiq.local/schemas/tokens/1.0.0/design-token",
+  "title": "UIQ Token 资产 V1.0（IMPL-09 §7-9、IMPL-13 §9、AD-14 双字段投影）",
+  "$defs": {
+    "TokenLayer": { "enum": ["PRIMITIVE", "SEMANTIC", "COMPONENT"] },
+    "TokenValueType": {
+      "enum": [
+        "COLOR",
+        "TYPOGRAPHY",
+        "SPACING",
+        "SIZE",
+        "RADIUS",
+        "BORDER",
+        "SHADOW",
+        "OPACITY",
+        "MOTION",
+        "Z_INDEX",
+        "OTHER"
+      ]
+    },
+    "ImportDialect": { "enum": ["TK01", "IMPL09"] },
+    "DesignToken": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "layer", "valueType"],
+      "properties": {
+        "id": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Id" },
+        "name": { "type": "string", "minLength": 1 },
+        "layer": { "$ref": "#/$defs/TokenLayer" },
+        "valueType": { "$ref": "#/$defs/TokenValueType" },
+        "value": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/JsonValue" },
+        "reference": { "type": "string", "minLength": 1 },
+        "unit": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "metadata": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Metadata" }
+      }
+    },
+    "TokenAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assetId", "version", "dialect", "tokens"],
+      "properties": {
+        "assetId": { "type": "string", "minLength": 1 },
+        "version": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Version" },
+        "dialect": { "$ref": "#/$defs/ImportDialect" },
+        "tokens": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/DesignToken" } }
+      }
+    }
+  }
+}

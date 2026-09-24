@@ -1,0 +1,9 @@
+{
+  "id": "dark",
+  "version": "1.0.0",
+  "name": "Dark",
+  "tokens": {
+    "color.blue.600": "#60a5fa",
+    "color.surface.base": "#171717"
+  }
+}

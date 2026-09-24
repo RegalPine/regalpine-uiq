@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Regression Fix</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 24px;
+        background: #ffffff;
+      }
+      .fixed-element {
+        color: #333333;
+        background: #ffffff;
+        padding: 16px;
+        font-size: 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Regression Fix Scenario</h1>
+    <p>This element previously had a contrast issue and has been fixed (contrast ≈ 12.6:1).</p>
+    <div class="fixed-element" data-uiq-id="fixed-element">
+      This text now has proper contrast and should pass all checks.
+    </div>
+  </body>
+</html>

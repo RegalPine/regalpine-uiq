@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Contrast Fail</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 24px;
+        background: #ffffff;
+      }
+      .low-contrast {
+        color: #cccccc;
+        background: #ffffff;
+        padding: 16px;
+        font-size: 12px;
+        border: 1px solid #eeeeee;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Contrast Fail Scenario</h1>
+    <p>
+      The text below has intentionally low contrast (#CCC on #FFF ≈ 1.6:1, below WCAG AA 4.5:1).
+    </p>
+    <div class="low-contrast" data-uiq-id="low-contrast-text">
+      This text has very low contrast and should fail WCAG AA checks.
+    </div>
+  </body>
+</html>

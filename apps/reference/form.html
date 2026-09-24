@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Form Scenarios</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #333333;
+        --color-border: #cccccc;
+        --color-primary: #1a73e8;
+        --color-error: #d93025;
+        --spacing-sm: 8px;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --font-size-base: 14px;
+        --font-size-sm: 12px;
+        --radius: 4px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+      }
+      .form-group {
+        margin-bottom: var(--spacing-md);
+      }
+      .form-label {
+        display: block;
+        margin-bottom: var(--spacing-sm);
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+      }
+      .form-input {
+        width: 100%;
+        max-width: 300px;
+        padding: var(--spacing-sm);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        font-size: var(--font-size-base);
+      }
+      .form-input-error {
+        border-color: var(--color-error);
+      }
+      .form-error-text {
+        color: var(--color-error);
+        font-size: var(--font-size-sm);
+        margin-top: 4px;
+      }
+      .form-hint {
+        color: #666;
+        font-size: var(--font-size-sm);
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Form Scenarios</h1>
+
+    <form data-uiq-id="form-login" aria-label="Login form">
+      <div class="form-group" data-uiq-id="field-email">
+        <label class="form-label" for="email" data-uiq-id="label-email">Email</label>
+        <input
+          class="form-input"
+          type="email"
+          id="email"
+          data-uiq-id="input-email"
+          placeholder="name@example.com"
+        />
+        <span class="form-hint" data-uiq-id="hint-email">We'll never share your email.</span>
+      </div>
+
+      <div class="form-group" data-uiq-id="field-password">
+        <label class="form-label" for="password" data-uiq-id="label-password">Password</label>
+        <input class="form-input" type="password" id="password" data-uiq-id="input-password" />
+      </div>
+
+      <div class="form-group" data-uiq-id="field-password-error">
+        <label class="form-label" for="password-err" data-uiq-id="label-password-err"
+          >Password (error state)</label
+        >
+        <input
+          class="form-input form-input-error"
+          type="password"
+          id="password-err"
+          data-uiq-id="input-password-err"
+          aria-invalid="true"
+        />
+        <span class="form-error-text" data-uiq-id="error-password"
+          >Password must be at least 8 characters</span
+        >
+      </div>
+
+      <button type="submit" data-uiq-id="btn-submit">Sign In</button>
+    </form>
+  </body>
+</html>

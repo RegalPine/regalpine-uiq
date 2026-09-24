@@ -1,0 +1,25 @@
+{
+  "name": "@uiq/browser",
+  "version": "1.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser-global": "./dist/browser-global.global.js"
+  },
+  "dependencies": {
+    "@uiq/core": "workspace:*",
+    "@uiq/measurement": "workspace:*",
+    "@uiq/color": "workspace:*"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/browser-global.ts --format esm,iife --globalName UIQBrowser --dts --sourcemap --target es2022 --platform neutral",
+    "typecheck": "tsc --noEmit"
+  }
+}

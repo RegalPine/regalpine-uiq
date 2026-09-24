@@ -1,0 +1,38 @@
+{
+  "name": "@uiq/inspector",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@uiq/browser": "workspace:*",
+    "@uiq/core": "workspace:*",
+    "@uiq/diagnostic": "workspace:*",
+    "@uiq/measurement": "workspace:*",
+    "@uiq/metrics": "workspace:*",
+    "@uiq/radix": "workspace:*",
+    "@uiq/regression": "workspace:*",
+    "@uiq/reporting": "workspace:*",
+    "@uiq/rules": "workspace:*",
+    "@uiq/theme": "workspace:*",
+    "@uiq/tokens": "workspace:*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-dialog": "^1.1.0",
+    "@radix-ui/react-popover": "^1.1.0",
+    "@radix-ui/react-scroll-area": "^1.2.0",
+    "@radix-ui/react-tabs": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.4.0",
+    "vite": "^6.0.0"
+  }
+}

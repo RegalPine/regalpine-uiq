@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uiq.local/schemas/regression/1.0.0/regression",
+  "title": "UIQ Regression 交换契约（ARCH-01 §5.1；IMPL-11 §42/§53-59）",
+  "$defs": {
+    "EngineInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "EngineMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/EngineInfo" }
+    },
+    "AnalysisSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "snapshot",
+        "metricResults",
+        "evaluations",
+        "findings",
+        "engine"
+      ],
+      "properties": {
+        "schemaVersion": { "type": "string", "minLength": 1 },
+        "snapshot": {
+          "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/MeasurementSnapshot"
+        },
+        "metricResults": {
+          "type": "array",
+          "items": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/MetricResult" }
+        },
+        "evaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/EvaluationResult"
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Finding" }
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Diagnostic" }
+        },
+        "engine": { "$ref": "#/$defs/EngineMap" },
+        "themeId": { "type": "string", "minLength": 1 },
+        "config": { "type": "object" }
+      }
+    },
+    "Baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt",
+        "schemaVersion",
+        "engine",
+        "snapshot",
+        "metrics",
+        "evaluations",
+        "findings",
+        "approvedAt"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "createdAt": { "type": "string", "minLength": 1 },
+        "schemaVersion": { "type": "string", "minLength": 1 },
+        "engine": { "$ref": "#/$defs/EngineInfo" },
+        "snapshot": {
+          "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/MeasurementSnapshot"
+        },
+        "metrics": {
+          "type": "array",
+          "items": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/MetricResult" }
+        },
+        "evaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/EvaluationResult"
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Finding" }
+        },
+        "approvedAt": { "type": "string", "minLength": 1 },
+        "diagnostics": {
+          "type": "array",
+          "items": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Diagnostic" }
+        },
+        "themeId": { "type": "string", "minLength": 1 },
+        "engines": { "$ref": "#/$defs/EngineMap" },
+        "config": { "type": "object" }
+      }
+    },
+    "MetricDiff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metricId", "metricVersion", "subjectId", "changed"],
+      "properties": {
+        "metricId": { "type": "string", "minLength": 1 },
+        "metricVersion": { "type": "string", "minLength": 1 },
+        "subjectId": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Id" },
+        "before": {},
+        "after": {},
+        "changed": { "type": "boolean" },
+        "delta": { "type": "number" }
+      }
+    },
+    "EvaluationDiff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ruleId", "ruleVersion", "subjectId"],
+      "properties": {
+        "ruleId": { "type": "string", "minLength": 1 },
+        "ruleVersion": { "type": "string", "minLength": 1 },
+        "subjectId": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Id" },
+        "before": {
+          "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/EvaluationState"
+        },
+        "after": {
+          "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/EvaluationState"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "NEW_FAILURE",
+            "FIXED_FAILURE",
+            "PERSISTING_FAILURE",
+            "CHANGED_RESULT",
+            "NEW_UNKNOWN",
+            "RESOLVED_UNKNOWN"
+          ]
+        },
+        "note": { "type": "string" }
+      }
+    },
+    "FindingDiff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["logicKey", "status", "contentChanged"],
+      "properties": {
+        "logicKey": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["MATCHED", "ADDED", "REMOVED"] },
+        "contentChanged": { "type": "boolean" },
+        "before": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Finding" },
+        "after": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Finding" }
+      }
+    },
+    "MissingTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subjectId", "side"],
+      "properties": {
+        "subjectId": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Id" },
+        "side": { "type": "string", "enum": ["BASELINE_ONLY", "CURRENT_ONLY"] }
+      }
+    },
+    "RegressionCategory": {
+      "type": "string",
+      "enum": [
+        "NEW_FAILURE",
+        "FIXED_FAILURE",
+        "PERSISTING_FAILURE",
+        "CHANGED_RESULT",
+        "NEW_UNKNOWN",
+        "RESOLVED_UNKNOWN"
+      ]
+    },
+    "RegressionRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baselineSnapshotId",
+        "currentSnapshotId",
+        "subjectId",
+        "kind",
+        "identity",
+        "category"
+      ],
+      "properties": {
+        "baselineSnapshotId": { "type": "string", "minLength": 1 },
+        "currentSnapshotId": { "type": "string", "minLength": 1 },
+        "subjectId": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Id" },
+        "kind": { "type": "string", "enum": ["METRIC", "RULE", "FINDING"] },
+        "identity": { "type": "string", "minLength": 1 },
+        "category": { "oneOf": [{ "$ref": "#/$defs/RegressionCategory" }, { "type": "null" }] },
+        "note": { "type": "string" },
+        "before": {},
+        "after": {}
+      }
+    },
+    "RegressionSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "newFailures",
+        "fixedFailures",
+        "persistingFailures",
+        "changedResults",
+        "newUnknowns",
+        "resolvedUnknowns"
+      ],
+      "properties": {
+        "newFailures": { "type": "integer", "minimum": 0 },
+        "fixedFailures": { "type": "integer", "minimum": 0 },
+        "persistingFailures": { "type": "integer", "minimum": 0 },
+        "changedResults": { "type": "integer", "minimum": 0 },
+        "newUnknowns": { "type": "integer", "minimum": 0 },
+        "resolvedUnknowns": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "RegressionReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baselineId",
+        "currentSnapshotId",
+        "metricChanges",
+        "evaluationChanges",
+        "findingChanges",
+        "missingTargets",
+        "summary",
+        "records",
+        "fingerprint"
+      ],
+      "properties": {
+        "baselineId": { "type": "string", "minLength": 1 },
+        "currentSnapshotId": { "type": "string", "minLength": 1 },
+        "metricChanges": { "type": "array", "items": { "$ref": "#/$defs/MetricDiff" } },
+        "evaluationChanges": { "type": "array", "items": { "$ref": "#/$defs/EvaluationDiff" } },
+        "findingChanges": { "type": "array", "items": { "$ref": "#/$defs/FindingDiff" } },
+        "missingTargets": { "type": "array", "items": { "$ref": "#/$defs/MissingTarget" } },
+        "summary": { "$ref": "#/$defs/RegressionSummary" },
+        "records": { "type": "array", "items": { "$ref": "#/$defs/RegressionRecord" } },
+        "fingerprint": {
+          "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Fingerprint"
+        },
+        "engine": { "$ref": "#/$defs/EngineInfo" }
+      }
+    }
+  },
+  "$ref": "#/$defs/Baseline"
+}

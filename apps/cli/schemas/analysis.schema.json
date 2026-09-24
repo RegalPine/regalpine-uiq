@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uiq.local/schemas/cli/1.0.0/analysis",
+  "title": "UIQ CLI Analysis Artifact（应用组装层，ARCH-01 §5.1）",
+  "$defs": {
+    "EngineInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "AnalysisArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "snapshot",
+        "metricResults",
+        "evaluations",
+        "findings",
+        "diagnostics",
+        "engine"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1.0.0" },
+        "snapshot": {
+          "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/MeasurementSnapshot"
+        },
+        "metricResults": {
+          "type": "array",
+          "items": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/MetricResult" }
+        },
+        "evaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/EvaluationResult"
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Finding" }
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": { "$ref": "https://uiq.local/schemas/core/1.0.0/contracts#/$defs/Diagnostic" }
+        },
+        "engine": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["metrics", "rules", "diagnostics"],
+          "properties": {
+            "metrics": { "$ref": "#/$defs/EngineInfo" },
+            "rules": { "$ref": "#/$defs/EngineInfo" },
+            "diagnostics": { "$ref": "#/$defs/EngineInfo" }
+          }
+        }
+      }
+    }
+  },
+  "$ref": "#/$defs/AnalysisArtifact"
+}

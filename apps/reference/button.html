@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Button Scenarios</title>
+    <style>
+      /* IMPL-07 §47：无动画、无外部字体依赖，布局在首屏内稳定。 */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        overflow: hidden;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        background-color: #ffffff;
+        color: #000000;
+        padding: 24px;
+      }
+      .row {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 480px;
+      }
+
+      /* 场景 1：白字/蓝底 ≈ 5.17 → PASS（≥ warnThreshold 5.0） */
+      .btn-primary {
+        color: #ffffff;
+        background-color: #2563eb;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+        border: none;
+      }
+
+      /* 场景 2：#777777 on #FFFFFF ≈ 4.48 → FAIL（ER-01 §56 Golden） */
+      .btn-gray {
+        color: #777777;
+        background-color: #ffffff;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+        border: 1px solid #dddddd;
+      }
+
+      /* 场景 3：渐变背景 → 有效背景 UNKNOWN（IMPL-07 §24） */
+      .btn-gradient {
+        color: #000000;
+        background-color: transparent;
+        background-image: linear-gradient(to right, #3b82f6, #93c5fd);
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+        border: none;
+      }
+
+      /* 场景 4：透明链 — button transparent → wrapper transparent → main #ffffff */
+      .btn-transparent-chain {
+        color: #111111;
+        background-color: transparent;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+        border: none;
+      }
+      .transparent-wrapper {
+        background-color: transparent;
+      }
+
+      /* 场景 5：半透明背景 — rgba(37, 99, 235, 0.6) 合成在 #ffffff 上 */
+      .btn-alpha {
+        color: #ffffff;
+        background-color: rgba(37, 99, 235, 0.6);
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+        border: none;
+      }
+
+      /* 场景 6：display:none — 尺寸不可视为 0×0，metadata 记录 display（IMPL-07 §39） */
+      .btn-hidden {
+        display: none;
+        color: #ffffff;
+        background-color: #000000;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 8px 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="main-content">
+      <div class="row">
+        <button data-uiq-id="btn-primary" class="btn-primary" type="button">Primary Action</button>
+        <button data-uiq-id="btn-gray" class="btn-gray" type="button">Gray On White</button>
+        <button data-uiq-id="btn-gradient" class="btn-gradient" type="button">
+          Gradient Background
+        </button>
+        <div data-uiq-id="transparent-wrapper" class="transparent-wrapper">
+          <button data-uiq-id="btn-transparent-chain" class="btn-transparent-chain" type="button">
+            Transparent Chain
+          </button>
+        </div>
+        <button data-uiq-id="btn-alpha" class="btn-alpha" type="button">Alpha Background</button>
+        <button data-uiq-id="btn-hidden" class="btn-hidden" type="button">Hidden Button</button>
+      </div>
+    </main>
+  </body>
+</html>

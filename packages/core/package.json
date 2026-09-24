@@ -1,0 +1,21 @@
+{
+  "name": "@uiq/core",
+  "version": "1.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "schemas"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schemas/contracts.schema.json": "./schemas/contracts.schema.json"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --sourcemap --target es2022 --platform neutral",
+    "typecheck": "tsc --noEmit"
+  }
+}

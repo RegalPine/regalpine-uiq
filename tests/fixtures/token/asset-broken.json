@@ -1,0 +1,21 @@
+{
+  "assetId": "uiq-broken-tokens",
+  "version": "1.0.0",
+  "dialect": "IMPL09",
+  "tokens": [
+    {
+      "id": "color.blue.600",
+      "name": "Blue 600",
+      "type": "PRIMITIVE",
+      "valueType": "COLOR",
+      "value": "#2563eb"
+    },
+    {
+      "id": "button.primary.background",
+      "name": "Button Primary Background",
+      "type": "SEMANTIC",
+      "valueType": "COLOR",
+      "reference": "color.blue.missing"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "id": "button.primary",
+  "version": "1.0.0",
+  "requiredTokens": ["button.primary.background", "card.surface.background"],
+  "states": ["hover", "active"]
+}

@@ -59,6 +59,9 @@ pnpm install --frozen-lockfile
 # 构建全部
 pnpm build
 
+# 全局安装 CLI（可选，之后可用 uiq 命令）
+cd apps/cli && pnpm link --global && cd ../..
+
 # 运行全量测试
 pnpm test
 
@@ -70,20 +73,22 @@ pnpm run ci
 
 ```bash
 # 查看帮助
-node apps/cli/dist/index.js --help
+uiq --help
 
 # 分析页面
-node apps/cli/dist/index.js analyze "file://$PWD/apps/reference/contrast-fail.html" --allow-external
+uiq analyze "file://$PWD/apps/reference/contrast-fail.html" --allow-external
 
 # 生成报告
-node apps/cli/dist/index.js report analysis.json --format markdown
+uiq report analysis.json --format markdown
 
 # 符合性检查
-node apps/cli/dist/index.js conformance snapshot.json
+uiq conformance snapshot.json
 
 # 回归比较
-node apps/cli/dist/index.js regression baseline.json current.json
+uiq regression baseline.json current.json
 ```
+
+> 如未全局安装 CLI，请将 `uiq` 替换为 `node apps/cli/dist/index.js`。
 
 详细使用说明参见 [安装与使用手册](docs/UIQ-INSTALL-USAGE-GUIDE.md)。
 

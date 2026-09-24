@@ -85,7 +85,31 @@ pnpm build
 
 此命令按依赖顺序构建所有 13 个包和 4 个应用。构建产物输出到各包的 `dist/` 目录。
 
-### 2.7 验证安装
+### 2.7 全局安装 CLI（可选）
+
+构建后可将 CLI 链接为全局命令 `uiq`，在任意目录直接使用：
+
+```bash
+cd apps/cli
+pnpm link --global
+
+# 验证
+uiq --help
+
+# 取消全局链接
+pnpm unlink --global
+```
+
+> 如果提示 `PNPM_HOME` 未配置，需先在 `~/.zshrc` 中添加：
+> ```bash
+> export PNPM_HOME="$HOME/Library/pnpm"
+> export PATH="$PNPM_HOME:$PATH"
+> ```
+> 然后执行 `source ~/.zshrc`。
+
+以下文档中的 CLI 示例均假设已全局安装。如未全局安装，请将 `uiq` 替换为 `node apps/cli/dist/index.js`。
+
+### 2.8 验证安装
 
 ```bash
 pnpm run ci
@@ -162,7 +186,7 @@ CLI 构建后位于 `apps/cli/dist/index.js`，提供 7 个命令。
 从浏览器采集指定页面的 DOM 测量数据。
 
 ```bash
-node apps/cli/dist/index.js measure <target> [选项]
+uiq measure <target> [选项]
 ```
 
 | 参数 | 说明 |
@@ -176,10 +200,10 @@ node apps/cli/dist/index.js measure <target> [选项]
 
 ```bash
 # 采集 Button 页面
-node apps/cli/dist/index.js measure "file://$PWD/apps/reference/button.html"
+uiq measure "file://$PWD/apps/reference/button.html"
 
 # 采集并保存
-node apps/cli/dist/index.js measure "file://$PWD/apps/reference/button.html" \
+uiq measure "file://$PWD/apps/reference/button.html" \
   --output snapshot.json
 ```
 
@@ -188,7 +212,7 @@ node apps/cli/dist/index.js measure "file://$PWD/apps/reference/button.html" \
 执行完整分析链路：采集 → 指标计算 → 规则评价 → Finding → Diagnostic。
 
 ```bash
-node apps/cli/dist/index.js analyze <target|snapshot.json> [选项]
+uiq analyze <target|snapshot.json> [选项]
 ```
 
 | 参数 | 说明 |
@@ -206,13 +230,13 @@ node apps/cli/dist/index.js analyze <target|snapshot.json> [选项]
 
 ```bash
 # 分析对比度不足的页面
-node apps/cli/dist/index.js analyze \
+uiq analyze \
   "file://$PWD/apps/reference/contrast-fail.html" \
   --allow-external \
   --output analysis.json
 
 # 从已有快照离线分析
-node apps/cli/dist/index.js analyze snapshot.json --output analysis.json
+uiq analyze snapshot.json --output analysis.json
 ```
 
 ### 4.4 evaluate — 离线评价
@@ -220,7 +244,7 @@ node apps/cli/dist/index.js analyze snapshot.json --output analysis.json
 仅执行 Metric → Rule 评价，不生成 Finding/Diagnostic。
 
 ```bash
-node apps/cli/dist/index.js evaluate <snapshot.json> [--output <file>]
+uiq evaluate <snapshot.json> [--output <file>]
 ```
 
 ### 4.5 conformance — 符合性检查
@@ -228,7 +252,7 @@ node apps/cli/dist/index.js evaluate <snapshot.json> [--output <file>]
 检查分析产物是否满足指定 Conformance Level。
 
 ```bash
-node apps/cli/dist/index.js conformance <snapshot.json> --level <level>
+uiq conformance <snapshot.json> --level <level>
 ```
 
 | Level | 说明 |
@@ -243,7 +267,7 @@ node apps/cli/dist/index.js conformance <snapshot.json> --level <level>
 比较 Baseline 与当前分析产物的差异。
 
 ```bash
-node apps/cli/dist/index.js regression \
+uiq regression \
   --baseline baseline.json \
   --current current.json \
   [--output regression.json]
@@ -254,7 +278,7 @@ node apps/cli/dist/index.js regression \
 采集浏览器目标并保存 MeasurementSnapshot 到文件。
 
 ```bash
-node apps/cli/dist/index.js snapshot <target> --output <file> [选项]
+uiq snapshot <target> --output <file> [选项]
 ```
 
 ### 4.8 report — 生成报告
@@ -262,7 +286,7 @@ node apps/cli/dist/index.js snapshot <target> --output <file> [选项]
 从已有分析产物生成质量报告，不暗中执行分析。
 
 ```bash
-node apps/cli/dist/index.js report <analysis.json> [选项]
+uiq report <analysis.json> [选项]
 ```
 
 | 参数 | 说明 |
@@ -275,10 +299,10 @@ node apps/cli/dist/index.js report <analysis.json> [选项]
 
 ```bash
 # 生成 Markdown 报告
-node apps/cli/dist/index.js report analysis.json --format markdown
+uiq report analysis.json --format markdown
 
 # 生成 HTML 报告并保存
-node apps/cli/dist/index.js report analysis.json --format html --output report.html
+uiq report analysis.json --format html --output report.html
 ```
 
 ---
@@ -304,12 +328,12 @@ node apps/cli/dist/index.js report analysis.json --format html --output report.h
 
 ```bash
 # 直接用 CLI 分析
-node apps/cli/dist/index.js analyze "file://$PWD/apps/reference/contrast-fail.html" --allow-external
+uiq analyze "file://$PWD/apps/reference/contrast-fail.html" --allow-external
 
 # 或用浏览器打开后通过 localhost 采集
 # （需先启动本地 HTTP 服务器）
 npx serve apps/reference
-node apps/cli/dist/index.js analyze "http://localhost:3000/contrast-fail.html"
+uiq analyze "http://localhost:3000/contrast-fail.html"
 ```
 
 ---
@@ -409,13 +433,13 @@ pnpm dev
 ```bash
 # 构建后执行 CLI 分析
 pnpm build
-node apps/cli/dist/index.js analyze "http://localhost:3000" --output analysis.json
+uiq analyze "http://localhost:3000" --output analysis.json
 
 # 检查符合性
-node apps/cli/dist/index.js conformance analysis.json --level standard
+uiq conformance analysis.json --level standard
 
 # 生成报告
-node apps/cli/dist/index.js report analysis.json --format markdown --output report.md
+uiq report analysis.json --format markdown --output report.md
 ```
 
 ---
@@ -445,7 +469,7 @@ Skill 通过进程调用 CLI，解析 JSON 输出。不拼 shell、不从终端�
 
 ```bash
 # Skill 内部调用示例（参数数组启动）
-node apps/cli/dist/index.js analyze <target> --output <file>
+uiq analyze <target> --output <file>
 # 解析 stdout JSON，提取 findings/diagnostics/recommendations
 ```
 
@@ -460,45 +484,45 @@ node apps/cli/dist/index.js analyze <target> --output <file>
 pnpm build
 
 # 2. 分析 Reference 页面
-node apps/cli/dist/index.js analyze \
+uiq analyze \
   "file://$PWD/apps/reference/contrast-fail.html" \
   --allow-external \
   --output analysis.json
 
 # 3. 查看报告
-node apps/cli/dist/index.js report analysis.json --format markdown
+uiq report analysis.json --format markdown
 ```
 
 ### 11.2 快照 → 离线分析 → 报告
 
 ```bash
 # 1. 采集快照
-node apps/cli/dist/index.js snapshot \
+uiq snapshot \
   "file://$PWD/apps/reference/button.html" \
   --output snapshot.json
 
 # 2. 离线分析（不需要浏览器）
-node apps/cli/dist/index.js analyze snapshot.json --output analysis.json
+uiq analyze snapshot.json --output analysis.json
 
 # 3. 生成 HTML 报告
-node apps/cli/dist/index.js report analysis.json --format html --output report.html
+uiq report analysis.json --format html --output report.html
 ```
 
 ### 11.3 回归检测
 
 ```bash
 # 1. 建立 Baseline
-node apps/cli/dist/index.js analyze \
+uiq analyze \
   "file://$PWD/apps/reference/button.html" \
   --output baseline.json
 
 # 2. 修改代码后重新分析
-node apps/cli/dist/index.js analyze \
+uiq analyze \
   "file://$PWD/apps/reference/button.html" \
   --output current.json
 
 # 3. 比较差异
-node apps/cli/dist/index.js regression \
+uiq regression \
   --baseline baseline.json \
   --current current.json \
   --output regression.json
@@ -541,7 +565,7 @@ macOS 上首次运行可能需要在"系统设置 → 隐私与安全"中允许�
 添加 `--allow-external` 标志：
 
 ```bash
-node apps/cli/dist/index.js analyze "https://example.com" --allow-external
+uiq analyze "https://example.com" --allow-external
 ```
 
 ### Q: 测试数量与文档不一致
@@ -577,6 +601,7 @@ cd apps/inspector && pnpm dev --port 5174
 pnpm install --frozen-lockfile
 pnpm exec playwright install --with-deps chromium firefox webkit
 pnpm build
+cd apps/cli && pnpm link --global    # 全局链接 CLI（可选）
 
 # ── 测试 ──
 pnpm run ci                          # 完整流水线
@@ -584,13 +609,13 @@ pnpm test                            # Vitest 全量
 pnpm exec playwright test            # Playwright 三浏览器
 
 # ── CLI 七命令 ──
-node apps/cli/dist/index.js measure <target> [--output <file>]
-node apps/cli/dist/index.js analyze <target|snapshot.json> [--output <file>]
-node apps/cli/dist/index.js evaluate <snapshot.json>
-node apps/cli/dist/index.js conformance <snapshot.json> --level <level>
-node apps/cli/dist/index.js regression --baseline <b.json> --current <c.json>
-node apps/cli/dist/index.js snapshot <target> --output <file>
-node apps/cli/dist/index.js report <analysis.json> [--format json|markdown|html]
+uiq measure <target> [--output <file>]
+uiq analyze <target|snapshot.json> [--output <file>]
+uiq evaluate <snapshot.json>
+uiq conformance <snapshot.json> --level <level>
+uiq regression --baseline <b.json> --current <c.json>
+uiq snapshot <target> --output <file>
+uiq report <analysis.json> [--format json|markdown|html]
 
 # ── 应用 ──
 cd apps/inspector && pnpm dev        # Inspector UI（http://localhost:5173）

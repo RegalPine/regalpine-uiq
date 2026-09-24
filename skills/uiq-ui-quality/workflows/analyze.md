@@ -12,6 +12,8 @@ uiq analyze \
   --format json
 ```
 
+If the target requires authentication, see the [Auth Workflow](auth.md) first.
+
 ## Optional Scope
 
 Dimensions:

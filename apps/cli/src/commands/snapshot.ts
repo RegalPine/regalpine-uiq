@@ -10,6 +10,8 @@ export interface SnapshotOptions {
   readonly outputPath: string;
   readonly subjects?: string;
   readonly allowExternal: boolean;
+  /** Playwright storageState JSON 文件路径（登录态恢复）。 */
+  readonly authStatePath?: string;
 }
 
 export interface SnapshotData {
@@ -27,9 +29,13 @@ export async function runSnapshot(options: SnapshotOptions): Promise<CliResponse
     throw new CliError('INVALID_CONFIGURATION', 'snapshot 需要 --output 参数指定输出文件路径');
   }
 
-  const snapshot = await captureWithBrowser(options.target, {
-    ...(options.subjects !== undefined ? { subjects: options.subjects } : {}),
-  });
+  const snapshot = await captureWithBrowser(
+    options.target,
+    {
+      ...(options.subjects !== undefined ? { subjects: options.subjects } : {}),
+    },
+    options.authStatePath,
+  );
 
   const violations = validateSnapshot(snapshot);
   if (violations.length > 0) {

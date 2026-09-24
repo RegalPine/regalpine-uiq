@@ -92,6 +92,13 @@ Use for quality assessment and improvement reports.
 
 Use after implementation changes.
 
+### Auth
+
+Use when the target URL requires login.
+
+Handles authentication via Playwright MCP tools, CLI, or codegen,
+then passes storageState to UIQ browser commands.
+
 ## Evidence Rule
 
 Recommendations must be traceable:

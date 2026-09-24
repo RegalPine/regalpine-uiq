@@ -195,6 +195,7 @@ uiq measure <target> [选项]
 | `--subjects <selector>` | CSS 选择器，限定采集目标元素 |
 | `--output <file>` | 将结果写入文件 |
 | `--allow-external` | 允许外部 URL |
+| `--auth-state <file>` | Playwright storageState JSON 文件，恢复登录态 |
 
 **示例**：
 
@@ -204,6 +205,12 @@ uiq measure "file://$PWD/apps/reference/button.html"
 
 # 采集并保存
 uiq measure "file://$PWD/apps/reference/button.html" \
+  --output snapshot.json
+
+# 采集需要登录的页面
+uiq measure "https://your-app.com/dashboard" \
+  --auth-state ./auth.json \
+  --allow-external \
   --output snapshot.json
 ```
 
@@ -225,6 +232,7 @@ uiq analyze <target|snapshot.json> [选项]
 | `--config <file>` | 配置文件 |
 | `--output <file>` | 将结果写入文件 |
 | `--allow-external` | 允许外部 URL |
+| `--auth-state <file>` | Playwright storageState JSON 文件，恢复登录态 |
 
 **示例**：
 
@@ -237,6 +245,12 @@ uiq analyze \
 
 # 从已有快照离线分析
 uiq analyze snapshot.json --output analysis.json
+
+# 分析需要登录的页面
+uiq analyze "https://your-app.com/dashboard" \
+  --auth-state ./auth.json \
+  --allow-external \
+  --output analysis.json
 ```
 
 ### 4.4 evaluate — 离线评价
@@ -281,6 +295,14 @@ uiq regression \
 uiq snapshot <target> --output <file> [选项]
 ```
 
+| 参数 | 说明 |
+|------|------|
+| `<target>` | 目标 URL |
+| `--output <file>` | 输出文件路径（必选） |
+| `--subjects <selector>` | CSS 选择器 |
+| `--allow-external` | 允许外部 URL |
+| `--auth-state <file>` | Playwright storageState JSON 文件，恢复登录态 |
+
 ### 4.8 report — 生成报告
 
 从已有分析产物生成质量报告，不暗中执行分析。
@@ -304,6 +326,36 @@ uiq report analysis.json --format markdown
 # 生成 HTML 报告并保存
 uiq report analysis.json --format html --output report.html
 ```
+
+### 4.9 auth-save — 保存登录态
+
+打开有头浏览器，用户手动登录后保存 storageState JSON，供 `--auth-state` 使用。
+
+```bash
+uiq auth-save <target> --output <file> [--allow-external]
+```
+
+| 参数 | 说明 |
+|------|------|
+| `<target>` | 目标 URL（登录页地址） |
+| `--output <file>` | 输出文件路径（必选） |
+| `--allow-external` | 允许外部 URL |
+
+**示例**：
+
+```bash
+# 1. 保存登录态
+uiq auth-save "https://your-app.com/login" \
+  --output auth.json \
+  --allow-external
+
+# 2. 使用保存的登录态采集
+uiq measure "https://your-app.com/dashboard" \
+  --auth-state auth.json \
+  --allow-external
+```
+
+> **流程**：执行后浏览器窗口自动打开并导航到目标 URL → 用户在浏览器中完成登录 → 回到终端按回车 → 自动保存 cookies + localStorage 到 JSON 文件。
 
 ---
 
@@ -568,6 +620,29 @@ macOS 上首次运行可能需要在"系统设置 → 隐私与安全"中允许�
 uiq analyze "https://example.com" --allow-external
 ```
 
+### Q: 目标页面需要登录
+
+使用 `auth-save` 命令保存登录态，然后在采集/分析时传入 `--auth-state`：
+
+```bash
+# 1. 保存登录态（打开浏览器，手动登录，按回车保存）
+uiq auth-save "https://your-app.com/login" \
+  --output auth.json \
+  --allow-external
+
+# 2. 采集时传入 auth-state
+uiq measure "https://your-app.com/dashboard" \
+  --auth-state auth.json \
+  --allow-external
+
+uiq analyze "https://your-app.com/dashboard" \
+  --auth-state auth.json \
+  --allow-external \
+  --output analysis.json
+```
+
+> **注意**：`--auth-state` 仅对浏览器采集命令（`measure`、`analyze`、`snapshot`）有效。离线命令（`evaluate`、`conformance`、`regression`、`report`）操作快照文件，不需要登录态。
+
 ### Q: 测试数量与文档不一致
 
 测试数量随开发进展增长。以 `pnpm test` 实际输出为准。文档附录 E 记录的是特定时间点的快照数据。
@@ -608,14 +683,15 @@ pnpm run ci                          # 完整流水线
 pnpm test                            # Vitest 全量
 pnpm exec playwright test            # Playwright 三浏览器
 
-# ── CLI 七命令 ──
-uiq measure <target> [--output <file>]
-uiq analyze <target|snapshot.json> [--output <file>]
+# ── CLI 命令 ──
+uiq measure <target> [--output <file>] [--auth-state <file>]
+uiq analyze <target|snapshot.json> [--output <file>] [--auth-state <file>]
 uiq evaluate <snapshot.json>
 uiq conformance <snapshot.json> --level <level>
 uiq regression --baseline <b.json> --current <c.json>
-uiq snapshot <target> --output <file>
+uiq snapshot <target> --output <file> [--auth-state <file>]
 uiq report <analysis.json> [--format json|markdown|html]
+uiq auth-save <target> --output <file>   # 保存登录态
 
 # ── 应用 ──
 cd apps/inspector && pnpm dev        # Inspector UI（http://localhost:5173）

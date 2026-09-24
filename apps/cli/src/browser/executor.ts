@@ -4,6 +4,7 @@ import type { MeasurementSnapshot } from '@uiq/core';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { CliError } from '../errors';
 
 const require = createRequire(import.meta.url);
@@ -59,6 +60,19 @@ function resolveBrowserGlobalPath(): string {
   return require.resolve('@uiq/browser/browser-global');
 }
 
+/**
+ * 校验并解析 auth-state 文件路径。
+ * Playwright storageState JSON 由 `browserContext.storageState({ path })` 导出，
+ * 包含 cookies 与 origins（localStorage）。
+ */
+function resolveAuthState(authStatePath: string): string {
+  const resolved = resolve(authStatePath);
+  if (!existsSync(resolved)) {
+    throw new CliError('INPUT_ERROR', `认证状态文件不存在：${resolved}`);
+  }
+  return resolved;
+}
+
 /** IMPL-07 §47-48：等待字体与布局稳定（fonts.ready + 双 rAF）。 */
 async function stabilize(page: Page): Promise<void> {
   await page.evaluate(async () => {
@@ -73,18 +87,24 @@ async function stabilize(page: Page): Promise<void> {
  * UIQ-ARCH-01 §15.2：隔离浏览器会话执行采集。
  * finally 关闭浏览器 —— 导航失败、采集失败或取消都必须清理（P4-03）。
  * 失败以 CliError(EXECUTION_ERROR) 抛出，绝不输出伪质量结论。
+ *
+ * @param authStatePath Playwright storageState JSON 文件路径（cookies + localStorage），
+ *   用于需要登录态的目标页面。由 `context.storageState()` 导出。
  */
 export async function captureWithBrowser(
   target: string,
   captureOptions: { readonly subjects?: string } = {},
+  authStatePath?: string,
 ): Promise<MeasurementSnapshot> {
   const url = assertTargetAllowed(target, false);
   const fileUrl = url.protocol === 'file:' ? pathToFileURL(url.pathname).href : url.href;
+  const resolvedAuthState = authStatePath !== undefined ? resolveAuthState(authStatePath) : undefined;
   const browser = await chromium.launch({ headless: true });
   try {
     const context = await browser.newContext({
       viewport: { ...MEASUREMENT_VIEWPORT },
       deviceScaleFactor: MEASUREMENT_DEVICE_SCALE_FACTOR,
+      ...(resolvedAuthState !== undefined ? { storageState: resolvedAuthState } : {}),
     });
     const page = await context.newPage();
     await page.goto(fileUrl, { waitUntil: 'load', timeout: NAVIGATION_TIMEOUT_MS });

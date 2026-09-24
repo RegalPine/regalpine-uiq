@@ -26,6 +26,8 @@ export interface AnalyzeOptions {
   readonly contractPath?: string;
   /** P8：布局配置文件路径。 */
   readonly configPath?: string;
+  /** Playwright storageState JSON 文件路径（登录态恢复）。 */
+  readonly authStatePath?: string;
 }
 
 function isSnapshotFile(target: string): boolean {
@@ -79,9 +81,13 @@ export async function runAnalyze(options: AnalyzeOptions): Promise<CliResponse<A
     }
     snapshot = parsed as MeasurementSnapshot;
   } else {
-    snapshot = await captureWithBrowser(options.target, {
-      ...(options.subjects !== undefined ? { subjects: options.subjects } : {}),
-    });
+    snapshot = await captureWithBrowser(
+      options.target,
+      {
+        ...(options.subjects !== undefined ? { subjects: options.subjects } : {}),
+      },
+      options.authStatePath,
+    );
   }
 
   const tokenContext: TokenAnalysisContext | undefined =

@@ -9,6 +9,7 @@ import { runConformance } from './commands/conformance';
 import { runRegression } from './commands/regression';
 import { runSnapshot } from './commands/snapshot';
 import { runReport, type ReportFormat } from './commands/report';
+import { runAuthSave } from './commands/auth-save';
 
 /** 命令行输出接口（依赖注入，便于测试捕获）。 */
 export interface CliIO {
@@ -30,6 +31,7 @@ const SUPPORTED_COMMANDS = [
   'regression',
   'snapshot',
   'report',
+  'auth-save',
 ] as const;
 
 const USAGE = [
@@ -39,9 +41,11 @@ const USAGE = [
   '',
   '命令：',
   '  measure <target> [--subjects <selector>] [--output <file>] [--allow-external]',
+  '      [--auth-state <file>]',
   '      采集浏览器目标的 MeasurementSnapshot（stdout JSON）。',
   '  analyze <target|snapshot.json> [--output <file>] [--allow-external]',
   '          [--tokens <file>] [--theme <id>] [--contract <file>] [--config <file>]',
+  '          [--auth-state <file>]',
   '      对浏览器目标或快照文件执行完整分析（Metric → Rule → Finding → Diagnostic）。',
   '  evaluate <snapshot.json>',
   '      对快照执行 Metric → Rule 评价（不生成 Finding/Diagnostic）。',
@@ -50,12 +54,16 @@ const USAGE = [
   '  regression --baseline <baseline.json> --current <analysis.json>',
   '      比较 baseline 与当前分析产物，产出回归报告。',
   '  snapshot <target> --output <file> [--subjects <selector>] [--allow-external]',
+  '      [--auth-state <file>]',
   '      采集浏览器目标并保存 MeasurementSnapshot 到文件。',
   '  report <analysis.json> [--format <json|markdown|html>] [--output <file>]',
   '      从已有分析产物生成质量报告（不暗中执行分析）。',
+  '  auth-save <target> --output <file> [--allow-external]',
+  '      打开浏览器，用户手动登录后保存 storageState JSON（配合 --auth-state 使用）。',
   '',
   '说明：',
   '  - target 仅允许 file:// 与 http(s)://localhost|127.0.0.1；外部目标需 --allow-external。',
+  '  - --auth-state 接受 Playwright storageState JSON 文件，用于需要登录态的目标页面。',
   '  - inspect 为交互式命令，请使用 Inspector 应用（apps/inspector）。',
   '  - 退出码：0 SUCCESS / 1 POLICY_BLOCK / 2 CONFORMANCE_FAILURE / 3 EXECUTION_ERROR / 4 INVALID_CONFIGURATION / 5 INPUT_ERROR。',
 ].join('\n');
@@ -75,6 +83,7 @@ interface ParsedArgs {
   readonly currentPath?: string;
   readonly format?: string;
   readonly projectId?: string;
+  readonly authStatePath?: string;
 }
 
 function parseArgs(args: readonly string[]): ParsedArgs {
@@ -92,6 +101,7 @@ function parseArgs(args: readonly string[]): ParsedArgs {
   let currentPath: string | undefined;
   let format: string | undefined;
   let projectId: string | undefined;
+  let authStatePath: string | undefined;
   for (let i = 0; i < args.length; i += 1) {
     const arg = args[i];
     if (arg === '--output') {
@@ -127,6 +137,9 @@ function parseArgs(args: readonly string[]): ParsedArgs {
     } else if (arg === '--project-id') {
       projectId = args[i + 1];
       i += 1;
+    } else if (arg === '--auth-state') {
+      authStatePath = args[i + 1];
+      i += 1;
     } else if (arg === '--allow-external') {
       allowExternal = true;
     } else if (arg === '--help' || arg === '-h') {
@@ -150,6 +163,7 @@ function parseArgs(args: readonly string[]): ParsedArgs {
     ...(currentPath !== undefined ? { currentPath } : {}),
     ...(format !== undefined ? { format } : {}),
     ...(projectId !== undefined ? { projectId } : {}),
+    ...(authStatePath !== undefined ? { authStatePath } : {}),
     allowExternal,
     help,
   };
@@ -250,6 +264,7 @@ export async function runCli(argv: readonly string[], io: CliIO): Promise<RunRes
           target,
           ...(args.subjects !== undefined ? { subjects: args.subjects } : {}),
           allowExternal: args.allowExternal,
+          ...(args.authStatePath !== undefined ? { authStatePath: args.authStatePath } : {}),
         });
         if (args.output !== undefined && response.data !== undefined) {
           writeOutputFile(io, args.output, response.data);
@@ -270,6 +285,7 @@ export async function runCli(argv: readonly string[], io: CliIO): Promise<RunRes
           ...(args.themeId !== undefined ? { themeId: args.themeId } : {}),
           ...(args.contractPath !== undefined ? { contractPath: args.contractPath } : {}),
           ...(args.configPath !== undefined ? { configPath: args.configPath } : {}),
+          ...(args.authStatePath !== undefined ? { authStatePath: args.authStatePath } : {}),
         });
         if (args.output !== undefined && response.data !== undefined) {
           writeOutputFile(io, args.output, response.data);
@@ -335,6 +351,7 @@ export async function runCli(argv: readonly string[], io: CliIO): Promise<RunRes
           outputPath: args.output,
           ...(args.subjects !== undefined ? { subjects: args.subjects } : {}),
           allowExternal: args.allowExternal,
+          ...(args.authStatePath !== undefined ? { authStatePath: args.authStatePath } : {}),
         });
         break;
       }
@@ -354,6 +371,22 @@ export async function runCli(argv: readonly string[], io: CliIO): Promise<RunRes
           // report 命令的 --output 已在 runReport 内部处理渲染输出
           // 这里不再重复写 data（避免 JSON 与 markdown/html 混合）
         }
+        break;
+      }
+
+      case 'auth-save': {
+        const target = args.positional[0];
+        if (target === undefined) {
+          throw new CliError('INVALID_CONFIGURATION', `${command} 缺少目标 URL 参数`);
+        }
+        if (args.output === undefined) {
+          throw new CliError('INVALID_CONFIGURATION', `${command} 缺少 --output 参数`);
+        }
+        response = await runAuthSave({
+          target,
+          outputPath: args.output,
+          allowExternal: args.allowExternal,
+        });
         break;
       }
 

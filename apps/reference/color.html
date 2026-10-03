@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Color Scenarios</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #333333;
+        --color-primary: #1a73e8;
+        --color-primary-hover: #1557b0;
+        --color-secondary: #5f6368;
+        --color-success: #0d904f;
+        --color-error: #d93025;
+        --color-border: #e0e0e0;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --radius: 8px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+      }
+      .section { margin-bottom: var(--spacing-lg); }
+      .section-title { font-size: 16px; font-weight: 600; margin-bottom: var(--spacing-md); }
+      .swatch {
+        display: inline-block;
+        width: 80px; height: 80px;
+        border-radius: var(--radius);
+        margin-right: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+      }
+      .badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+        margin-right: 8px;
+      }
+      /* Pass: token-consistent colors */
+      .bg-primary { background: var(--color-primary); color: white; }
+      .bg-success { background: var(--color-success); color: white; }
+      .bg-error { background: var(--color-error); color: white; }
+      /* Fail: noise + low contrast */
+      .noise-1 { background: #1b74e9; color: white; }
+      .noise-2 { background: #1972e6; color: white; }
+      .noise-3 { background: #1c75ea; color: white; }
+      .low-contrast { background: #f0f0f0; color: #d0d0d0; }
+    </style>
+  </head>
+  <body>
+    <h1>Color Scenarios</h1>
+
+    <div class="section" data-uiq-id="color-pass">
+      <div class="section-title">Pass — Token-Consistent Colors</div>
+      <div data-uiq-id="color-pass-swatches">
+        <span class="swatch bg-primary" data-uiq-id="color-pass-primary"></span>
+        <span class="swatch bg-success" data-uiq-id="color-pass-success"></span>
+        <span class="swatch bg-error" data-uiq-id="color-pass-error"></span>
+      </div>
+      <div data-uiq-id="color-pass-badges">
+        <span class="badge bg-primary" data-uiq-id="color-pass-badge-1">Primary</span>
+        <span class="badge bg-success" data-uiq-id="color-pass-badge-2">Success</span>
+        <span class="badge bg-error" data-uiq-id="color-pass-badge-3">Error</span>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="color-fail">
+      <div class="section-title">Fail — Color Noise + Low Contrast</div>
+      <div data-uiq-id="color-fail-noise">
+        <span class="swatch noise-1" data-uiq-id="color-fail-swatch-1"></span>
+        <span class="swatch noise-2" data-uiq-id="color-fail-swatch-2"></span>
+        <span class="swatch noise-3" data-uiq-id="color-fail-swatch-3"></span>
+      </div>
+      <div data-uiq-id="color-fail-contrast">
+        <div class="low-contrast" data-uiq-id="color-fail-low-contrast" style="padding: 16px;">
+          <p>Low contrast text — barely visible</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="color-boundary">
+      <div class="section-title">Boundary — Extreme Lightness Values</div>
+      <div data-uiq-id="color-boundary-swatches">
+        <span class="swatch" data-uiq-id="color-boundary-white" style="background: #ffffff; border: 1px solid #eee;"></span>
+        <span class="swatch" data-uiq-id="color-boundary-black" style="background: #000000;"></span>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="color-unknown">
+      <div class="section-title">Unknown — Mixed Color Systems</div>
+      <div data-uiq-id="color-unknown-mix">
+        <span class="badge" data-uiq-id="color-unknown-1" style="background: var(--color-primary); color: white;">Token-based</span>
+        <span class="badge" data-uiq-id="color-unknown-2" style="background: #1a73e8; color: white;">Hardcoded same</span>
+        <span class="badge" data-uiq-id="color-unknown-3" style="background: rgb(26, 115, 232); color: white;">RGB same</span>
+      </div>
+    </div>
+  </body>
+</html>

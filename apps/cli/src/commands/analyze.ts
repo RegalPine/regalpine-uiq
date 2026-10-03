@@ -12,6 +12,7 @@ import { formatViolations, validateArtifact, validateSnapshot } from '../validat
 import { CliError } from '../errors';
 import { loadTokenContext } from './token-context';
 import { loadLayoutConfig, type LayoutConfig } from './layout-config';
+import { resolveTextureProfile, getTextureMetricIds, getTextureRuleIds, parseDimensions, buildCustomProfile } from './texture-profile';
 
 export interface AnalyzeOptions {
   /** 浏览器目标 URL 或本地快照 JSON 文件路径。 */
@@ -28,6 +29,10 @@ export interface AnalyzeOptions {
   readonly configPath?: string;
   /** Playwright storageState JSON 文件路径（登录态恢复）。 */
   readonly authStatePath?: string;
+  /** Visual Texture Profile 名称（'core' | 'full'）。 */
+  readonly textureProfile?: string;
+  /** 细粒度维度选择（'surface,color,typography'）。优先于 textureProfile。 */
+  readonly dimensions?: string;
 }
 
 function isSnapshotFile(target: string): boolean {
@@ -110,7 +115,14 @@ export async function runAnalyze(options: AnalyzeOptions): Promise<CliResponse<A
           },
         };
 
-  const artifact = runAnalysis(snapshot, tokenContext);
+  // 解析维度：--dimensions 优先于 --texture
+  const textureProfileName = options.textureProfile;
+  const customDimensions = options.dimensions !== undefined ? parseDimensions(options.dimensions) : undefined;
+
+  const artifact = runAnalysis(snapshot, tokenContext, {
+    textureProfileName: customDimensions !== undefined ? undefined : textureProfileName,
+    customDimensions,
+  });
   const artifactViolations = validateArtifact(artifact);
   if (artifactViolations.length > 0) {
     return buildResponse<AnalysisArtifact>('analyze', {

@@ -1,0 +1,9 @@
+export { SURFACE_RADIUS_CONSISTENCY_RULE } from './radiusConsistencyRule';
+export { SURFACE_RADIUS_FRAGMENTATION_RULE } from './radiusFragmentationRule';
+export { SURFACE_BORDER_CONSISTENCY_RULE } from './borderConsistencyRule';
+export { SURFACE_SHADOW_CONSISTENCY_RULE } from './shadowConsistencyRule';
+export { SURFACE_SHADOW_COMPLEXITY_RULE } from './shadowComplexityRule';
+export { SURFACE_LAYER_CONSISTENCY_RULE } from './layerConsistencyRule';
+export { SURFACE_TRANSPARENCY_CONSISTENCY_RULE } from './transparencyConsistencyRule';
+export { SURFACE_MATERIAL_CONSISTENCY_RULE } from './materialConsistencyRule';
+export { surfaceRules } from './registry';

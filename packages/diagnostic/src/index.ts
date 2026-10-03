@@ -9,3 +9,15 @@ export { classifyCause } from './cause/classifier';
 
 // 解释生成
 export { generateExplanation } from './explanation/generator';
+
+// Visual Texture 诊断
+export {
+  diagnoseSurface,
+  diagnoseDepth,
+  diagnoseColorTexture,
+  diagnoseTypographyTexture,
+  diagnoseSpatialTexture,
+  diagnoseMotionTexture,
+  diagnoseMicroDetailTexture,
+  diagnoseAllVisualTexture,
+} from './visual-texture';

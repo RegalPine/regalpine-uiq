@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Cross-Dimension Scenarios</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #333333;
+        --color-surface: #f8f9fa;
+        --color-border: #e0e0e0;
+        --color-primary: #1a73e8;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --radius: 8px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+      }
+      .section { margin-bottom: var(--spacing-lg); }
+      .section-title { font-size: 16px; font-weight: 600; margin-bottom: var(--spacing-md); }
+      .card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: var(--spacing-lg);
+        max-width: 400px;
+        margin-bottom: var(--spacing-md);
+      }
+      /* Surface + Depth relation: consistent radius + elevation hierarchy */
+      .elev-1 { box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+      .elev-2 { box-shadow: 0 4px 8px rgba(0,0,0,0.16); }
+      /* Surface + Color relation: shared token colors */
+      .text-primary { color: var(--color-primary); }
+      /* Typography + Color relation: readable text colors */
+      .text-muted { color: var(--color-text); opacity: 0.6; }
+    </style>
+  </head>
+  <body>
+    <h1>Cross-Dimension Scenarios</h1>
+
+    <div class="section" data-uiq-id="cross-pass">
+      <div class="section-title">Pass — Surface + Depth + Color Coherent</div>
+      <div class="card elev-1" data-uiq-id="cross-pass-card-1">
+        <p data-uiq-id="cross-pass-text-1">Card with consistent radius (Surface) and subtle shadow (Depth)</p>
+        <p class="text-primary" data-uiq-id="cross-pass-link-1">Token-based primary color (Color)</p>
+      </div>
+      <div class="card elev-2" data-uiq-id="cross-pass-card-2">
+        <p data-uiq-id="cross-pass-text-2">Higher elevation (Depth) with same radius (Surface)</p>
+        <p class="text-primary" data-uiq-id="cross-pass-link-2">Same token color (Color)</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="cross-fail">
+      <div class="section-title">Fail — Surface ↔ Depth Conflict</div>
+      <div class="card" data-uiq-id="cross-fail-card-1" style="border-radius: 4px; box-shadow: none;">
+        <p data-uiq-id="cross-fail-text-1">4px radius, no shadow — flat</p>
+      </div>
+      <div class="card" data-uiq-id="cross-fail-card-2" style="border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.2);">
+        <p data-uiq-id="cross-fail-text-2">16px radius, heavy shadow — inconsistent with above</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="cross-boundary">
+      <div class="section-title">Boundary — Typography + Color Interaction</div>
+      <div data-uiq-id="cross-boundary-text">
+        <p class="text-muted" data-uiq-id="cross-boundary-muted" style="font-size: 12px;">Small muted text — tests both typography and color dimensions</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="cross-unknown">
+      <div class="section-title">Unknown — Motion + Surface State</div>
+      <div data-uiq-id="cross-unknown-container">
+        <button class="card" data-uiq-id="cross-unknown-btn-1" style="cursor: pointer; transition: all 200ms ease; border-radius: 8px;">
+          <p>Hover: 200ms ease + 8px radius</p>
+        </button>
+        <button class="card" data-uiq-id="cross-unknown-btn-2" style="cursor: pointer; transition: all 500ms ease-in; border-radius: 4px;">
+          <p>Hover: 500ms ease-in + 4px radius</p>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,11 +1,5 @@
 /**
- * JSON Renderer（IMPL-17 §35）。
- * UTF-8、稳定属性序（canonicalJson 排序键）、无运行时对象序列化、无循环引用。
+ * JSON Renderer（IMPL-32 §6 / IMPL-17 §35）。
+ * 委托至新架构实现，保持旧 API 兼容。
  */
-import { canonicalJson } from '@uiq/core';
-
-import type { UIQualityReport } from '../model/report';
-
-export function renderJson(report: UIQualityReport): string {
-  return canonicalJson(report);
-}
+export { renderJson } from './json';

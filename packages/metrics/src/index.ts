@@ -62,7 +62,7 @@ export { createTokenDeviationMetric } from './builtins/token/deviation';
 // P8：布局指标算法（纯函数，不依赖 MetricDefinition 接口）
 export {
   calculateAlignment,
-  median,
+  median as layoutMedian,
   calculateGridAlignment,
   calculateGridGroup,
   calculateDensity,
@@ -99,3 +99,76 @@ export type {
   ComponentSizeVarianceOutput,
   SpacingVarianceOutput,
 } from './layout';
+
+// 统计工具函数（Texture Metrics 公共基础）
+export {
+  mean,
+  median,
+  variance,
+  standardDeviation,
+  min,
+  max,
+  quantile,
+  distinctCount,
+  distinctStringCount,
+  frequencyMap,
+  mode,
+  summarize,
+  circularHueDistance,
+  analyzeConsistency,
+} from './builtins/stats';
+export type { StatsSummary, ConsistencyResult } from './builtins/stats';
+
+// Surface Texture Metrics（Visual Texture）
+export { SURFACE_RADIUS_CONSISTENCY } from './surface/radiusConsistency';
+export { SURFACE_RADIUS_FRAGMENTATION } from './surface/radiusFragmentation';
+export { SURFACE_BORDER_CONSISTENCY } from './surface/borderConsistency';
+export { SURFACE_SHADOW_CONSISTENCY } from './surface/shadowConsistency';
+export { SURFACE_SHADOW_COMPLEXITY } from './surface/shadowComplexity';
+export { SURFACE_LAYER_CONSISTENCY } from './surface/layerConsistency';
+export { SURFACE_TRANSPARENCY_CONSISTENCY } from './surface/transparencyConsistency';
+export { SURFACE_MATERIAL_CONSISTENCY } from './surface/materialConsistency';
+export { surfaceMetrics } from './surface/registry';
+export type {
+  RadiusConsistencyValue,
+  RadiusFragmentationValue,
+  RadiusMeasurementValue,
+  BorderConsistencyValue,
+  ShadowConsistencyValue,
+  ShadowComplexityValue,
+  LayerConsistencyValue,
+  TransparencyConsistencyValue,
+  MaterialConsistencyValue,
+} from './surface';
+
+// Depth Texture Metrics（Visual Texture）
+export {
+  DEPTH_ELEVATION_HIERARCHY,
+  DEPTH_SHADOW_DEPTH,
+  DEPTH_LAYER_CONSISTENCY,
+  DEPTH_VISUAL_SEPARATION,
+  DEPTH_OVERLAY_QUALITY,
+  DEPTH_SPATIAL_PRIORITY,
+  depthMetrics,
+} from './depth';
+
+// Color Texture Metrics（Visual Texture）
+export { colorTextureMetrics } from './color-texture';
+
+// Typography Texture Metrics（Visual Texture）
+export { typographyTextureMetrics } from './typography-texture';
+
+// Spatial Texture Metrics（Visual Texture）
+export { spatialTextureMetrics } from './spatial-texture';
+
+// Motion Texture Metrics（Visual Texture）
+export { motionTextureMetrics } from './motion-texture';
+
+// Micro Detail Texture Metrics（Visual Texture）
+export { microDetailTextureMetrics } from './micro-detail-texture';
+
+// Visual Texture 统一注册表
+export {
+  createVisualTextureMetricRegistry,
+  type VisualTextureMetricRegistry,
+} from './visual-texture';

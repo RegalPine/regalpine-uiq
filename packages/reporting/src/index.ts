@@ -57,6 +57,26 @@ export { renderJson } from './renderer/json-renderer';
 export { renderMarkdown } from './renderer/markdown-renderer';
 export { escapeHtml, renderHtml } from './renderer/html-renderer';
 
+// IMPL-32：Renderer 接口与实现类
+export type {
+  ReportRenderer,
+  MarkdownReportRenderer,
+  HtmlReportRenderer,
+  JsonReportRenderer,
+} from './renderer/types';
+export {
+  DefaultMarkdownReportRenderer,
+  MARKDOWN_RENDERER_VERSION,
+} from './renderer/markdown';
+export {
+  DefaultHtmlReportRenderer,
+  HTML_RENDERER_VERSION,
+} from './renderer/html';
+export {
+  DefaultJsonReportRenderer,
+  JSON_RENDERER_VERSION,
+} from './renderer/json';
+
 // P8：布局报告模型
 export type {
   LayoutLevel,
@@ -65,3 +85,15 @@ export type {
   LayoutFindingGroup,
 } from './layout';
 export { LAYOUT_REPORT_SCHEMA_VERSION, emptyLayoutReport } from './layout';
+
+// Visual Texture 报告
+export { recommendSurface } from './visual-texture';
+export type { SurfaceRecommendation } from './visual-texture';
+export { recommendVisualTexture } from './visual-texture';
+export type { VisualTextureRecommendation } from './visual-texture';
+export { aggregateVisualTexture } from './visual-texture';
+export type { VisualTextureAggregation, DimensionSummary } from './visual-texture';
+export { generateVerification } from './visual-texture';
+export { detectCrossDimensionRelations } from './visual-texture';
+export { detectSystemicPatterns } from './visual-texture';
+export { buildVisualTextureReport } from './visual-texture';

@@ -51,3 +51,41 @@ export type {
   LayoutMeasureContext,
   LayoutMeasurementResult,
 } from './layout/';
+
+// Surface 测量（Visual Texture）
+export {
+  measureRadius,
+  measureBorder,
+  measureShadow,
+  measureTransparency,
+  measureLayer,
+} from './surface';
+export type {
+  RadiusMeasureContext,
+  RadiusValue,
+  BorderMeasureContext,
+  BorderValue,
+  ShadowMeasureContext,
+  ShadowValue,
+  ShadowLayer,
+  TransparencyMeasureContext,
+  TransparencyValue,
+  LayerMeasureContext,
+  LayerValue,
+} from './surface';
+
+// Motion 测量（Visual Texture）
+export { captureTransition, captureAnimation } from './motion';
+export type {
+  TransitionMeasureContext,
+  TransitionValue,
+  AnimationMeasureContext,
+  AnimationValue,
+} from './motion';
+
+// State 测量（Visual Texture）
+export { captureInteractionState } from './state';
+export type {
+  InteractionStateMeasureContext,
+  InteractionStateValue,
+} from './state';

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Depth Scenarios</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-surface: #f8f9fa;
+        --color-text: #333333;
+        --color-border: #e0e0e0;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --radius: 8px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+      }
+      .section { margin-bottom: var(--spacing-lg); }
+      .section-title { font-size: 16px; font-weight: 600; margin-bottom: var(--spacing-md); }
+      .card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: var(--spacing-lg);
+        max-width: 400px;
+        margin-bottom: var(--spacing-md);
+      }
+      /* Pass: 3-level elevation hierarchy */
+      .elev-0 { box-shadow: none; }
+      .elev-1 { box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+      .elev-2 { box-shadow: 0 4px 8px rgba(0,0,0,0.16); }
+      .elev-3 { box-shadow: 0 8px 24px rgba(0,0,0,0.20); }
+      /* Fail: flat, no hierarchy */
+      .flat { box-shadow: none; border: 1px solid var(--color-border); }
+    </style>
+  </head>
+  <body>
+    <h1>Depth Scenarios</h1>
+
+    <div class="section" data-uiq-id="depth-pass">
+      <div class="section-title">Pass — 3-Level Elevation Hierarchy</div>
+      <div class="card elev-0" data-uiq-id="depth-pass-base">
+        <p data-uiq-id="depth-pass-base-text">Base level (no shadow)</p>
+      </div>
+      <div class="card elev-1" data-uiq-id="depth-pass-raised">
+        <p data-uiq-id="depth-pass-raised-text">Raised level (subtle shadow)</p>
+      </div>
+      <div class="card elev-2" data-uiq-id="depth-pass-floating">
+        <p data-uiq-id="depth-pass-floating-text">Floating level (medium shadow)</p>
+      </div>
+      <div class="card elev-3" data-uiq-id="depth-pass-overlay">
+        <p data-uiq-id="depth-pass-overlay-text">Overlay level (strong shadow)</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="depth-fail">
+      <div class="section-title">Fail — Flat, No Depth Hierarchy</div>
+      <div class="card flat" data-uiq-id="depth-fail-card-1">
+        <p data-uiq-id="depth-fail-text-1">All cards look the same</p>
+      </div>
+      <div class="card flat" data-uiq-id="depth-fail-card-2">
+        <p data-uiq-id="depth-fail-text-2">No visual depth difference</p>
+      </div>
+      <div class="card flat" data-uiq-id="depth-fail-card-3">
+        <p data-uiq-id="depth-fail-text-3">Impossible to tell hierarchy</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="depth-boundary">
+      <div class="section-title">Boundary — Maximum Elevation</div>
+      <div class="card" data-uiq-id="depth-boundary-card" style="box-shadow: 0 24px 48px rgba(0,0,0,0.32);">
+        <p data-uiq-id="depth-boundary-text">Very high elevation</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="depth-unknown">
+      <div class="section-title">Unknown — Mixed Shadow Systems</div>
+      <div class="card" data-uiq-id="depth-unknown-card-1" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <p data-uiq-id="depth-unknown-text-1">Shadow system A</p>
+      </div>
+      <div class="card" data-uiq-id="depth-unknown-card-2" style="box-shadow: 1px 3px 6px rgba(0,0,0,0.15), 0 0 2px rgba(0,0,0,0.1);">
+        <p data-uiq-id="depth-unknown-text-2">Shadow system B (multi-layer)</p>
+      </div>
+    </div>
+  </body>
+</html>

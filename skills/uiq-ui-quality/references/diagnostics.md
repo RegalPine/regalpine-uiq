@@ -44,3 +44,17 @@ Possible causes:
 - UNKNOWN
 
 Do not invent a root cause when evidence is insufficient.
+
+## Visual Texture Diagnostics
+
+7 specialized diagnostors trace findings to root causes:
+
+| Diagnostor | Dimension | Key Causes |
+|-----------|-----------|------------|
+| diagnoseSurface | Surface | CONFIGURATION |
+| diagnoseDepth | Depth | THEME, CONFIGURATION |
+| diagnoseColorTexture | Color | TOKEN, THEME, CONFIGURATION |
+| diagnoseTypographyTexture | Typography | TOKEN, CONFIGURATION |
+| diagnoseSpatialTexture | Spatial | TOKEN, CONFIGURATION |
+| diagnoseMotionTexture | Motion | TOKEN, CONFIGURATION |
+| diagnoseMicroDetailTexture | Micro Detail | COMPONENT, CONFIGURATION |

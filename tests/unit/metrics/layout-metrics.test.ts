@@ -56,8 +56,8 @@ describe('P8: ALIGNMENT metric (G2)', () => {
 });
 
 describe('P8: median', () => {
-  it('throws for empty array', () => {
-    expect(() => median([])).toThrow();
+  it('returns 0 for empty array', () => {
+    expect(median([])).toBe(0);
   });
 
   it('returns middle value for odd-length array', () => {

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Systemic Scenarios</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #333333;
+        --color-surface: #f8f9fa;
+        --color-border: #e0e0e0;
+        --color-primary: #1a73e8;
+        --color-error: #d93025;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --radius: 8px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+      }
+      .section { margin-bottom: var(--spacing-lg); }
+      .section-title { font-size: 16px; font-weight: 600; margin-bottom: var(--spacing-md); }
+      .card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: var(--spacing-lg);
+        max-width: 400px;
+        margin-bottom: var(--spacing-md);
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        background: var(--color-surface);
+        cursor: pointer;
+        font-size: 14px;
+        margin-right: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+      }
+      /* Pass: all components use same tokens */
+      .token-btn { background: var(--color-primary); color: white; border-radius: var(--radius); }
+      .token-card { border-radius: var(--radius); border-color: var(--color-border); }
+      /* Fail: token-level systemic issues across components */
+      .broken-btn-1 { background: #1a74e9; border-radius: 4px; }
+      .broken-btn-2 { background: #1972e6; border-radius: 12px; }
+      .broken-card-1 { border-radius: 6px; border-color: #ddd; }
+      .broken-card-2 { border-radius: 14px; border-color: #ccc; }
+    </style>
+  </head>
+  <body>
+    <h1>Systemic Scenarios</h1>
+
+    <div class="section" data-uiq-id="systemic-pass">
+      <div class="section-title">Pass — Token-Level Consistency Across Components</div>
+      <div data-uiq-id="systemic-pass-buttons">
+        <button class="btn token-btn" data-uiq-id="systemic-pass-btn-1">Button A</button>
+        <button class="btn token-btn" data-uiq-id="systemic-pass-btn-2">Button B</button>
+      </div>
+      <div class="card token-card" data-uiq-id="systemic-pass-card-1">
+        <p data-uiq-id="systemic-pass-text-1">Card uses same radius token as buttons</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="systemic-fail">
+      <div class="section-title">Fail — Token Systemic Issues Across Components</div>
+      <div data-uiq-id="systemic-fail-buttons">
+        <button class="btn broken-btn-1" data-uiq-id="systemic-fail-btn-1">Hardcoded color + 4px</button>
+        <button class="btn broken-btn-2" data-uiq-id="systemic-fail-btn-2">Hardcoded color + 12px</button>
+      </div>
+      <div class="card broken-card-1" data-uiq-id="systemic-fail-card-1">
+        <p data-uiq-id="systemic-fail-text-1">Card with 6px radius, different border</p>
+      </div>
+      <div class="card broken-card-2" data-uiq-id="systemic-fail-card-2">
+        <p data-uiq-id="systemic-fail-text-2">Card with 14px radius, different border</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="systemic-boundary">
+      <div class="section-title">Boundary — Theme-Level Systemic Issue</div>
+      <div data-uiq-id="systemic-boundary-container">
+        <div class="card" data-uiq-id="systemic-boundary-card-1" style="background: #f5f5f5; color: #e0e0e0;">
+          <p data-uiq-id="systemic-boundary-text-1">Low contrast across entire theme</p>
+        </div>
+        <div class="card" data-uiq-id="systemic-boundary-card-2" style="background: #f0f0f0; color: #d8d8d8;">
+          <p data-uiq-id="systemic-boundary-text-2">Same low contrast pattern repeated</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="systemic-unknown">
+      <div class="section-title">Unknown — State Implementation Gap</div>
+      <div data-uiq-id="systemic-unknown-container">
+        <button class="btn" data-uiq-id="systemic-unknown-btn-1">No states</button>
+        <button class="btn" data-uiq-id="systemic-unknown-btn-2">No states</button>
+        <button class="btn" data-uiq-id="systemic-unknown-btn-3">No states</button>
+      </div>
+    </div>
+  </body>
+</html>

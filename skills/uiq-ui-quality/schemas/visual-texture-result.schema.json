@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VisualTextureEvidence",
+  "description": "Visual Texture 完整分析结果 JSON Schema",
+  "type": "object",
+  "required": ["id", "version", "projectId", "snapshotId", "dimensions", "crossDimensionRelations", "findings", "diagnostics", "recommendations", "verification", "reproducibility"],
+  "properties": {
+    "id": { "type": "string" },
+    "version": { "type": "string" },
+    "projectId": { "type": "string" },
+    "pageId": { "type": "string" },
+    "snapshotId": { "type": "string" },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "metrics", "evaluations", "findings", "diagnostics"],
+        "properties": {
+          "dimension": { "type": "string", "enum": ["SURFACE", "DEPTH", "COLOR", "TYPOGRAPHY", "SPATIAL", "MOTION", "MICRO_DETAIL"] },
+          "metrics": { "type": "array" },
+          "evaluations": { "type": "array" },
+          "findings": { "type": "array" },
+          "diagnostics": { "type": "array" }
+        }
+      }
+    },
+    "crossDimensionRelations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sourceDimension": { "type": "string" },
+          "targetDimension": { "type": "string" },
+          "relation": { "type": "string", "enum": ["CORRELATED", "DEPENDS_ON", "AMPLIFIES", "CONTRIBUTES_TO", "CONSTRAINS", "SHARES_TOKEN", "SHARES_COMPONENT", "SHARES_THEME", "SHARES_STATE"] },
+          "confidence": { "type": "string", "enum": ["DIRECT", "SUPPORTED", "INFERRED", "UNKNOWN"] }
+        }
+      }
+    },
+    "findings": { "type": "array" },
+    "diagnostics": { "type": "array" },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "priority": { "type": "string", "enum": ["HIGH", "MEDIUM", "LOW"] }
+        }
+      }
+    },
+    "verification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "expectedState": { "type": "string", "enum": ["PASS", "WARN", "FAIL"] },
+          "baselineFingerprint": { "type": "string" }
+        }
+      }
+    },
+    "reproducibility": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "snapshotId": { "type": "string" },
+          "viewport": { "type": "string" },
+          "theme": { "type": "string" },
+          "timestamp": { "type": "string" }
+        }
+      }
+    }
+  }
+}

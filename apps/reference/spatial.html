@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Spatial Scenarios</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #333333;
+        --color-surface: #f8f9fa;
+        --color-border: #e0e0e0;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --grid-base: 8px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+      }
+      .section { margin-bottom: var(--spacing-lg); }
+      .section-title { font-size: 16px; font-weight: 600; margin-bottom: var(--spacing-md); }
+      .row { display: flex; gap: var(--spacing-md); margin-bottom: var(--spacing-md); }
+      .box {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: var(--spacing-md);
+      }
+      /* Pass: grid-aligned (multiples of 8) */
+      .grid-aligned .box { width: 128px; height: 64px; }
+      /* Fail: misaligned */
+      .misaligned .box:nth-child(1) { width: 130px; margin-left: 3px; }
+      .misaligned .box:nth-child(2) { width: 125px; margin-left: 7px; }
+      .misaligned .box:nth-child(3) { width: 133px; margin-left: 11px; }
+    </style>
+  </head>
+  <body>
+    <h1>Spatial Scenarios</h1>
+
+    <div class="section" data-uiq-id="spatial-pass">
+      <div class="section-title">Pass — Grid-Aligned Layout</div>
+      <div class="row grid-aligned" data-uiq-id="spatial-pass-row">
+        <div class="box" data-uiq-id="spatial-pass-box-1">128×64</div>
+        <div class="box" data-uiq-id="spatial-pass-box-2">128×64</div>
+        <div class="box" data-uiq-id="spatial-pass-box-3">128×64</div>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="spatial-fail">
+      <div class="section-title">Fail — Misaligned Elements</div>
+      <div class="row misaligned" data-uiq-id="spatial-fail-row">
+        <div class="box" data-uiq-id="spatial-fail-box-1">130px, ml:3px</div>
+        <div class="box" data-uiq-id="spatial-fail-box-2">125px, ml:7px</div>
+        <div class="box" data-uiq-id="spatial-fail-box-3">133px, ml:11px</div>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="spatial-boundary">
+      <div class="section-title">Boundary — Zero Spacing</div>
+      <div class="row" data-uiq-id="spatial-boundary-row" style="gap: 0;">
+        <div class="box" data-uiq-id="spatial-boundary-box-1">No gap</div>
+        <div class="box" data-uiq-id="spatial-boundary-box-2">No gap</div>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="spatial-unknown">
+      <div class="section-title">Unknown — Mixed Spacing Systems</div>
+      <div data-uiq-id="spatial-unknown-container">
+        <div class="box" data-uiq-id="spatial-unknown-1" style="margin: 8px;">Token spacing (8px)</div>
+        <div class="box" data-uiq-id="spatial-unknown-2" style="margin: 10px;">Hardcoded (10px)</div>
+        <div class="box" data-uiq-id="spatial-unknown-3" style="margin: 13px;">Hardcoded (13px)</div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-import type { EngineInfo, EvaluationResult, Finding, RuleConfiguration } from '@uiq/core';
+import type { EngineInfo, EvaluationResult, Finding, MeasurementSnapshot, RuleConfiguration } from '@uiq/core';
 
 export interface RuleReference {
   readonly id: string;
@@ -10,6 +10,7 @@ export interface EvaluationRequest {
   readonly subjects: readonly string[];
   readonly rules: readonly RuleReference[];
   readonly configuration?: readonly RuleConfiguration[];
+  readonly snapshot?: MeasurementSnapshot;
 }
 
 export interface EvaluationSummary {

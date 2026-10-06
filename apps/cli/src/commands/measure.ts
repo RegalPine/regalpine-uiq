@@ -21,6 +21,7 @@ export async function runMeasure(
       ...(options.subjects !== undefined ? { subjects: options.subjects } : {}),
     },
     options.authStatePath,
+    options.allowExternal,
   );
   const violations = validateSnapshot(snapshot);
   if (violations.length > 0) {

@@ -225,6 +225,7 @@ export function runAnalysis(
       snapshotId: snapshot.id,
       subjects,
       rules: requestedRules,
+      snapshot,
     },
     metricReport.results,
   );

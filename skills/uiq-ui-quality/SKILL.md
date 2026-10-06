@@ -1,3 +1,13 @@
+---
+name: uiq-ui-quality
+description: >
+  Quantitatively inspect, analyze, diagnose, and verify rendered UI quality using UIQ CLI.
+  Covers measurement, metrics, rules, accessibility, color, typography, theme conformance,
+  regression detection, and recommendation reports.
+  Use when the user asks about UI quality, design conformance, accessibility checks,
+  color contrast, typography issues, regression comparison, or wants a quality report.
+---
+
 # UIQ UI Quality Skill
 
 ## Identity

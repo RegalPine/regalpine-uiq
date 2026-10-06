@@ -2,6 +2,7 @@ import type {
   EvaluationResult,
   EvaluationState,
   Evidence,
+  MeasurementSnapshot,
   MetricResult,
   RuleApplicabilityContext,
   RuleConfiguration,
@@ -84,7 +85,7 @@ export class EvaluationEngine {
           ruleRef.version,
           subjectId,
         );
-        const result = this.safeEvaluate(rule, subjectId, metricMap, config);
+        const result = this.safeEvaluate(rule, subjectId, metricMap, config, request.snapshot);
         evaluations.push(result);
       }
     }
@@ -115,9 +116,10 @@ export class EvaluationEngine {
     subjectId: string,
     metricMap: Map<string, MetricResult>,
     config: RuleConfiguration | undefined,
+    snapshot?: MeasurementSnapshot,
   ): EvaluationResult {
     try {
-      return this.evaluateRule(rule, subjectId, metricMap, config);
+      return this.evaluateRule(rule, subjectId, metricMap, config, snapshot);
     } catch (cause) {
       return this.errorResult(
         rule.id,
@@ -133,6 +135,7 @@ export class EvaluationEngine {
     subjectId: string,
     metricMap: Map<string, MetricResult>,
     config: RuleConfiguration | undefined,
+    snapshot?: MeasurementSnapshot,
   ): EvaluationResult {
     const enriched = rule as EnrichedRuleDefinition;
 
@@ -154,17 +157,16 @@ export class EvaluationEngine {
     if (!metricResult) {
       return this.stateResult(rule, subjectId, 'UNKNOWN', '必需 Metric 不可用');
     }
+
     // P8 前置修复（P3-01/02）：保留 Metric ERROR，不转换为 UNKNOWN
     if (metricResult.status === 'ERROR') {
       return this.stateResult(rule, subjectId, 'ERROR', '必需 Metric 状态为 ERROR');
     }
-    if (metricResult.status === 'UNKNOWN') {
-      return this.stateResult(rule, subjectId, 'UNKNOWN', 'Metric 状态为 UNKNOWN');
-    }
 
+    // 先检查适用性，再检查 metric 状态（允许规则在 metric UNKNOWN 时返回 NOT_APPLICABLE）
     const applicabilityCtx: RuleApplicabilityContext = {
       subjectId,
-      snapshot: { id: '', capturedAt: 0, source: { type: 'OTHER' }, measurements: [] },
+      snapshot: snapshot ?? { id: '', capturedAt: 0, source: { type: 'OTHER' }, measurements: [] },
       metricResult,
     };
     const applicability = rule.applicability.evaluate(applicabilityCtx);
@@ -173,6 +175,10 @@ export class EvaluationEngine {
     }
     if (applicability === 'UNKNOWN') {
       return this.stateResult(rule, subjectId, 'UNKNOWN', '适用性未知');
+    }
+
+    if (metricResult.status === 'UNKNOWN') {
+      return this.stateResult(rule, subjectId, 'UNKNOWN', 'Metric 状态为 UNKNOWN');
     }
 
     const effectiveThreshold = this.resolveThreshold(rule, config);

@@ -87,6 +87,7 @@ export async function runAnalyze(options: AnalyzeOptions): Promise<CliResponse<A
         ...(options.subjects !== undefined ? { subjects: options.subjects } : {}),
       },
       options.authStatePath,
+      options.allowExternal,
     );
   }
 

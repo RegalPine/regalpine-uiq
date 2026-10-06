@@ -121,8 +121,9 @@ export async function captureWithBrowser(
   target: string,
   captureOptions: { readonly subjects?: string } = {},
   authStatePath?: string,
+  allowExternal = false,
 ): Promise<MeasurementSnapshot> {
-  const url = assertTargetAllowed(target, false);
+  const url = assertTargetAllowed(target, allowExternal);
   const fileUrl = url.protocol === 'file:' ? pathToFileURL(url.pathname).href : url.href;
   const resolvedAuthState = authStatePath !== undefined ? resolveAuthState(authStatePath) : undefined;
   const browser = await chromium.launch({ headless: true });

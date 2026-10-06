@@ -35,6 +35,7 @@ export async function runSnapshot(options: SnapshotOptions): Promise<CliResponse
       ...(options.subjects !== undefined ? { subjects: options.subjects } : {}),
     },
     options.authStatePath,
+    options.allowExternal,
   );
 
   const violations = validateSnapshot(snapshot);

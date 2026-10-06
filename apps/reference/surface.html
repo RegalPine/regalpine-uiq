@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Surface Scenarios</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-surface: #f8f9fa;
+        --color-text: #333333;
+        --color-border: #e0e0e0;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --radius-consistent: 8px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+      }
+      .section { margin-bottom: var(--spacing-lg); }
+      .section-title { font-size: 16px; font-weight: 600; margin-bottom: var(--spacing-md); }
+      .card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        padding: var(--spacing-lg);
+        max-width: 400px;
+        margin-bottom: var(--spacing-md);
+      }
+      /* Pass: consistent radius */
+      .pass-card { border-radius: var(--radius-consistent); }
+      /* Fail: inconsistent radius */
+      .fail-card-1 { border-radius: 4px; }
+      .fail-card-2 { border-radius: 12px; }
+      .fail-card-3 { border-radius: 20px; }
+      /* Boundary */
+      .boundary-card { border-radius: 0px; }
+    </style>
+  </head>
+  <body>
+    <h1>Surface Scenarios</h1>
+
+    <div class="section" data-uiq-id="surface-pass">
+      <div class="section-title">Pass — Consistent Border Radius</div>
+      <div class="card pass-card" data-uiq-id="surface-pass-card-1">
+        <p data-uiq-id="surface-pass-text-1">Card with consistent 8px radius</p>
+      </div>
+      <div class="card pass-card" data-uiq-id="surface-pass-card-2">
+        <p data-uiq-id="surface-pass-text-2">Another card with same 8px radius</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="surface-fail">
+      <div class="section-title">Fail — Inconsistent Border Radius</div>
+      <div class="card fail-card-1" data-uiq-id="surface-fail-card-1">
+        <p data-uiq-id="surface-fail-text-1">Card with 4px radius</p>
+      </div>
+      <div class="card fail-card-2" data-uiq-id="surface-fail-card-2">
+        <p data-uiq-id="surface-fail-text-2">Card with 12px radius</p>
+      </div>
+      <div class="card fail-card-3" data-uiq-id="surface-fail-card-3">
+        <p data-uiq-id="surface-fail-text-3">Card with 20px radius</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="surface-boundary">
+      <div class="section-title">Boundary — Zero Radius</div>
+      <div class="card boundary-card" data-uiq-id="surface-boundary-card-1">
+        <p data-uiq-id="surface-boundary-text-1">Card with 0px radius (sharp corners)</p>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="surface-unknown">
+      <div class="section-title">Unknown — Missing Radius Style</div>
+      <div class="card" data-uiq-id="surface-unknown-card-1" style="border-radius: unset;">
+        <p data-uiq-id="surface-unknown-text-1">Card with unset radius</p>
+      </div>
+    </div>
+  </body>
+</html>

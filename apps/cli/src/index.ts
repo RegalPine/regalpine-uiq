@@ -98,6 +98,8 @@ interface ParsedArgs {
   readonly authStatePath?: string;
   readonly agent?: AgentTarget;
   readonly copy: boolean;
+  readonly textureProfile?: string;
+  readonly dimensions?: string;
 }
 
 function parseArgs(args: readonly string[]): ParsedArgs {
@@ -118,6 +120,8 @@ function parseArgs(args: readonly string[]): ParsedArgs {
   let authStatePath: string | undefined;
   let agent: AgentTarget | undefined;
   let copy = false;
+  let textureProfile: string | undefined;
+  let dimensions: string | undefined;
   for (let i = 0; i < args.length; i += 1) {
     const arg = args[i];
     if (arg === '--output') {
@@ -159,6 +163,12 @@ function parseArgs(args: readonly string[]): ParsedArgs {
     } else if (arg === '--agent') {
       agent = args[i + 1] as AgentTarget;
       i += 1;
+    } else if (arg === '--texture') {
+      textureProfile = args[i + 1];
+      i += 1;
+    } else if (arg === '--dimensions') {
+      dimensions = args[i + 1];
+      i += 1;
     } else if (arg === '--copy') {
       copy = true;
     } else if (arg === '--allow-external') {
@@ -186,6 +196,8 @@ function parseArgs(args: readonly string[]): ParsedArgs {
     ...(projectId !== undefined ? { projectId } : {}),
     ...(authStatePath !== undefined ? { authStatePath } : {}),
     ...(agent !== undefined ? { agent } : {}),
+    ...(textureProfile !== undefined ? { textureProfile } : {}),
+    ...(dimensions !== undefined ? { dimensions } : {}),
     allowExternal,
     help,
     copy,
@@ -309,6 +321,8 @@ export async function runCli(argv: readonly string[], io: CliIO): Promise<RunRes
           ...(args.contractPath !== undefined ? { contractPath: args.contractPath } : {}),
           ...(args.configPath !== undefined ? { configPath: args.configPath } : {}),
           ...(args.authStatePath !== undefined ? { authStatePath: args.authStatePath } : {}),
+          ...(args.textureProfile !== undefined ? { textureProfile: args.textureProfile } : {}),
+          ...(args.dimensions !== undefined ? { dimensions: args.dimensions } : {}),
         });
         if (args.output !== undefined && response.data !== undefined) {
           writeOutputFile(io, args.output, response.data);

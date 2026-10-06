@@ -51,3 +51,9 @@ REVIEW_MEASUREMENT
 ## Prohibited
 
 Recommendations must not automatically modify UI.
+
+## Visual Texture Recommendations
+
+Priority levels: HIGH (a11y/contrast), MEDIUM (token consistency), LOW (fragmentation).
+
+Verification criteria are generated for each FAIL/WARN finding, enabling regression comparison via baselineFingerprint.

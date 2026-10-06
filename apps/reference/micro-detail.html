@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Micro Detail Scenarios</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #333333;
+        --color-surface: #f8f9fa;
+        --color-border: #e0e0e0;
+        --color-primary: #1a73e8;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --radius: 8px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+      }
+      .section { margin-bottom: var(--spacing-lg); }
+      .section-title { font-size: 16px; font-weight: 600; margin-bottom: var(--spacing-md); }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        background: var(--color-surface);
+        cursor: pointer;
+        font-size: 14px;
+        margin-right: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+        transition: all 200ms ease;
+      }
+      /* Pass: complete states */
+      .pass-btn:hover { background: var(--color-primary); color: white; }
+      .pass-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+      .pass-btn:active { transform: scale(0.98); }
+      .pass-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .pass-btn[aria-pressed="true"] { background: var(--color-primary); color: white; }
+      /* Fail: missing states */
+      .fail-btn { /* no hover, no focus, no disabled styles */ }
+    </style>
+  </head>
+  <body>
+    <h1>Micro Detail Scenarios</h1>
+
+    <div class="section" data-uiq-id="micro-pass">
+      <div class="section-title">Pass — Complete Interaction States</div>
+      <div data-uiq-id="micro-pass-buttons">
+        <button class="btn pass-btn" data-uiq-id="micro-pass-btn-1">Default</button>
+        <button class="btn pass-btn" data-uiq-id="micro-pass-btn-2" disabled>Disabled</button>
+        <button class="btn pass-btn" data-uiq-id="micro-pass-btn-3" aria-pressed="true">Selected</button>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="micro-fail">
+      <div class="section-title">Fail — Missing Focus &amp; Disabled States</div>
+      <div data-uiq-id="micro-fail-buttons">
+        <button class="btn fail-btn" data-uiq-id="micro-fail-btn-1">No focus style</button>
+        <button class="btn fail-btn" data-uiq-id="micro-fail-btn-2" disabled>No disabled style</button>
+        <button class="btn fail-btn" data-uiq-id="micro-fail-btn-3">No hover style</button>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="micro-boundary">
+      <div class="section-title">Boundary — Icon-Only Button</div>
+      <button class="btn pass-btn" data-uiq-id="micro-boundary-icon" style="padding: 10px;" aria-label="Close">✕</button>
+    </div>
+
+    <div class="section" data-uiq-id="micro-unknown">
+      <div class="section-title">Unknown — Inconsistent Icon Sizes</div>
+      <div data-uiq-id="micro-unknown-icons" style="display: flex; gap: 16px; align-items: center;">
+        <span data-uiq-id="micro-unknown-icon-1" style="font-size: 12px;">🔔</span>
+        <span data-uiq-id="micro-unknown-icon-2" style="font-size: 18px;">🔔</span>
+        <span data-uiq-id="micro-unknown-icon-3" style="font-size: 24px;">🔔</span>
+      </div>
+    </div>
+  </body>
+</html>

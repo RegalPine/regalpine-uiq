@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Motion Scenarios</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #333333;
+        --color-surface: #f8f9fa;
+        --color-border: #e0e0e0;
+        --color-primary: #1a73e8;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --radius: 8px;
+        --transition-fast: 150ms ease;
+        --transition-normal: 250ms ease;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+      }
+      .section { margin-bottom: var(--spacing-lg); }
+      .section-title { font-size: 16px; font-weight: 600; margin-bottom: var(--spacing-md); }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        background: var(--color-surface);
+        cursor: pointer;
+        font-size: 14px;
+        margin-right: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+      }
+      /* Pass: consistent transition */
+      .pass-btn { transition: all var(--transition-normal); }
+      .pass-btn:hover { background: var(--color-primary); color: white; transform: translateY(-1px); }
+      /* Fail: inconsistent durations */
+      .fail-btn-1 { transition: background 50ms linear; }
+      .fail-btn-2 { transition: background 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+      .fail-btn-3 { transition: background 1200ms ease-in-out; }
+      .fail-btn-1:hover { background: #ddd; }
+      .fail-btn-2:hover { background: #ccc; }
+      .fail-btn-3:hover { background: #bbb; }
+    </style>
+  </head>
+  <body>
+    <h1>Motion Scenarios</h1>
+
+    <div class="section" data-uiq-id="motion-pass">
+      <div class="section-title">Pass — Unified Transition</div>
+      <div data-uiq-id="motion-pass-buttons">
+        <button class="btn pass-btn" data-uiq-id="motion-pass-btn-1">Hover me (250ms ease)</button>
+        <button class="btn pass-btn" data-uiq-id="motion-pass-btn-2">Hover me (250ms ease)</button>
+        <button class="btn pass-btn" data-uiq-id="motion-pass-btn-3">Hover me (250ms ease)</button>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="motion-fail">
+      <div class="section-title">Fail — Inconsistent Durations</div>
+      <div data-uiq-id="motion-fail-buttons">
+        <button class="btn fail-btn-1" data-uiq-id="motion-fail-btn-1">50ms linear</button>
+        <button class="btn fail-btn-2" data-uiq-id="motion-fail-btn-2">800ms bounce</button>
+        <button class="btn fail-btn-3" data-uiq-id="motion-fail-btn-3">1200ms ease-in-out</button>
+      </div>
+    </div>
+
+    <div class="section" data-uiq-id="motion-boundary">
+      <div class="section-title">Boundary — Instant (0ms) Transition</div>
+      <button class="btn" data-uiq-id="motion-boundary-btn" style="transition: none;">No transition</button>
+    </div>
+
+    <div class="section" data-uiq-id="motion-unknown">
+      <div class="section-title">Unknown — Mixed Easing Functions</div>
+      <div data-uiq-id="motion-unknown-buttons">
+        <button class="btn" data-uiq-id="motion-unknown-btn-1" style="transition: all 200ms ease;">ease</button>
+        <button class="btn" data-uiq-id="motion-unknown-btn-2" style="transition: all 200ms ease-in;">ease-in</button>
+        <button class="btn" data-uiq-id="motion-unknown-btn-3" style="transition: all 200ms ease-out;">ease-out</button>
+        <button class="btn" data-uiq-id="motion-unknown-btn-4" style="transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);">material</button>
+      </div>
+    </div>
+  </body>
+</html>

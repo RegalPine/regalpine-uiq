@@ -23,6 +23,8 @@ import {
   EvaluationEngine,
 } from '@uiq/rules';
 import { DiagnosticEngine } from '@uiq/diagnostic';
+import type { VisualTextureDimension } from '@uiq/core';
+import { getTextureMetricIds, getTextureRuleIds, resolveTextureProfile, buildCustomProfile } from './commands/texture-profile';
 
 export const SCHEMA_VERSION = '1.0.0';
 export const UIQ_VERSION = '1.0.0';
@@ -138,6 +140,7 @@ export interface AnalysisArtifact {
 export function runAnalysis(
   snapshot: MeasurementSnapshot,
   token?: TokenAnalysisContext,
+  options?: { textureProfileName?: string; customDimensions?: readonly VisualTextureDimension[] },
 ): AnalysisArtifact {
   // 绑定投影（IMPL-09 §41）：subjectId → tokenId（首绑定优先，快照顺序确定）；
   // tokenId → subjectId 反向映射供 COMPONENT_CONFORMANCE 聚合。
@@ -167,6 +170,29 @@ export function runAnalysis(
   const requestedMetrics = [...ANALYSIS_METRICS];
   const ruleRegistry = createDefaultRuleRegistry();
   const requestedRules = [...ANALYSIS_RULES];
+
+  // Visual Texture Profile 集成
+  if (options?.customDimensions !== undefined && options.customDimensions.length > 0) {
+    const profile = buildCustomProfile(options.customDimensions);
+    const textureMetricIds = getTextureMetricIds(profile.dimensions);
+    const textureRuleIds = getTextureRuleIds(profile.dimensions);
+    for (const id of textureMetricIds) {
+      requestedMetrics.push({ id, version: '1.0.0' });
+    }
+    for (const id of textureRuleIds) {
+      requestedRules.push({ id, version: '1.0.0' });
+    }
+  } else if (options?.textureProfileName !== undefined) {
+    const profile = resolveTextureProfile(options.textureProfileName);
+    const textureMetricIds = getTextureMetricIds(profile.dimensions);
+    const textureRuleIds = getTextureRuleIds(profile.dimensions);
+    for (const id of textureMetricIds) {
+      requestedMetrics.push({ id, version: '1.0.0' });
+    }
+    for (const id of textureRuleIds) {
+      requestedRules.push({ id, version: '1.0.0' });
+    }
+  }
 
   // P5：TOKEN 三指标两规则显式注册（关键决策 7：不进 default registry）。
   if (token !== undefined) {

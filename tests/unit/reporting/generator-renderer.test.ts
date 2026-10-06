@@ -135,22 +135,23 @@ describe('renderMarkdown（IMPL-17 §36）', () => {
     const md2 = renderMarkdown(report);
     expect(md2).toBe(md1);
     for (const heading of [
-      '## 1. Executive Summary',
-      '## 2. Scope',
-      '## 3. Quality Dimensions',
-      '## 4. Findings',
-      '## 5. Diagnostic Analysis',
-      '## 6. Design System Conformance',
-      '## 7. Theme Analysis',
-      '## 8. Improvement Recommendations',
-      '## 9. Verification Criteria',
-      '## 10. Regression',
-      '## 11. Release Gate',
-      '## 12. Reproducibility',
+      '## 1. Report Metadata',
+      '## 2. Executive Summary',
+      '## 3. Measurement Coverage',
+      '## 4. Quality Dimensions',
+      '## 5. Visual Texture',
+      '## 6. Findings',
+      '## 7. Diagnostics',
+      '## 8. Conformance',
+      '## 9. Regression Analysis',
+      '## 10. Improvement Recommendations',
+      '## 11. Verification Criteria',
+      '## 12. Release Gate',
+      '## 13. Reproducibility',
     ]) {
       expect(md1).toContain(heading);
     }
-    expect(md1).toContain('Not available in this report.'); // conformance/regression 缺省诚实呈现
+    expect(md1).toContain('not performed'); // conformance/regression 缺省诚实呈现
   });
 });
 

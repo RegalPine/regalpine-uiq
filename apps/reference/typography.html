@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Typography Scenarios</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #333333;
+        --color-text-secondary: #666666;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+      }
+      .section { margin-bottom: var(--spacing-lg); max-width: 600px; }
+      .section-title { font-size: 16px; font-weight: 600; margin-bottom: var(--spacing-md); }
+      /* Pass: 3-level hierarchy */
+      .heading-lg { font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+      .body-md { font-size: 16px; font-weight: 400; line-height: 1.5; margin-bottom: 8px; }
+      .caption-sm { font-size: 12px; font-weight: 400; line-height: 1.4; color: var(--color-text-secondary); }
+      /* Fail: fragmented fonts */
+      .frag-1 { font-family: 'Georgia', serif; font-size: 18px; }
+      .frag-2 { font-family: 'Courier New', monospace; font-size: 15px; }
+      .frag-3 { font-family: 'Times New Roman', serif; font-size: 20px; }
+      .frag-4 { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: 300; }
+      .frag-5 { font-family: 'Verdana', sans-serif; font-size: 17px; font-weight: 500; }
+    </style>
+  </head>
+  <body>
+    <h1>Typography Scenarios</h1>
+
+    <div class="section" data-uiq-id="typo-pass">
+      <div class="section-title">Pass — 3-Level Type Hierarchy</div>
+      <div data-uiq-id="typo-pass-heading" class="heading-lg">Heading Level 1</div>
+      <div data-uiq-id="typo-pass-body" class="body-md">Body text with proper line height and readable font size.</div>
+      <div data-uiq-id="typo-pass-caption" class="caption-sm">Caption text — smaller, muted, secondary information.</div>
+    </div>
+
+    <div class="section" data-uiq-id="typo-fail">
+      <div class="section-title">Fail — Font Fragmentation</div>
+      <div data-uiq-id="typo-fail-1" class="frag-1">Georgia serif 18px</div>
+      <div data-uiq-id="typo-fail-2" class="frag-2">Courier New monospace 15px</div>
+      <div data-uiq-id="typo-fail-3" class="frag-3">Times New Roman 20px</div>
+      <div data-uiq-id="typo-fail-4" class="frag-4">Arial light 14px</div>
+      <div data-uiq-id="typo-fail-5" class="frag-5">Verdana medium 17px</div>
+    </div>
+
+    <div class="section" data-uiq-id="typo-boundary">
+      <div class="section-title">Boundary — Minimum/Maximum Font Size</div>
+      <div data-uiq-id="typo-boundary-tiny" style="font-size: 10px;">Very small text (10px)</div>
+      <div data-uiq-id="typo-boundary-huge" style="font-size: 48px; font-weight: 800;">Very large text (48px)</div>
+    </div>
+
+    <div class="section" data-uiq-id="typo-unknown">
+      <div class="section-title">Unknown — Inconsistent Line Heights</div>
+      <div data-uiq-id="typo-unknown-1" style="font-size: 16px; line-height: 1.0;">Tight line height 1.0</div>
+      <div data-uiq-id="typo-unknown-2" style="font-size: 16px; line-height: 2.5;">Loose line height 2.5</div>
+    </div>
+  </body>
+</html>

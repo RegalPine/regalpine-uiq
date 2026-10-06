@@ -309,6 +309,6 @@ describe('Report Golden（IMPL-17 §43-49）', () => {
     );
     expect(report.regression?.summary.fixedFailures).toBe(1);
     // 回归结论进入 Markdown 报告固定章节（§36 十二章节）。
-    expect(renderMarkdown(report)).toContain('## 10. Regression');
+    expect(renderMarkdown(report)).toContain('## 9. Regression Analysis');
   });
 });

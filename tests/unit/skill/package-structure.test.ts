@@ -62,9 +62,9 @@ describe('P11：Skill 包结构契约', () => {
     }
   });
 
-  it('无多余顶层文件（仅 SKILL.md + workflows/ + references/）', () => {
+  it('无多余顶层文件（仅 SKILL.md + workflows/ + references/ + schemas/）', () => {
     const entries = readdirSync(SKILL_DIR);
-    const allowed = new Set(['SKILL.md', 'workflows', 'references']);
+    const allowed = new Set(['SKILL.md', 'workflows', 'references', 'schemas']);
     for (const entry of entries) {
       expect(allowed.has(entry)).toBe(true);
     }

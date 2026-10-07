@@ -11,15 +11,13 @@ Analyze each theme independently.
 Example:
 
 ```bash
-uiq analyze \
-  --url <URL> \
+uiq analyze <URL> \
   --theme light \
   --format json
 ```
 
 ```bash
-uiq analyze \
-  --url <URL> \
+uiq analyze <URL> \
   --theme dark \
   --format json
 ```

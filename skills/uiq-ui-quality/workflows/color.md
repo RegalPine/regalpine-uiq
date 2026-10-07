@@ -7,8 +7,7 @@ Analyze UI color using UIQ color metrics.
 ## Execution
 
 ```bash
-uiq analyze \
-  --url <URL> \
+uiq analyze <URL> \
   --dimension color \
   --format json
 ```

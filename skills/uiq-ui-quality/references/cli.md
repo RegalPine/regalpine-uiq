@@ -22,9 +22,9 @@ Use `--auth-state <file>` with browser commands (`measure`, `analyze`, `snapshot
 
 ### Generating Auth State
 
-**Option A: Playwright MCP Tools (Skill-native, preferred)**
+**Option A: playwright-cli Skill (Preferred)**
 
-The Skill can use Playwright MCP tools directly to handle login, then export storageState via `evaluate_script`. See [Auth Workflow](../workflows/auth.md).
+The Skill uses **playwright-cli** to automate login/navigation, then export storageState. See [Auth Workflow](../workflows/auth.md).
 
 **Option B: UIQ CLI auth-save**
 

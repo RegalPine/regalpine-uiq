@@ -10,7 +10,7 @@ import { microDetailTextureRules } from './micro-detail';
 /**
  * Visual Texture 七维统一规则注册表。
  *
- * 聚合全部 52 条纹理评价规则。
+ * 聚合全部 58 条纹理评价规则。
  */
 export interface VisualTextureRuleRegistry {
   readonly allRules: readonly EnrichedRuleDefinition[];

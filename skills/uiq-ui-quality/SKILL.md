@@ -86,6 +86,15 @@ Use for typography-focused analysis.
 
 Use for Token / Component / Theme conformance.
 
+### Visual Texture
+
+Use for visual texture analysis across 7 dimensions
+(Surface, Depth, Color, Typography, Spatial, Motion, Micro Detail).
+
+58 Metrics, 58 Rules. Use `--texture full|core` or `--dimensions`.
+
+See [Visual Texture Workflow](workflows/visual-texture.md) for details.
+
 ### Theme
 
 Use for theme-specific analysis.
@@ -106,8 +115,19 @@ Use after implementation changes.
 
 Use when the target URL requires login.
 
-Handles authentication via Playwright MCP tools, CLI, or codegen,
+Handles authentication via playwright-cli skill,
 then passes storageState to UIQ browser commands.
+
+### SPA Navigation
+
+Use when the target page requires clicking through
+menus or interactions to reach (Single Page Applications).
+
+Uses playwright-cli skill to automate navigation,
+exports storageState + final URL,
+then passes to UIQ CLI for analysis.
+
+See [Auth Workflow](workflows/auth.md) for details.
 
 ## Evidence Rule
 

@@ -8,3 +8,7 @@ export { generateVerification } from './verification';
 export { detectCrossDimensionRelations } from './crossDimension';
 export { detectSystemicPatterns } from './systemic';
 export { buildVisualTextureReport } from './report';
+// Cross-Component Visual Continuity
+export { analyzeCrossComponentContinuity, inferComponentRelations } from './crossComponent';
+export { groupMeasurementsByComponent, groupByExplicitBoundaries } from './componentGrouping';
+export type { ComponentMetricGroup } from './componentGrouping';

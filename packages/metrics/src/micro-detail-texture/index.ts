@@ -120,9 +120,14 @@ export const MICRO_BORDER_DETAIL: MetricDefinition<MicroBorderDetailValue> = {
   calculate(ctx): MetricResult<MicroBorderDetailValue> {
     const ms = collectByType(ctx, 'surface.border');
     if (ms.length === 0) return unknownResult(this.id, this.version, ctx.subjectId);
-    const widths = ms.map((m) => m.value as { width: number } | null).filter((v): v is NonNullable<typeof v> => v != null).map((v) => v.width);
+    // BorderValue = { topWidth, rightWidth, bottomWidth, leftWidth, ... }，取四边均值
+    const widths = ms.map((m) => {
+      const v = m.value as { topWidth?: number; rightWidth?: number; bottomWidth?: number; leftWidth?: number } | null;
+      if (!v) return 0;
+      return ((v.topWidth ?? 0) + (v.rightWidth ?? 0) + (v.bottomWidth ?? 0) + (v.leftWidth ?? 0)) / 4;
+    });
     const avg = widths.length > 0 ? widths.reduce((s, w) => s + w, 0) / widths.length : 0;
-    const consistency = widths.length > 0 ? 1 - Math.min(new Set(widths).size / widths.length, 1) : 1;
+    const consistency = widths.length > 0 ? 1 - Math.min(new Set(widths.map((w) => Math.round(w))).size / widths.length, 1) : 1;
     return makeResult(this.id, this.version, ctx.subjectId, { populationSize: ms.length, avgBorderWidth: avg, consistency });
   },
 };
@@ -285,9 +290,13 @@ export const MICRO_FRAGMENTATION: MetricDefinition<MicroFragmentationValue> = {
     // State fragmentation: distinct cursor values / total
     const cursors = stateMs.map((m) => (m.value as { cursor: string } | null)?.cursor ?? 'default');
     const stateFrag = cursors.length > 0 ? new Set(cursors).size / cursors.length : 0;
-    // Border fragmentation: distinct widths / total
-    const borderWidths = borderMs.map((m) => (m.value as { width: number } | null)?.width ?? 0);
-    const borderFrag = borderWidths.length > 0 ? new Set(borderWidths).size / borderWidths.length : 0;
+    // Border fragmentation: distinct avg widths / total
+    const borderWidths = borderMs.map((m) => {
+      const v = m.value as { topWidth?: number; rightWidth?: number; bottomWidth?: number; leftWidth?: number } | null;
+      if (!v) return 0;
+      return ((v.topWidth ?? 0) + (v.rightWidth ?? 0) + (v.bottomWidth ?? 0) + (v.leftWidth ?? 0)) / 4;
+    });
+    const borderFrag = borderWidths.length > 0 ? new Set(borderWidths.map((w) => Math.round(w))).size / borderWidths.length : 0;
     // Radius fragmentation: distinct values / total
     const radii = radiusMs.map((m) => {
       const v = m.value as { topLeft?: number } | null;

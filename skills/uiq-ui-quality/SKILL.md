@@ -33,6 +33,26 @@ UIQ provides deterministic evidence for:
 - Recommendation
 - Verification
 
+## CLI Path
+
+UIQ CLI 已全局安装，直接使用 `uiq` 命令即可。
+禁止使用 `where uiq`、`which uiq`、`npx uiq` 等探测命令。技能存在即代表 CLI 可用。
+
+## Result Presentation
+
+使用 `uiq report` 生成报告，禁止编写脚本（Python/Node/等）解析 JSON。
+
+```bash
+# 分析并保存产物
+uiq analyze <target> --texture full --output analysis.json
+
+# 生成报告（直接输出或保存文件）
+uiq report analysis.json --format markdown
+uiq report analysis.json --format html --output report.html
+```
+
+直接用 CLI 的 JSON 输出回答问题即可，不要写脚本解析。
+
 ## Source of Truth
 
 UIQ is the source of truth for deterministic UI quality results.
@@ -92,6 +112,11 @@ Use for visual texture analysis across 7 dimensions
 (Surface, Depth, Color, Typography, Spatial, Motion, Micro Detail).
 
 58 Metrics, 58 Rules. Use `--texture full|core` or `--dimensions`.
+
+Includes cross-component visual continuity detection when pages
+use `data-uiq-component` attributes to mark component boundaries.
+Detects token drift, visual breaks, color disharmony, and state
+incoherence across components.
 
 See [Visual Texture Workflow](workflows/visual-texture.md) for details.
 

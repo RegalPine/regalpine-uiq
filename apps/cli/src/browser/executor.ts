@@ -2,7 +2,7 @@ import { chromium } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import type { MeasurementSnapshot } from '@uiq/core';
 import { createRequire } from 'node:module';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { CliError } from '../errors';
@@ -34,7 +34,7 @@ export function assertTargetAllowed(target: string, allowExternal: boolean): URL
     throw new CliError('INVALID_CONFIGURATION', `目标不是合法 URL：${target}`);
   }
   if (url.protocol === 'file:') {
-    const filePath = url.pathname;
+    const filePath = fileURLToPath(url.href);
     if (!existsSync(filePath)) {
       throw new CliError('INPUT_ERROR', `file:// 目标不存在：${filePath}`);
     }
@@ -124,7 +124,7 @@ export async function captureWithBrowser(
   allowExternal = false,
 ): Promise<MeasurementSnapshot> {
   const url = assertTargetAllowed(target, allowExternal);
-  const fileUrl = url.protocol === 'file:' ? pathToFileURL(url.pathname).href : url.href;
+  const fileUrl = url.protocol === 'file:' ? pathToFileURL(fileURLToPath(url.href)).href : url.href;
   const resolvedAuthState = authStatePath !== undefined ? resolveAuthState(authStatePath) : undefined;
   const browser = await chromium.launch({ headless: true });
   try {

@@ -126,6 +126,8 @@ export class EvaluationEngine {
         rule.version,
         subjectId,
         cause instanceof Error ? cause.message : String(cause),
+        rule.metricId,
+        rule.metricVersion,
       );
     }
   }
@@ -193,12 +195,12 @@ export class EvaluationEngine {
 
     if (rule.operator !== undefined && effectiveThreshold !== undefined) {
       if (comparableValue === undefined) {
-        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与操作符不匹配');
+        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与操作符不匹配', rule.metricId, rule.metricVersion);
       }
 
       const operatorResult = evaluateOperator(rule.operator, comparableValue, effectiveThreshold);
       if (operatorResult === null) {
-        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与操作符不匹配');
+        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与操作符不匹配', rule.metricId, rule.metricVersion);
       }
 
       if (operatorResult) {
@@ -218,14 +220,14 @@ export class EvaluationEngine {
       }
     } else if (rule.range !== undefined) {
       if (comparableValue === undefined || typeof comparableValue !== 'number') {
-        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与区间约束不匹配');
+        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与区间约束不匹配', rule.metricId, rule.metricVersion);
       }
       state = evaluateRange(rule.range, comparableValue) ? 'PASS' : 'FAIL';
       if (state === 'FAIL') {
         message = `${rule.id}: 值 ${formatValue(comparableValue)} 不在区间 [${rule.range.min ?? '-∞'}, ${rule.range.max ?? '+∞'}] 内`;
       }
     } else {
-      return this.errorResult(rule.id, rule.version, subjectId, 'Rule 缺少操作符/阈值或区间定义');
+      return this.errorResult(rule.id, rule.version, subjectId, 'Rule 缺少操作符/阈值或区间定义', rule.metricId, rule.metricVersion);
     }
 
     const evidence = this.buildEvidence(rule);
@@ -356,6 +358,8 @@ export class EvaluationEngine {
     ruleVersion: string,
     subjectId: string,
     errorMessage: string,
+    metricId?: string,
+    metricVersion?: string,
   ): EvaluationResult {
     const fp = fingerprint({ ruleId, ruleVersion, subjectId, state: 'ERROR' });
     return {
@@ -365,8 +369,8 @@ export class EvaluationEngine {
       state: 'ERROR',
       severity: 'INFO',
       metricResult: {
-        metricId: '',
-        metricVersion: '',
+        metricId: metricId ?? ruleId,
+        metricVersion: metricVersion ?? ruleVersion,
         subjectId,
         status: 'ERROR',
         dependencies: [],

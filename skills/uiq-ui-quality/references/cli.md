@@ -1,5 +1,7 @@
 # UIQ CLI Reference
 
+直接使用 `uiq` 命令，无需探测。
+
 ## Commands
 
 ```bash

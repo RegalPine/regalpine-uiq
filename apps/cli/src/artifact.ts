@@ -13,6 +13,7 @@ import {
   createTokenDeviationMetric,
   createTokenMatchMetric,
   createTokenResolutionMetric,
+  createVisualTextureMetricRegistry,
   MetricExecutionEngine,
   type TokenResolutionPortResult,
 } from '@uiq/metrics';
@@ -20,6 +21,7 @@ import {
   createComponentConformanceRule,
   createDefaultRuleRegistry,
   createTokenMatchRule,
+  createVisualTextureRuleRegistry,
   EvaluationEngine,
 } from '@uiq/rules';
 import { DiagnosticEngine } from '@uiq/diagnostic';
@@ -171,11 +173,23 @@ export function runAnalysis(
   const ruleRegistry = createDefaultRuleRegistry();
   const requestedRules = [...ANALYSIS_RULES];
 
-  // Visual Texture Profile 集成
+  // Visual Texture Profile 集成：注册质感指标到 registry
   if (options?.customDimensions !== undefined && options.customDimensions.length > 0) {
     const profile = buildCustomProfile(options.customDimensions);
     const textureMetricIds = getTextureMetricIds(profile.dimensions);
     const textureRuleIds = getTextureRuleIds(profile.dimensions);
+    const textureRegistry = createVisualTextureMetricRegistry();
+    for (const m of textureRegistry.allMetrics) {
+      if (textureMetricIds.includes(m.id)) {
+        metricRegistry.register(m);
+      }
+    }
+    const textureRuleRegistry = createVisualTextureRuleRegistry();
+    for (const r of textureRuleRegistry.allRules) {
+      if (textureRuleIds.includes(r.id)) {
+        ruleRegistry.register(r);
+      }
+    }
     for (const id of textureMetricIds) {
       requestedMetrics.push({ id, version: '1.0.0' });
     }
@@ -186,6 +200,18 @@ export function runAnalysis(
     const profile = resolveTextureProfile(options.textureProfileName);
     const textureMetricIds = getTextureMetricIds(profile.dimensions);
     const textureRuleIds = getTextureRuleIds(profile.dimensions);
+    const textureRegistry = createVisualTextureMetricRegistry();
+    for (const m of textureRegistry.allMetrics) {
+      if (textureMetricIds.includes(m.id)) {
+        metricRegistry.register(m);
+      }
+    }
+    const textureRuleRegistry = createVisualTextureRuleRegistry();
+    for (const r of textureRuleRegistry.allRules) {
+      if (textureRuleIds.includes(r.id)) {
+        ruleRegistry.register(r);
+      }
+    }
     for (const id of textureMetricIds) {
       requestedMetrics.push({ id, version: '1.0.0' });
     }

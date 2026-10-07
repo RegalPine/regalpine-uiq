@@ -46,3 +46,46 @@ Visual Texture 通过 7 个维度量化 UI 的视觉质感一致性。每个维�
 - 58 个 Metric (8+6+7+7+7+7+16)
 - 58 条 Rule
 - 7 个专用诊断器
+
+## 跨组件视觉连续性 (Cross-Component Visual Continuity)
+
+在 7 维度基础上，UIQ 支持跨组件视觉连续性检测。当页面使用 `data-uiq-component` 属性标注组件边界时，UIQ 会自动分析组件间的视觉关系。
+
+### 组件边界标识
+
+```html
+<div data-uiq-component="TagsView" data-uiq-component-id="tags-view">
+  <!-- TagsView 内容 -->
+</div>
+<div data-uiq-component="AppMain" data-uiq-component-id="app-main">
+  <!-- AppMain 内容 -->
+</div>
+```
+
+### 检测能力
+
+| 检测类型 | 说明 |
+|----------|------|
+| TOKEN_DRIFT | 组件间共享 Token 的值漂移 |
+| VISUAL_BREAK | 组件间表面/视觉属性断裂（圆角、边框、阴影不一致） |
+| STATE_INCOHERENCE | 组件间状态切换视觉不连贯 |
+| COLOR_DISHARMONY | 组件间配色不协调（色相差过大） |
+| WEIGHT_IMBALANCE | 组件间视觉权重失衡 |
+
+### 组件关系类型
+
+- ADJACENT — 相邻组件
+- PARENT_CHILD — 父子组件
+- SHARES_TOKEN — 共享 Token
+- STATE_TRANSITION — 状态转换
+- VISUAL_DEPENDENCY — 视觉依赖
+
+### 系统性模式
+
+- COMPONENT_SYSTEMIC — 多组件 Token 漂移
+- LAYOUT_SYSTEMIC — 多组件视觉断裂
+- COLOR_SYSTEMIC — 多组件配色不协调
+
+### 降级行为
+
+无 `data-uiq-component` 标注时，跨组件分析自动跳过，返回空结果。

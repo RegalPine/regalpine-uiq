@@ -19,6 +19,12 @@ export interface BrowserMeasurementContext {
   readonly cssVariableMap?: Readonly<Record<string, string>>;
   /** P8：布局事实采集开关，默认关闭；开启时采集可见性、显示模式与布局属性。 */
   readonly includeLayout?: boolean;
+  /** Visual Texture：Surface 维度测量（圆角/边界/阴影/层叠/透明度），默认开启。 */
+  readonly includeSurface?: boolean;
+  /** Visual Texture：Motion 维度测量（transition/animation/state-transition），默认开启。 */
+  readonly includeMotion?: boolean;
+  /** Visual Texture：State 维度测量（交互状态/覆盖率），默认开启。 */
+  readonly includeState?: boolean;
 }
 
 export interface BrowserMeasurementAdapter {

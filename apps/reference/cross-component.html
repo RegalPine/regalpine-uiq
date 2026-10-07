@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIQ Reference — Cross-Component Visual Continuity</title>
+    <style>
+      :root {
+        --color-bg: #ffffff;
+        --color-text: #333333;
+        --color-surface: #f8f9fa;
+        --color-border: #e0e0e0;
+        --color-primary: #1a73e8;
+        --color-primary-light: #e8f0fe;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --radius: 8px;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        padding: var(--spacing-lg);
+        margin: 0;
+      }
+      h1 { font-size: 20px; margin-bottom: var(--spacing-lg); }
+      .section { margin-bottom: 32px; padding: var(--spacing-lg); border: 1px solid var(--color-border); border-radius: var(--radius); }
+      .section-title { font-size: 16px; font-weight: 600; margin-bottom: var(--spacing-md); }
+      .section-desc { font-size: 13px; color: #666; margin-bottom: var(--spacing-md); }
+
+      /* === Scene 1: PASS — Consistent components === */
+      .tags-view {
+        display: flex; gap: 4px; padding: 8px;
+        background: var(--color-surface); border-radius: var(--radius);
+        border-bottom: 2px solid var(--color-primary);
+      }
+      .tag-item {
+        padding: 6px 12px; border-radius: 6px; font-size: 13px;
+        background: transparent; color: var(--color-text);
+      }
+      .tag-item.active { background: var(--color-primary-light); color: var(--color-primary); font-weight: 500; }
+      .app-main {
+        padding: var(--spacing-lg); background: #ffffff;
+        border-radius: var(--radius); border: 1px solid var(--color-border);
+        margin-top: 0;
+      }
+
+      /* === Scene 2: FAIL — Visual break between components === */
+      .tags-view-fail {
+        display: flex; gap: 4px; padding: 8px;
+        background: #f0f0f0; border-radius: 4px;
+      }
+      .app-main-fail {
+        padding: var(--spacing-lg); background: #ffffff;
+        border-radius: 16px; border: 2px solid #ccc;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        margin-top: 8px;
+      }
+
+      /* === Scene 3: FAIL — Color disharmony === */
+      .message-bubble {
+        padding: 12px 16px; border-radius: var(--radius);
+        background: linear-gradient(135deg, #1a73e8, #4285f4);
+        color: white; font-size: 14px; max-width: 280px;
+      }
+      .avatar-group {
+        display: flex; gap: 8px; align-items: center; margin-top: 12px;
+      }
+      .avatar {
+        width: 36px; height: 36px; border-radius: 50%;
+        background: linear-gradient(135deg, #9c27b0, #ba68c8);
+      }
+
+      /* === Scene 4: PASS — Token shared consistently === */
+      .btn-primary {
+        padding: 8px 16px; border-radius: var(--radius);
+        background: var(--color-primary); color: white;
+        font-size: 14px; border: none;
+      }
+      .card-primary {
+        padding: var(--spacing-md); border-radius: var(--radius);
+        border: 1px solid var(--color-primary);
+        background: var(--color-primary-light);
+      }
+
+      /* === Scene 5: FAIL — Token drift === */
+      .btn-drift {
+        padding: 8px 16px; border-radius: var(--radius);
+        background: #1a73e8; color: white; font-size: 14px; border: none;
+      }
+      .card-drift {
+        padding: var(--spacing-md); border-radius: calc(var(--radius) + 4px);
+        border: 1px solid #1b74e9;
+        background: #e8f1ff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Cross-Component Visual Continuity</h1>
+
+    <!-- Scene 1: PASS — TagsView ↔ AppMain consistent -->
+    <div class="section" data-uiq-id="scene-pass">
+      <div class="section-title">Scene 1: PASS — TagsView ↔ AppMain 视觉连续</div>
+      <div class="section-desc">圆角一致 (8px)、色彩和谐、间距连续</div>
+
+      <div data-uiq-component="TagsView" data-uiq-component-id="tags-1"
+           data-uiq-component-relation="adjacent:AppMain"
+           data-uiq-id="scene1-tags">
+        <div class="tags-view">
+          <span class="tag-item active" data-uiq-id="scene1-tab-1">Dashboard</span>
+          <span class="tag-item" data-uiq-id="scene1-tab-2">Settings</span>
+          <span class="tag-item" data-uiq-id="scene1-tab-3">Profile</span>
+        </div>
+      </div>
+
+      <div data-uiq-component="AppMain" data-uiq-component-id="main-1"
+           data-uiq-id="scene1-main">
+        <div class="app-main">
+          <p data-uiq-id="scene1-content">Content area with consistent radius and harmonious colors</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 2: FAIL — Visual break -->
+    <div class="section" data-uiq-id="scene-break">
+      <div class="section-title">Scene 2: FAIL — 组件间视觉断裂</div>
+      <div class="section-desc">TagsView 4px radius ↔ AppMain 16px radius + heavy shadow — 圆角跳变 12px</div>
+
+      <div data-uiq-component="TagsViewFail" data-uiq-component-id="tags-fail"
+           data-uiq-component-relation="adjacent:AppMainFail"
+           data-uiq-id="scene2-tags">
+        <div class="tags-view-fail">
+          <span class="tag-item" data-uiq-id="scene2-tab-1">Tab A</span>
+          <span class="tag-item" data-uiq-id="scene2-tab-2">Tab B</span>
+        </div>
+      </div>
+
+      <div data-uiq-component="AppMainFail" data-uiq-component-id="main-fail"
+           data-uiq-id="scene2-main">
+        <div class="app-main-fail">
+          <p data-uiq-id="scene2-content">Content with inconsistent radius and heavy shadow</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 3: FAIL — Color disharmony -->
+    <div class="section" data-uiq-id="scene-color">
+      <div class="section-title">Scene 3: FAIL — 跨组件配色不协调</div>
+      <div class="section-desc">消息蓝色渐变 (H≈210°) ↔ 头像紫色渐变 (H≈280°) — 中差色关系</div>
+
+      <div data-uiq-component="MessageBubble" data-uiq-component-id="msg-1"
+           data-uiq-component-relation="adjacent:AvatarGroup"
+           data-uiq-id="scene3-msg">
+        <div class="message-bubble">
+          <p data-uiq-id="scene3-text">Hello! How are you doing today?</p>
+        </div>
+      </div>
+
+      <div data-uiq-component="AvatarGroup" data-uiq-component-id="avatar-1"
+           data-uiq-id="scene3-avatar">
+        <div class="avatar-group">
+          <div class="avatar" data-uiq-id="scene3-avatar-1"></div>
+          <div class="avatar" data-uiq-id="scene3-avatar-2"></div>
+          <div class="avatar" data-uiq-id="scene3-avatar-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 4: PASS — Token shared consistently -->
+    <div class="section" data-uiq-id="scene-token-pass">
+      <div class="section-title">Scene 4: PASS — Token 共享一致</div>
+      <div class="section-desc">Button 和 Card 共享 primary token (#1a73e8, 8px radius)</div>
+
+      <div data-uiq-component="ActionButton" data-uiq-component-id="btn-pass"
+           data-uiq-component-relation="shares-token:InfoCard"
+           data-uiq-id="scene4-btn">
+        <button class="btn-primary" data-uiq-id="scene4-button">Primary Action</button>
+      </div>
+
+      <div data-uiq-component="InfoCard" data-uiq-component-id="card-pass"
+           data-uiq-id="scene4-card" style="margin-top: 12px;">
+        <div class="card-primary">
+          <p data-uiq-id="scene4-card-text">Card using same primary token</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 5: FAIL — Token drift -->
+    <div class="section" data-uiq-id="scene-token-drift">
+      <div class="section-title">Scene 5: FAIL — Token 漂移</div>
+      <div class="section-desc">Button #1a73e8 ↔ Card #1b74e9 — 同一 Token 值不同；radius 8px ↔ 12px</div>
+
+      <div data-uiq-component="ButtonDrift" data-uiq-component-id="btn-drift"
+           data-uiq-component-relation="shares-token:CardDrift"
+           data-uiq-id="scene5-btn">
+        <button class="btn-drift" data-uiq-id="scene5-button">Drifted Button</button>
+      </div>
+
+      <div data-uiq-component="CardDrift" data-uiq-component-id="card-drift"
+           data-uiq-id="scene5-card" style="margin-top: 12px;">
+        <div class="card-drift">
+          <p data-uiq-id="scene5-card-text">Card with drifted token values</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

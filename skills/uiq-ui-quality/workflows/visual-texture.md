@@ -52,9 +52,44 @@ uiq analyze <URL> \
   "diagnostics": [...],
   "recommendations": [...],
   "verification": [...],
-  "reproducibility": [...]
+  "reproducibility": [...],
+  "crossComponentAnalysis": {
+    "componentBoundaries": [...],
+    "componentRelations": [...],
+    "crossComponentFindings": [...],
+    "systemicPatterns": [...],
+    "continuityScore": 0.85,
+    "componentCount": 3
+  }
 }
 ```
+
+`crossComponentAnalysis` 仅在页面包含 `data-uiq-component` 属性时出现。
+
+## Cross-Component Visual Continuity
+
+当页面使用 `data-uiq-component` 标注组件边界时，UIQ 自动执行跨组件分析。
+
+### 组件标注
+
+```html
+<div data-uiq-component="TagsView" data-uiq-component-id="tags-view">
+  ...
+</div>
+<div data-uiq-component="AppMain" data-uiq-component-id="app-main">
+  ...
+</div>
+```
+
+### 分析结果解读
+
+- `continuityScore`: 0.0–1.0，越高表示组件间视觉连续性越好
+- `crossComponentFindings`: 跨组件问题列表，每个包含 sourceComponent、targetComponent、severity
+- `systemicPatterns`: 系统性模式，表示影响多个组件的全局性问题
+
+### 降级
+
+无组件标注时，`crossComponentAnalysis` 字段不存在，行为与 V1.0 一致。
 
 ## Reference Pages
 
@@ -66,4 +101,5 @@ uiq analyze <URL> \
 - `apps/reference/motion.html` — Motion scenarios
 - `apps/reference/micro-detail.html` — Micro Detail scenarios
 - `apps/reference/cross-dimension.html` — Cross-dimension scenarios
+- `apps/reference/cross-component.html` — Cross-component visual continuity scenarios
 - `apps/reference/systemic.html` — Systemic patterns

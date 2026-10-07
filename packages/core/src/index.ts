@@ -26,6 +26,15 @@ export type {
   TextureVerification,
   VisualTextureReproducibility,
   EvidenceCoverage,
+  // Cross-Component Visual Continuity
+  ConfidenceLevel,
+  ComponentBoundary,
+  ComponentRelationType,
+  ComponentRelation,
+  CrossComponentFindingType,
+  CrossComponentFinding,
+  CrossComponentAnalysisResult,
+  CrossComponentSystemicPatternType,
 } from './visual-texture';
 export {
   VISUAL_TEXTURE_DIMENSIONS,

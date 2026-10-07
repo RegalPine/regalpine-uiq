@@ -208,3 +208,99 @@ export interface EvidenceCoverage {
   readonly errorCount: number;
   readonly notApplicableCount: number;
 }
+
+// ---------------------------------------------------------------------------
+// 跨组件视觉连续性（Cross-Component Visual Continuity）
+// 规范基线：UIQ-CROSS-COMPONENT-VISUAL-CONTINUITY §3-6
+// ---------------------------------------------------------------------------
+
+/**
+ * 置信度等级。
+ */
+export type ConfidenceLevel = 'DIRECT' | 'SUPPORTED' | 'INFERRED' | 'UNKNOWN';
+
+/**
+ * 组件边界 — 标识一个组件的渲染范围和度量归属。
+ * 对齐 IMPL-13 §28 Component Contract。
+ */
+export interface ComponentBoundary {
+  readonly componentId: string;
+  readonly instanceId?: string;
+  readonly rootElementId: string;
+  readonly memberElementIds: readonly string[];
+  readonly role: 'root' | 'child' | 'container';
+  readonly source: 'EXPLICIT' | 'INFERRED';
+  readonly confidence: ConfidenceLevel;
+}
+
+/**
+ * 组件间关系类型。
+ */
+export type ComponentRelationType =
+  | 'ADJACENT'
+  | 'PARENT_CHILD'
+  | 'SHARES_TOKEN'
+  | 'STATE_TRANSITION'
+  | 'VISUAL_DEPENDENCY';
+
+/**
+ * 组件间关系 — 描述两个组件之间的视觉依赖。
+ * 对齐 IMPL-13 §37 ComponentBinding。
+ */
+export interface ComponentRelation {
+  readonly sourceComponent: string;
+  readonly targetComponent: string;
+  readonly relation: ComponentRelationType;
+  readonly sharedDimensions: readonly VisualTextureDimension[];
+  readonly sharedTokenIds?: readonly string[];
+  readonly source: 'EXPLICIT' | 'INFERRED';
+  readonly confidence: ConfidenceLevel;
+}
+
+/**
+ * 跨组件 Finding 类型。
+ */
+export type CrossComponentFindingType =
+  | 'TOKEN_DRIFT'
+  | 'VISUAL_BREAK'
+  | 'STATE_INCOHERENCE'
+  | 'COLOR_DISHARMONY'
+  | 'WEIGHT_IMBALANCE';
+
+/**
+ * 跨组件 Finding — 描述组件间的视觉连续性问题。
+ */
+export interface CrossComponentFinding {
+  readonly id: string;
+  readonly type: CrossComponentFindingType;
+  readonly sourceComponent: string;
+  readonly targetComponent: string;
+  readonly dimension: VisualTextureDimension;
+  readonly severity: 'INFO' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+  readonly state: 'PASS' | 'WARN' | 'FAIL';
+  readonly metricValue: Readonly<Record<string, unknown>>;
+  readonly threshold: Readonly<Record<string, unknown>>;
+  readonly evidence: readonly EvidenceReference[];
+  readonly explanation: string;
+}
+
+/**
+ * 跨组件分析结果。
+ */
+export interface CrossComponentAnalysisResult {
+  readonly componentBoundaries: readonly ComponentBoundary[];
+  readonly componentRelations: readonly ComponentRelation[];
+  readonly crossComponentFindings: readonly CrossComponentFinding[];
+  readonly systemicPatterns: readonly SystemicPattern[];
+  readonly continuityScore: number;
+  readonly componentCount: number;
+}
+
+/**
+ * 扩展的系统性模式类型 — 跨组件专用。
+ */
+export type CrossComponentSystemicPatternType =
+  | 'COMPONENT_TOKEN_DRIFT'
+  | 'COMPONENT_CHAIN_BREAK'
+  | 'COMPONENT_COLOR_SYSTEMIC'
+  | 'COMPONENT_SURFACE_SYSTEMIC';

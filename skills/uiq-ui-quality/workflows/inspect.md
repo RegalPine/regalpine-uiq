@@ -27,16 +27,14 @@ uiq inspect --format json
 If URL is provided:
 
 ```bash
-uiq inspect \
-  --url <URL> \
+uiq inspect <URL> \
   --format json
 ```
 
 If selector is provided:
 
 ```bash
-uiq inspect \
-  --url <URL> \
+uiq inspect <URL> \
   --selector "<selector>" \
   --format json
 ```

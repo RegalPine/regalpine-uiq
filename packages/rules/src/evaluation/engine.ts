@@ -2,6 +2,7 @@ import type {
   EvaluationResult,
   EvaluationState,
   Evidence,
+  MeasurementSnapshot,
   MetricResult,
   RuleApplicabilityContext,
   RuleConfiguration,
@@ -84,7 +85,7 @@ export class EvaluationEngine {
           ruleRef.version,
           subjectId,
         );
-        const result = this.safeEvaluate(rule, subjectId, metricMap, config);
+        const result = this.safeEvaluate(rule, subjectId, metricMap, config, request.snapshot);
         evaluations.push(result);
       }
     }
@@ -115,15 +116,18 @@ export class EvaluationEngine {
     subjectId: string,
     metricMap: Map<string, MetricResult>,
     config: RuleConfiguration | undefined,
+    snapshot?: MeasurementSnapshot,
   ): EvaluationResult {
     try {
-      return this.evaluateRule(rule, subjectId, metricMap, config);
+      return this.evaluateRule(rule, subjectId, metricMap, config, snapshot);
     } catch (cause) {
       return this.errorResult(
         rule.id,
         rule.version,
         subjectId,
         cause instanceof Error ? cause.message : String(cause),
+        rule.metricId,
+        rule.metricVersion,
       );
     }
   }
@@ -133,6 +137,7 @@ export class EvaluationEngine {
     subjectId: string,
     metricMap: Map<string, MetricResult>,
     config: RuleConfiguration | undefined,
+    snapshot?: MeasurementSnapshot,
   ): EvaluationResult {
     const enriched = rule as EnrichedRuleDefinition;
 
@@ -154,17 +159,16 @@ export class EvaluationEngine {
     if (!metricResult) {
       return this.stateResult(rule, subjectId, 'UNKNOWN', '必需 Metric 不可用');
     }
+
     // P8 前置修复（P3-01/02）：保留 Metric ERROR，不转换为 UNKNOWN
     if (metricResult.status === 'ERROR') {
       return this.stateResult(rule, subjectId, 'ERROR', '必需 Metric 状态为 ERROR');
     }
-    if (metricResult.status === 'UNKNOWN') {
-      return this.stateResult(rule, subjectId, 'UNKNOWN', 'Metric 状态为 UNKNOWN');
-    }
 
+    // 先检查适用性，再检查 metric 状态（允许规则在 metric UNKNOWN 时返回 NOT_APPLICABLE）
     const applicabilityCtx: RuleApplicabilityContext = {
       subjectId,
-      snapshot: { id: '', capturedAt: 0, source: { type: 'OTHER' }, measurements: [] },
+      snapshot: snapshot ?? { id: '', capturedAt: 0, source: { type: 'OTHER' }, measurements: [] },
       metricResult,
     };
     const applicability = rule.applicability.evaluate(applicabilityCtx);
@@ -173,6 +177,10 @@ export class EvaluationEngine {
     }
     if (applicability === 'UNKNOWN') {
       return this.stateResult(rule, subjectId, 'UNKNOWN', '适用性未知');
+    }
+
+    if (metricResult.status === 'UNKNOWN') {
+      return this.stateResult(rule, subjectId, 'UNKNOWN', 'Metric 状态为 UNKNOWN');
     }
 
     const effectiveThreshold = this.resolveThreshold(rule, config);
@@ -187,12 +195,12 @@ export class EvaluationEngine {
 
     if (rule.operator !== undefined && effectiveThreshold !== undefined) {
       if (comparableValue === undefined) {
-        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与操作符不匹配');
+        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与操作符不匹配', rule.metricId, rule.metricVersion);
       }
 
       const operatorResult = evaluateOperator(rule.operator, comparableValue, effectiveThreshold);
       if (operatorResult === null) {
-        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与操作符不匹配');
+        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与操作符不匹配', rule.metricId, rule.metricVersion);
       }
 
       if (operatorResult) {
@@ -212,14 +220,14 @@ export class EvaluationEngine {
       }
     } else if (rule.range !== undefined) {
       if (comparableValue === undefined || typeof comparableValue !== 'number') {
-        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与区间约束不匹配');
+        return this.errorResult(rule.id, rule.version, subjectId, 'Metric 值类型与区间约束不匹配', rule.metricId, rule.metricVersion);
       }
       state = evaluateRange(rule.range, comparableValue) ? 'PASS' : 'FAIL';
       if (state === 'FAIL') {
         message = `${rule.id}: 值 ${formatValue(comparableValue)} 不在区间 [${rule.range.min ?? '-∞'}, ${rule.range.max ?? '+∞'}] 内`;
       }
     } else {
-      return this.errorResult(rule.id, rule.version, subjectId, 'Rule 缺少操作符/阈值或区间定义');
+      return this.errorResult(rule.id, rule.version, subjectId, 'Rule 缺少操作符/阈值或区间定义', rule.metricId, rule.metricVersion);
     }
 
     const evidence = this.buildEvidence(rule);
@@ -350,6 +358,8 @@ export class EvaluationEngine {
     ruleVersion: string,
     subjectId: string,
     errorMessage: string,
+    metricId?: string,
+    metricVersion?: string,
   ): EvaluationResult {
     const fp = fingerprint({ ruleId, ruleVersion, subjectId, state: 'ERROR' });
     return {
@@ -359,8 +369,8 @@ export class EvaluationEngine {
       state: 'ERROR',
       severity: 'INFO',
       metricResult: {
-        metricId: '',
-        metricVersion: '',
+        metricId: metricId ?? ruleId,
+        metricVersion: metricVersion ?? ruleVersion,
         subjectId,
         status: 'ERROR',
         dependencies: [],

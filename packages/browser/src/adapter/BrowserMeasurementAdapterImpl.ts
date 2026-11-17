@@ -6,6 +6,16 @@ import { createMeasurementFactory } from '../measurement-factory';
 import { measureSpacing } from '../spacing/measureSpacing';
 import { measureTypography } from '../typography/measureTypography';
 import { measureLayout } from '../layout/measureLayout';
+import { measureRadius } from '../surface/measureRadius';
+import { measureBorder } from '../surface/measureBorder';
+import { measureShadow } from '../surface/measureShadow';
+import { measureLayer } from '../surface/measureLayer';
+import { measureTransparency } from '../surface/measureTransparency';
+import { captureTransition } from '../motion/captureTransition';
+import { captureAnimation } from '../motion/captureAnimation';
+import { captureStateTransition } from '../motion/captureStateTransition';
+import { captureInteractionState } from '../state/captureInteractionState';
+import { measureStateCoverage } from '../state/measureStateCoverage';
 import { computeDomPath } from '../entity/domPath';
 import { resolveEntityId } from '../entity/resolveEntityId';
 import type {
@@ -104,6 +114,9 @@ export class BrowserMeasurementAdapterImpl implements BrowserMeasurementAdapter 
       includeGeometry = true,
       includeSpacing = false,
       includeLayout = false,
+      includeSurface = true,
+      includeMotion = true,
+      includeState = true,
     } = context;
     const includeStyles = context.includeStyles ?? true;
     const measurements: Measurement<unknown>[] = [];
@@ -262,6 +275,36 @@ export class BrowserMeasurementAdapterImpl implements BrowserMeasurementAdapter 
             }),
           }),
         );
+      }
+    }
+
+    // Visual Texture: Surface 维度测量
+    if (includeStyles && includeSurface) {
+      for (const measureFn of [measureRadius, measureBorder, measureShadow, measureLayer, measureTransparency]) {
+        try {
+          const m = measureFn(ctx);
+          measurements.push({ ...m, metadata: m.metadata !== undefined ? { ...withBase(), ...m.metadata } : withBase() });
+        } catch { /* surface 单测量失败不影响其他 */ }
+      }
+    }
+
+    // Visual Texture: Motion 维度测量
+    if (includeStyles && includeMotion) {
+      for (const captureFn of [captureTransition, captureAnimation, captureStateTransition]) {
+        try {
+          const m = captureFn(ctx);
+          measurements.push({ ...m, metadata: m.metadata !== undefined ? { ...withBase(), ...m.metadata } : withBase() });
+        } catch { /* motion 单测量失败不影响其他 */ }
+      }
+    }
+
+    // Visual Texture: State 维度测量
+    if (includeStyles && includeState) {
+      for (const captureFn of [captureInteractionState, measureStateCoverage]) {
+        try {
+          const m = captureFn(ctx);
+          measurements.push({ ...m, metadata: m.metadata !== undefined ? { ...withBase(), ...m.metadata } : withBase() });
+        } catch { /* state 单测量失败不影响其他 */ }
       }
     }
 

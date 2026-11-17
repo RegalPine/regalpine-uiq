@@ -97,3 +97,7 @@ export { generateVerification } from './visual-texture';
 export { detectCrossDimensionRelations } from './visual-texture';
 export { detectSystemicPatterns } from './visual-texture';
 export { buildVisualTextureReport } from './visual-texture';
+// Cross-Component Visual Continuity
+export { analyzeCrossComponentContinuity, inferComponentRelations } from './visual-texture';
+export { groupMeasurementsByComponent, groupByExplicitBoundaries } from './visual-texture';
+export type { ComponentMetricGroup } from './visual-texture';

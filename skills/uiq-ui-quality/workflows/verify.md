@@ -19,8 +19,7 @@ Verification is a composite workflow using UIQ CLI:
 1. Remeasure:
 
 ```bash
-uiq analyze \
-  --url <URL> \
+uiq analyze <URL> \
   --format json
 ```
 

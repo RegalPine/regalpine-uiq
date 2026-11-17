@@ -2,6 +2,7 @@ import type { Measurement, MeasurementSnapshot, TokenBinding } from '@uiq/core';
 import { BrowserMeasurementAdapterImpl } from './adapter/BrowserMeasurementAdapterImpl';
 import type { BrowserMeasurementContext } from './adapter/BrowserMeasurementAdapter';
 import { collectBinding } from './binding/collectBindings';
+import { resolveComponentBoundaries } from './component/resolveComponentBoundary';
 import { ADAPTER_VERSION, createMeasurementFactory } from './measurement-factory';
 import { measureEnvironment } from './environment/measureViewport';
 import { resolveEntityId } from './entity/resolveEntityId';
@@ -51,6 +52,8 @@ export function capture(options: CaptureOptions = {}): MeasurementSnapshot {
       : undefined;
   const view = window;
   const env = measureEnvironment(view);
+  // 跨组件视觉连续性：解析组件边界
+  const { boundaries, relations } = resolveComponentBoundaries();
   return {
     id: options.snapshotId ?? `snap-${timestamp}`,
     capturedAt: timestamp,
@@ -60,6 +63,8 @@ export function capture(options: CaptureOptions = {}): MeasurementSnapshot {
       : { environment: env }),
     measurements,
     ...(bindings !== undefined ? { bindings } : {}),
+    ...(boundaries.length > 0 ? { componentBoundaries: boundaries } : {}),
+    ...(relations.length > 0 ? { componentRelations: relations } : {}),
   };
 }
 

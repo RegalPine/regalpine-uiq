@@ -24,6 +24,7 @@ const DIMENSION_BY_RULE_DOMAIN: Readonly<Record<string, QualityDimension>> = {
   TOKEN: 'DESIGN_SYSTEM',
   LAYOUT: 'LAYOUT',
   HIERARCHY: 'HIERARCHY',
+  VISUAL_TEXTURE: 'VISUAL_TEXTURE',
 };
 
 export function dimensionForRule(ruleId: string): QualityDimension {

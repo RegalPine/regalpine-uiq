@@ -48,6 +48,31 @@ export interface MeasurementSnapshot {
   readonly measurements: readonly Measurement[];
   /** P5（IMPL-09 §32-33）：采集端绑定投影；无绑定证据的 subject 不在此出现强制 tokenId。 */
   readonly bindings?: readonly TokenBinding[];
+  /** 跨组件视觉连续性：组件边界标识（可选，向后兼容）。 */
+  readonly componentBoundaries?: readonly ComponentBoundarySnapshot[];
+  /** 跨组件视觉连续性：组件间关系声明（可选）。 */
+  readonly componentRelations?: readonly ComponentRelationSnapshot[];
+}
+
+/**
+ * 组件边界快照 — 采集端记录的组件边界信息。
+ * 规范基线：UIQ-CROSS-COMPONENT-VISUAL-CONTINUITY §3
+ */
+export interface ComponentBoundarySnapshot {
+  readonly componentId: string;
+  readonly instanceId?: string;
+  readonly rootElementId: string;
+  readonly memberElementIds: readonly string[];
+  readonly source: 'EXPLICIT' | 'INFERRED';
+}
+
+/**
+ * 组件关系快照 — 采集端记录的组件间关系。
+ */
+export interface ComponentRelationSnapshot {
+  readonly sourceComponent: string;
+  readonly targetComponent: string;
+  readonly relation: 'ADJACENT' | 'PARENT_CHILD' | 'SHARES_TOKEN' | 'STATE_TRANSITION' | 'VISUAL_DEPENDENCY';
 }
 
 /**

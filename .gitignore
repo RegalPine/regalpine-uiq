@@ -15,7 +15,7 @@ playwright-report/
 coverage/
 .eslintcache
 .prettiercache
-
+.playwright-cli/
 # Logs
 *.log
 npm-debug.log*

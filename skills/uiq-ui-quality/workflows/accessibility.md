@@ -7,8 +7,7 @@ Analyze accessibility-related UI rules.
 ## Execution
 
 ```bash
-uiq analyze \
-  --url <URL> \
+uiq analyze <URL> \
   --dimension accessibility \
   --format json
 ```

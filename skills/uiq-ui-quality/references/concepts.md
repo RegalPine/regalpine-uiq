@@ -66,3 +66,17 @@ Token and component conformance is independent from visual/accessibility evaluat
 ## Regression
 
 Comparison of baseline and current UIQ results.
+
+## Component Boundary
+
+A DOM region explicitly marked with `data-uiq-component` attribute,
+defining the scope of a visual component for cross-component analysis.
+
+## Cross-Component Visual Continuity
+
+Analysis of visual relationships between explicitly marked components.
+Detects token drift, visual breaks, color disharmony, and state
+incoherence across component boundaries.
+
+Requires `data-uiq-component` attributes on page elements.
+Without component markers, this analysis is skipped (graceful degradation).

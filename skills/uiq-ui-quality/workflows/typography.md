@@ -7,8 +7,7 @@ Analyze typography.
 ## Execution
 
 ```bash
-uiq analyze \
-  --url <URL> \
+uiq analyze <URL> \
   --dimension typography \
   --format json
 ```

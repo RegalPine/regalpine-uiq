@@ -11,7 +11,8 @@ export type QualityDimension =
   | 'LAYOUT'
   | 'HIERARCHY'
   | 'DESIGN_SYSTEM'
-  | 'CONFORMANCE';
+  | 'CONFORMANCE'
+  | 'VISUAL_TEXTURE';
 
 /** 固定顺序，保证维度聚合输出确定性（IMPL-17 §6）。 */
 export const QUALITY_DIMENSIONS: readonly QualityDimension[] = [
@@ -24,6 +25,7 @@ export const QUALITY_DIMENSIONS: readonly QualityDimension[] = [
   'HIERARCHY',
   'DESIGN_SYSTEM',
   'CONFORMANCE',
+  'VISUAL_TEXTURE',
 ];
 
 /** 全局摘要（IMPL-17 §5）。六态总和必须等于 evaluations（不变式在聚合层强制）。 */

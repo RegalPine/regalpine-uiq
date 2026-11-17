@@ -11,7 +11,7 @@ import { microDetailTextureMetrics } from '../micro-detail-texture';
  * Visual Texture 七维统一度量注册表。
  *
  * 聚合 Surface / Depth / Color / Typography / Spatial / Motion / Micro Detail
- * 全部 52 个纹理度量。
+ * 全部 58 个纹理度量。
  *
  * 规范基线：UIQ-VISUAL-TEXTURE-ARCHITECTURE §3
  */

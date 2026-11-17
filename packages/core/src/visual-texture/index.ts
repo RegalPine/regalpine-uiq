@@ -15,6 +15,15 @@ export type {
   TextureVerification,
   VisualTextureReproducibility,
   EvidenceCoverage,
+  // Cross-Component Visual Continuity
+  ConfidenceLevel,
+  ComponentBoundary,
+  ComponentRelationType,
+  ComponentRelation,
+  CrossComponentFindingType,
+  CrossComponentFinding,
+  CrossComponentAnalysisResult,
+  CrossComponentSystemicPatternType,
 } from './types';
 
 export {

@@ -7,8 +7,7 @@ Analyze whether rendered UI conforms to Design System definitions.
 ## Execution
 
 ```bash
-uiq conformance \
-  --url <URL> \
+uiq conformance <URL> \
   --format json
 ```
 

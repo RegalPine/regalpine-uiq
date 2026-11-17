@@ -64,8 +64,8 @@ describe('generateVerification', () => {
     const diagnostics = findings.map((f) => makeDiagnostic(f.id));
     const verification = generateVerification(findings, diagnostics);
     expect(verification).toHaveLength(2); // only FAIL and WARN
-    expect(verification[0].expectedState).toBe('PASS');
-    expect(verification[0].baselineFingerprint).toBeTruthy();
+    expect(verification[0]!.expectedState).toBe('PASS');
+    expect(verification[0]!.baselineFingerprint).toBeTruthy();
   });
 });
 
@@ -122,7 +122,7 @@ describe('recommendVisualTexture', () => {
     const diagnostics = findings.map((f) => makeDiagnostic(f.id));
     const recs = recommendVisualTexture(findings, diagnostics);
     expect(recs).toHaveLength(1);
-    expect(recs[0].findingId).toBe('f1');
-    expect(recs[0].action).toBeTruthy();
+    expect(recs[0]!.findingId).toBe('f1');
+    expect(recs[0]!.action).toBeTruthy();
   });
 });

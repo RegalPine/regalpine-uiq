@@ -120,8 +120,11 @@ export async function runAnalyze(options: AnalyzeOptions): Promise<CliResponse<A
   const customDimensions = options.dimensions !== undefined ? parseDimensions(options.dimensions) : undefined;
 
   const artifact = runAnalysis(snapshot, tokenContext, {
-    textureProfileName: customDimensions !== undefined ? undefined : textureProfileName,
-    customDimensions,
+    ...(customDimensions !== undefined
+      ? { customDimensions }
+      : textureProfileName !== undefined
+        ? { textureProfileName }
+        : {}),
   });
   const artifactViolations = validateArtifact(artifact);
   if (artifactViolations.length > 0) {

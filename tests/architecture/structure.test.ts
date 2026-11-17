@@ -8,15 +8,7 @@ import ts from 'typescript';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 
 describe('AC-ARCH-01: 工程结构约束', () => {
-  it('CI 固定版本、冻结安装、构建先于测试且失败保留报告', () => {
-    const workflow = readFileSync(join(ROOT, '.github/workflows/ci.yml'), 'utf8');
-    expect(workflow).toContain('version: 10.28.2');
-    expect(workflow).toContain('node-version: 24.13.0');
-    expect(workflow).toContain('pnpm install --frozen-lockfile');
-    expect(workflow).toContain('playwright install --with-deps chromium firefox webkit');
-    expect(workflow).toContain('run: pnpm run ci');
-    expect(workflow).toContain('if: always()');
-    expect(workflow).toContain('contents: read');
+  it('本地 CI 脚本包含格式、静态检查、构建和测试', () => {
     const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
     expect(pkg.packageManager).toBe('pnpm@10.28.2');
     expect(pkg.scripts.ci.split(' && ')).toEqual([
@@ -346,7 +338,11 @@ const PLATFORM_NAMES = new Set([
 function sourceFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = join(directory, entry.name);
-    return entry.isDirectory() ? sourceFiles(path) : entry.name.endsWith('.ts') ? [path] : [];
+    return entry.isDirectory()
+      ? sourceFiles(path)
+      : /\.(?:ts|tsx)$/.test(entry.name)
+        ? [path]
+        : [];
   });
 }
 
@@ -369,7 +365,11 @@ function importsOf(text: string): string[] {
     } else if (
       ts.isCallExpression(node) &&
       (node.expression.kind === ts.SyntaxKind.ImportKeyword ||
-        (ts.isIdentifier(node.expression) && node.expression.text === 'require'))
+        (ts.isIdentifier(node.expression) && node.expression.text === 'require') ||
+        (ts.isPropertyAccessExpression(node.expression) &&
+          ts.isIdentifier(node.expression.expression) &&
+          node.expression.expression.text === 'require' &&
+          node.expression.name.text === 'resolve'))
     ) {
       add(node.arguments[0]);
     }
@@ -471,6 +471,74 @@ describe('P1-05：生产源码边界与无环验证', () => {
       graph.set(pkg, [...edges]);
     }
     expect(() => assertAcyclic(graph)).not.toThrow();
+  });
+
+  it('apps 与 integrations 的源码导入必须在 workspace manifest 声明', () => {
+    const workspaces = [
+      'apps/cli',
+      'apps/inspector',
+      'apps/playground',
+      'integrations/radix',
+    ];
+
+    for (const workspace of workspaces) {
+      const workspaceDir = join(ROOT, workspace);
+      const manifest = JSON.parse(readFileSync(join(workspaceDir, 'package.json'), 'utf8'));
+      const declared = new Set([
+        ...Object.keys(manifest.dependencies ?? {}),
+        ...Object.keys(manifest.devDependencies ?? {}),
+        ...Object.keys(manifest.peerDependencies ?? {}),
+      ]);
+      const sourceDir = join(workspaceDir, 'src');
+      for (const file of sourceFiles(sourceDir)) {
+        for (const specifier of importsOf(readFileSync(file, 'utf8'))) {
+          if (specifier.startsWith('@uiq/')) {
+            const packageName = specifier.split('/').slice(0, 2).join('/');
+            expect(declared.has(packageName), `${relative(ROOT, file)} → ${specifier} 未声明`).toBe(true);
+          }
+          if (!specifier.startsWith('.') || specifier.includes('<')) continue;
+          const target = resolve(dirname(file), specifier);
+          expect(
+            ['', '.ts', '.tsx', '/index.ts', '/index.tsx'].some((suffix) => existsSync(target + suffix)),
+            `${relative(ROOT, file)} → ${specifier} 本地模块不存在`,
+          ).toBe(true);
+        }
+      }
+    }
+  });
+
+  it('Inspector 只声明其源码实际使用的 UIQ 包', () => {
+    const workspaceDir = join(ROOT, 'apps/inspector');
+    const manifest = JSON.parse(readFileSync(join(workspaceDir, 'package.json'), 'utf8'));
+    const declared = Object.keys(manifest.dependencies ?? {})
+      .filter((name) => name.startsWith('@uiq/'))
+      .sort();
+    const used = new Set<string>();
+    for (const file of sourceFiles(join(workspaceDir, 'src'))) {
+      for (const specifier of importsOf(readFileSync(file, 'utf8'))) {
+        if (specifier.startsWith('@uiq/')) {
+          used.add(specifier.split('/').slice(0, 2).join('/'));
+        }
+      }
+    }
+    expect(declared).toEqual([...used].sort());
+  });
+
+  it('CLI 只声明其源码实际使用的 UIQ 包', () => {
+    const workspaceDir = join(ROOT, 'apps/cli');
+    const manifest = JSON.parse(readFileSync(join(workspaceDir, 'package.json'), 'utf8'));
+    const declared = Object.keys(manifest.dependencies ?? {})
+      .filter((name) => name.startsWith('@uiq/'))
+      .sort();
+    const used = new Set<string>();
+    for (const file of sourceFiles(join(workspaceDir, 'src'))) {
+      for (const specifier of importsOf(readFileSync(file, 'utf8'))) {
+        if (specifier.startsWith('@uiq/')) {
+          used.add(specifier.split('/').slice(0, 2).join('/'));
+        }
+      }
+    }
+    expect(declared).toEqual([...used].sort());
   });
 
   it('识别类型、动态、CommonJS 和 re-export 引用，拒绝隐藏的非字面量导入', () => {

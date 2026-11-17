@@ -37,14 +37,14 @@ describe('diagnoseSurface', () => {
     const findings = [makeFinding('f1', 'VISUAL_TEXTURE.SURFACE.RADIUS_CONSISTENCY', 'FAIL', 'SURFACE.RADIUS.CONSISTENCY', { deviationCount: 3, dominantValue: 8 })];
     const diagnostics = diagnoseSurface(findings);
     expect(diagnostics).toHaveLength(1);
-    expect(diagnostics[0].explanation).toContain('圆角');
-    expect(diagnostics[0].findingId).toBe('f1');
+    expect(diagnostics[0]!.explanation).toContain('圆角');
+    expect(diagnostics[0]!.findingId).toBe('f1');
   });
 
   it('PASS 状态生成正面诊断', () => {
     const findings = [makeFinding('f2', 'VISUAL_TEXTURE.SURFACE.RADIUS_CONSISTENCY', 'PASS', 'SURFACE.RADIUS.CONSISTENCY')];
     const diagnostics = diagnoseSurface(findings);
-    expect(diagnostics[0].explanation).toContain('良好');
+    expect(diagnostics[0]!.explanation).toContain('良好');
   });
 });
 
@@ -53,7 +53,7 @@ describe('diagnoseDepth', () => {
     const findings = [makeFinding('f3', 'VISUAL_TEXTURE.DEPTH.ELEVATION_HIERARCHY', 'FAIL', 'DEPTH.ELEVATION.HIERARCHY', { levelCount: 1 })];
     const diagnostics = diagnoseDepth(findings);
     expect(diagnostics).toHaveLength(1);
-    expect(diagnostics[0].explanation).toContain('层级');
+    expect(diagnostics[0]!.explanation).toContain('层级');
   });
 });
 
@@ -62,7 +62,7 @@ describe('diagnoseColorTexture', () => {
     const findings = [makeFinding('f4', 'VISUAL_TEXTURE.COLOR.CONTRAST_QUALITY', 'FAIL', 'COLOR.CONTRAST.QUALITY', { failCount: 5 })];
     const diagnostics = diagnoseColorTexture(findings);
     expect(diagnostics).toHaveLength(1);
-    expect(diagnostics[0].explanation).toContain('对比度');
+    expect(diagnostics[0]!.explanation).toContain('对比度');
   });
 });
 
@@ -71,7 +71,7 @@ describe('diagnoseTypographyTexture', () => {
     const findings = [makeFinding('f5', 'VISUAL_TEXTURE.TYPOGRAPHY.FONT_CONSISTENCY', 'FAIL', 'TYPOGRAPHY.FONT.CONSISTENCY', { distinctFamilies: 5 })];
     const diagnostics = diagnoseTypographyTexture(findings);
     expect(diagnostics).toHaveLength(1);
-    expect(diagnostics[0].explanation).toContain('字体');
+    expect(diagnostics[0]!.explanation).toContain('字体');
   });
 });
 
@@ -96,7 +96,7 @@ describe('diagnoseMicroDetailTexture', () => {
     const findings = [makeFinding('f8', 'VISUAL_TEXTURE.MICRO.STATE_COMPLETENESS', 'FAIL', 'MICRO_DETAIL.STATE.COMPLETENESS', { stateCoverage: 0.5 })];
     const diagnostics = diagnoseMicroDetailTexture(findings);
     expect(diagnostics).toHaveLength(1);
-    expect(diagnostics[0].explanation).toContain('状态');
+    expect(diagnostics[0]!.explanation).toContain('状态');
   });
 });
 
@@ -109,9 +109,9 @@ describe('diagnoseAllVisualTexture', () => {
     ];
     const diagnostics = diagnoseAllVisualTexture(findings);
     expect(diagnostics).toHaveLength(3);
-    expect(diagnostics[0].id).toContain('surface');
-    expect(diagnostics[1].id).toContain('depth');
-    expect(diagnostics[2].id).toContain('color');
+    expect(diagnostics[0]!.id).toContain('surface');
+    expect(diagnostics[1]!.id).toContain('depth');
+    expect(diagnostics[2]!.id).toContain('color');
   });
 
   it('空输入返回空数组', () => {

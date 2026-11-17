@@ -18,11 +18,9 @@
   "dependencies": {
     "@playwright/test": "1.63.0",
     "@uiq/browser": "workspace:*",
-    "@uiq/color": "workspace:*",
     "@uiq/conformance": "workspace:*",
     "@uiq/core": "workspace:*",
     "@uiq/diagnostic": "workspace:*",
-    "@uiq/measurement": "workspace:*",
     "@uiq/metrics": "workspace:*",
     "@uiq/regression": "workspace:*",
     "@uiq/reporting": "workspace:*",
